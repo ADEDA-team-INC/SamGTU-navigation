@@ -5,7 +5,9 @@
 > TODO
 
 ## Технологический стек
-> TODO
+- __Backend:__ Java, Spring Boot, Spring Data JPA, PostgreSQL и т.д.
+- __Frontend:__ React, React Redux, react-i18next, Tailwind CSS
+- Docker, Docker Compose
 
 ## Установка и запуск
 > TODO
