@@ -1,13 +1,9 @@
 
 services:
-  backend:
-    profiles:
-      - donotstart
-
   postgres:
     ports:
       - "5432:5432"
   
   frontend:
-    profiles:
-      - donotstart
+    build:
+      target: dev
