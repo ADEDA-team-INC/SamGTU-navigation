@@ -8,7 +8,7 @@
 <img src="https://i.imgur.com/nASMhuw.png" width="500" />
 
 Схема архитектуры Backend приложения:  
-<img src="https://i.imgur.com/0aLUzKj.png" width="500" />
+<img src="https://i.imgur.com/9Craj1r.png" width="500" />
 
 ## Схемы данных
 
