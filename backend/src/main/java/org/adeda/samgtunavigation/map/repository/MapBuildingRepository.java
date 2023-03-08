@@ -1,4 +1,8 @@
 package org.adeda.samgtunavigation.map.repository;
 
-public interface MapBuildingRepository {
+import org.adeda.samgtunavigation.map.model.MapBuilding;
+import org.springframework.data.repository.CrudRepository;
+
+public interface MapBuildingRepository extends CrudRepository<MapBuilding, Integer> {
+
 }
