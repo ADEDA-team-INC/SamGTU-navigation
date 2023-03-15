@@ -26,17 +26,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id: { type: integer }
-                  latitude: { type: number }
-                  longitude: { type: number }
-                  number: { type: integer,  }
-                  display_name: { type: string }
-                  display_description: { type: string }
-                  domain_id:
-                    type: array
-                    items: { type: integer }
+                $ref: "#/components/schemas/map_building"
+                
   /map/domain/{id}:
     get:
       tags: [Map]
@@ -52,38 +43,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id: { type: integer }
-                  map_building_id: { type: integer }
-                  number: { type: integer }
-                  image:
-                    type: object
-                    properties:
-                      url: { type: string }
-                      real_width: { type: number }
-                      real_offset_x: { type: number }
-                      real_offset_y: { type: number }
-                  map_objects:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id: { type: integer }
-                        type: { type: string }
-                        number: { type: integer }
-                        display_name: { type: string }
-                        display_description: { type: string }
-                        bboxes:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              position_x: { type: number }
-                              position_y: { type: number }
-                              width: { type: number }
-                              height: { type: number }
-                              
+                $ref: "#/components/schemas/map_domain"
+                
   /navigation:
     post:
       tags: [ Navigation ]
@@ -95,17 +56,9 @@ paths:
               type: object
               properties:
                 start_point:
-                  type: object
-                  properties:
-                    x: { type: number }
-                    y: { type: number }
-                    domain_id: { type: integer }
+                  $ref: "#/components/schemas/nav_point"
                 end_point:
-                  type: object
-                  properties:
-                    x: { type: number }
-                    y: { type: number }
-                    domain_id: { type: integer }
+                  $ref: "#/components/schemas/nav_point"
       responses:
         200:
           description: Operation went successfully
@@ -114,12 +67,71 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    x: { type: number }
-                    y: { type: number }
-                    domain_id: { type: integer }
-                    building_id: { type: integer }
+                  $ref: "#/components/schemas/nav_point"
+      
+
+components:
+  schemas:
+    bbox:
+      title: BoundingBox
+      type: object
+      properties:
+        pos_x: { type: number }
+        pos_y: { type: number }
+        width: { type: number }
+        height: { type: number }
+    map_object:
+      title: MapObject
+      properties:
+        id: { type: integer }
+        type: { type: string }
+        number: { type: integer }
+        display_name: { type: string }
+        display_description: { type: string }
+        bboxes:
+          type: array
+          items: { $ref: "#/components/schemas/bbox" }
+    map_building:
+      title: MapBuilding
+      type: object
+      properties:
+        id: { type: integer }
+        latitude: { type: number }
+        longitude: { type: number }
+        number: { type: integer,  }
+        display_name: { type: string }
+        display_description: { type: string }
+        domain_ids:
+          type: array
+          items: { type: integer }
+    map_domain_image:
+      title: MapDomainImage
+      type: object
+      properties:
+        url: { type: string }
+        real_width: { type: number }
+        real_offset_x: { type: number }
+        real_offset_y: { type: number }
+    map_domain:
+      title: MapDomain
+      type: object
+      properties:
+        id: { type: integer }
+        map_building_id: { type: integer }
+        number: { type: integer }
+        image:
+          $ref: "#/components/schemas/map_domain_image"
+        map_objects:
+          type: array
+          items:
+            $ref: "#/components/schemas/map_object"
+    nav_point:
+      title: NavigationPoint
+      type: object
+      properties:
+        pos_x: { type: number }
+        pos_y: { type: number }
+        domain_id: { type: integer }
 
 
 tags:
