@@ -10,10 +10,14 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Setter
 @Getter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 public class MapBuilding {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Setter(AccessLevel.PRIVATE)
+    @EqualsAndHashCode.Include
+    @ToString.Include
     private Integer id;
 
     @NonNull
@@ -24,10 +28,11 @@ public class MapBuilding {
 
     private Integer number;
 
+    @ToString.Include
     private String displayName;
 
     private String displayDescription;
 
     @OneToMany(mappedBy = "building")
-    private Set<Domain> domains;
+    private Set<MapDomain> domains;
 }

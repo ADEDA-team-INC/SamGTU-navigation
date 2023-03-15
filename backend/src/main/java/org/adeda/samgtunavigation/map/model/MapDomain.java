@@ -10,10 +10,14 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Setter
 @Getter
-public class Domain {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
+public class MapDomain {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Setter(AccessLevel.PRIVATE)
+    @EqualsAndHashCode.Include
+    @ToString.Include
     private Integer id;
 
     @ManyToOne

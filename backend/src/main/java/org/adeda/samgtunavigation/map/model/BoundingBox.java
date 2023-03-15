@@ -8,14 +8,19 @@ import lombok.*;
 @RequiredArgsConstructor
 @Setter
 @Getter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public class BoundingBox {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Setter(AccessLevel.PRIVATE)
+    @EqualsAndHashCode.Include
+    @ToString.Exclude
     private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "map_object_id", nullable = false)
+    @ToString.Exclude
     private MapObject mapObject;
 
     @NonNull
