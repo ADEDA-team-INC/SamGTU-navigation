@@ -1,38 +1,49 @@
 package org.adeda.samgtunavigation.map.schema;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import org.adeda.samgtunavigation.map.enums.MapObjectType;
+import org.adeda.samgtunavigation.map.model.MapObject;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class MapObjectSchema {
-    @NonNull
     @NotNull
     @Min(1)
     private Integer id;
 
-    @NonNull
     @NotNull
     private MapObjectType type;
 
-    @Min(0)
     private Integer number;
 
-    @NonNull
     @NotBlank
     private String displayName;
 
-    @NonNull
     @NotBlank
     private String displayDescription;
 
-    @NonNull
-    @Size(min = 1)
+    @NotNull
+    @NotEmpty
     private List<BoundingBoxSchema> bboxes;
+
+    public static MapObjectSchema createFromModel(MapObject mapObject) {
+        var schema = new MapObjectSchema();
+
+        schema.setId(mapObject.getId());
+        schema.setType(mapObject.getType());
+        schema.setNumber(mapObject.getNumber());
+        schema.setDisplayName(mapObject.getDisplayName());
+        schema.setDisplayDescription(mapObject.getDisplayDescription());
+        schema.setBboxes(
+            mapObject.getBoundingBoxes().stream().map(BoundingBoxSchema::createFromModel).toList()
+        );
+
+        return schema;
+    }
 }

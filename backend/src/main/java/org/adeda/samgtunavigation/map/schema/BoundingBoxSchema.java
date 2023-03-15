@@ -1,27 +1,33 @@
 package org.adeda.samgtunavigation.map.schema;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Getter;
+import lombok.Setter;
+import org.adeda.samgtunavigation.map.model.BoundingBox;
 
-@Data
+@Getter
+@Setter
 public class BoundingBoxSchema {
-    @NonNull
     @NotNull
     private Double positionX;
 
-    @NonNull
     @NotNull
     private Double positionY;
 
-    @NonNull
     @NotNull
-    @Min(0)
     private Double width;
 
-    @NonNull
     @NotNull
-    @Min(0)
     private Double height;
+
+    public static BoundingBoxSchema createFromModel(BoundingBox bbox) {
+        var schema = new BoundingBoxSchema();
+
+        schema.setPositionX(bbox.getPositionX());
+        schema.setPositionY(bbox.getPositionY());
+        schema.setWidth(bbox.getWidth());
+        schema.setHeight(bbox.getHeight());
+
+        return schema;
+    }
 }
