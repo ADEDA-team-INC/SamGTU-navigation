@@ -1,16 +1,9 @@
 
 services:
-  postgres:
+  database:
     ports:
       - "5432:5432"
 
   frontend:
     build:
       target: dev
-    volumes:
-      - ./frontend/src:/frontend/src
-      - ./frontend/public:/frontend/public
-      - ./frontend/index.html:/frontend/index.html
-      - ./frontend/postcss.config.cjs:/frontend/postcss.config.cjs
-      - ./frontend/tailwind.config.cjs:/frontend/tailwind.config.cjs
-      - ./frontend/vite.config.js:/frontend/vite.config.js

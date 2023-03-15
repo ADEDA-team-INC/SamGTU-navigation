@@ -5,29 +5,30 @@ services:
   backend:
     build:
       context: backend
-      args:
-        BACKEND_PORT: $BACKEND_PORT
     ports:
-      - "$BACKEND_PORT:$BACKEND_PORT"
+      - "$SERVER_PORT:$SERVER_PORT"
     secrets:
-      - source: backend-db-url
-        target: database_url
-      # - source: backend-secret-key
-      #   target: secret_key
+      - source: postgres-user
+        target: spring.datasource.username
+      - source: postgres-password
+        target: spring.datasource.password
+      - source: spring.datasource.url
+    environment:
+      SERVER_PORT: $SERVER_PORT
     depends_on:
-      - postgres
+      - database
 
-  postgres:
+  database:
     image: postgres:15-alpine
     restart: always
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: $POSTGRES_DB
-      POSTGRES_USER_FILE: "/run/secrets/postgres-username"
+      POSTGRES_USER_FILE: "/run/secrets/postgres-user"
       POSTGRES_PASSWORD_FILE: "/run/secrets/postgres-password"
     secrets:
-      - postgres-username
+      - postgres-user
       - postgres-password
   
   frontend:
@@ -35,23 +36,21 @@ services:
       context: frontend
       target: prod
       args:
-        FRONTEND_PORT: 8080
+        FRONTEND_PORT: $FRONTEND_PORT
+        BACKEND_URL: http://backend:$SERVER_PORT
     ports:
-      - "8080:8080"
+      - "$FRONTEND_PORT:$FRONTEND_PORT"
     depends_on:
       - backend
 
 
 secrets:
-  postgres-username:
+  postgres-user:
     environment: POSTGRES_USERNAME
   postgres-password:
     environment: POSTGRES_PASSWORD
-
-  backend-db-url:
-    environment: BACKEND_DB_URL
-  # backend-secret-key:
-  #   environment: BACKEND_SECRET_KEY
+  spring.datasource.url:
+    environment: SPRING_DATASOURCE_URL
 
 
 volumes:
