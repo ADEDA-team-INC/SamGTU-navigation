@@ -27,6 +27,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/map_building"
+        404:
+          description: Map building was not found
                 
   /map/domain/{id}:
     get:
@@ -44,6 +46,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/map_domain"
+        404:
+          description: Map domain was not found
                 
   /navigation:
     post:
@@ -53,11 +57,12 @@ paths:
         content:
           application/json:
             schema:
+              title: NavigationRequest
               type: object
               properties:
-                start_point:
+                startPoint:
                   $ref: "#/components/schemas/nav_point"
-                end_point:
+                endPoint:
                   $ref: "#/components/schemas/nav_point"
       responses:
         200:
@@ -68,6 +73,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/nav_point"
+        404:
+          description: Unable to find path
       
 
 components:
@@ -76,8 +83,8 @@ components:
       title: BoundingBox
       type: object
       properties:
-        pos_x: { type: number }
-        pos_y: { type: number }
+        positionX: { type: number }
+        positionY: { type: number }
         width: { type: number }
         height: { type: number }
     map_object:
@@ -86,8 +93,8 @@ components:
         id: { type: integer }
         type: { type: string }
         number: { type: integer }
-        display_name: { type: string }
-        display_description: { type: string }
+        displayName: { type: string }
+        displayDescription: { type: string }
         bboxes:
           type: array
           items: { $ref: "#/components/schemas/bbox" }
@@ -99,29 +106,29 @@ components:
         latitude: { type: number }
         longitude: { type: number }
         number: { type: integer,  }
-        display_name: { type: string }
-        display_description: { type: string }
-        domain_ids:
+        displayName: { type: string }
+        displayDescription: { type: string }
+        domainIds:
           type: array
           items: { type: integer }
     map_domain_image:
-      title: MapDomainImage
+      title: DomainImage
       type: object
       properties:
         url: { type: string }
-        real_width: { type: number }
-        real_offset_x: { type: number }
-        real_offset_y: { type: number }
+        realWidth: { type: number }
+        realOffsetX: { type: number }
+        realOffsetY: { type: number }
     map_domain:
       title: MapDomain
       type: object
       properties:
         id: { type: integer }
-        map_building_id: { type: integer }
+        mapBuildingId: { type: integer }
         number: { type: integer }
         image:
           $ref: "#/components/schemas/map_domain_image"
-        map_objects:
+        mapObjects:
           type: array
           items:
             $ref: "#/components/schemas/map_object"
@@ -129,9 +136,9 @@ components:
       title: NavigationPoint
       type: object
       properties:
-        pos_x: { type: number }
-        pos_y: { type: number }
-        domain_id: { type: integer }
+        positionX: { type: number }
+        positionY: { type: number }
+        domainId: { type: integer }
 
 
 tags:
