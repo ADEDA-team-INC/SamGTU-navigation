@@ -14,24 +14,33 @@ import org.springframework.web.bind.annotation.*;
         path = "/map",
         produces = MimeTypeUtils.APPLICATION_JSON_VALUE
 )
-public class MapControllerImpl implements MapController{
-
-    private MapService mapService;
-
+public class MapControllerImpl implements MapController {
     @Autowired
-    public void setService(MapService mapService){
-        this.mapService = mapService;
-    }
+    private MapService mapService;
 
     @Override
     @GetMapping(path = "/building/{id}")
-    public MapBuildingSchema getMapBuildingById(@PathVariable Integer id) throws NotFoundException {
-        return mapService.getBuildingById(id);
+    public MapBuildingSchema getMapBuildingById(
+        @PathVariable Integer id
+    ) throws NotFoundException {
+        var building = mapService.getBuildingById(id);
+        if (building == null) {
+            throw new NotFoundException();
+        }
+
+        return building;
     }
 
     @Override
     @GetMapping(path = "/domain/{id}")
-    public MapDomainSchema getMapDomainById(@PathVariable Integer id) throws NotFoundException {
-        return mapService.getDomainById(id);
+    public MapDomainSchema getMapDomainById(
+        @PathVariable Integer id
+    ) throws NotFoundException {
+        var domain = mapService.getDomainById(id);
+        if (domain == null) {
+            throw new NotFoundException();
+        }
+
+        return domain;
     }
 }

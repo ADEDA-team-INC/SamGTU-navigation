@@ -11,18 +11,17 @@ import org.springframework.stereotype.Service;
 public class MapServiceImpl implements MapService{
 
     @Autowired
-    MapBuildingRepository buildingRepository;
-
+    private MapBuildingRepository buildingRepository;
     @Autowired
-    MapDomainRepository domainRepository;
+    private MapDomainRepository domainRepository;
 
     @Override
     public MapBuildingSchema getBuildingById(Integer id) {
-        return MapBuildingSchema.createFromModel(buildingRepository.findById(id).get());
+        return buildingRepository.findById(id).map(MapBuildingSchema::createFromModel).orElse(null);
     }
 
     @Override
     public MapDomainSchema getDomainById(Integer id) {
-        return MapDomainSchema.createFromModel(domainRepository.findById(id).get());
+        return domainRepository.findById(id).map(MapDomainSchema::createFromModel).orElse(null);
     }
 }
