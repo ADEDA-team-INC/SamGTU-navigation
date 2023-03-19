@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
-//TODO: добавить валидацию
 @RestController
 @RequestMapping(
         path = "/map",
