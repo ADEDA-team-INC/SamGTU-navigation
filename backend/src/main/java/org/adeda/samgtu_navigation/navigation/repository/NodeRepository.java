@@ -12,7 +12,7 @@ public interface NodeRepository extends CrudRepository<NavNode, Integer> {
         SELECT node FROM NavNode node
         JOIN node.mapObject obj
         JOIN obj.domain d
-        JOIN domain.building b
+        JOIN d.building b
         WHERE b.id = ?1
         """)
     List<NavNode> findByBuildingId(Integer buildingId);
