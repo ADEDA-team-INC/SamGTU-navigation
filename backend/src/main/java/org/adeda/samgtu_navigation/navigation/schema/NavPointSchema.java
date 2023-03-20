@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.adeda.samgtu_navigation.core.util.Vector2;
+import org.adeda.samgtu_navigation.core.util.Vector2d;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ public class NavPointSchema {
     @Min(1)
     private Integer domainId;
 
-    public NavPointSchema(Vector2 position, Integer domainId) {
+    public NavPointSchema(Vector2d position, Integer domainId) {
         this.positionX = position.getX();
         this.positionY = position.getY();
         this.domainId = domainId;
