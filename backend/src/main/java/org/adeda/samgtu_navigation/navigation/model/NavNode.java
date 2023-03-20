@@ -32,7 +32,7 @@ public class NavNode {
     @NonNull
     private Double positionY;
 
-    @OneToMany(mappedBy = "nodeA")
+    @OneToMany(mappedBy = "nodeA", fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<NodesConnection> connections;
 }
