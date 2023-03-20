@@ -1,4 +1,4 @@
-package org.adeda.samgtu_navigation.navigation.util;
+package org.adeda.samgtu_navigation.navigation.graph;
 
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.core.util.Vector2;
