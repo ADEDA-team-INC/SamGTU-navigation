@@ -4,6 +4,7 @@ import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.adeda.samgtu_navigation.core.util.Rect;
 import org.adeda.samgtu_navigation.core.util.RectInt;
 import org.adeda.samgtu_navigation.core.util.Vector2d;
+import org.adeda.samgtu_navigation.core.util.Vector2i;
 
 import java.util.Collections;
 import java.util.List;
@@ -101,6 +102,21 @@ public class QuaternaryField implements GraphField {
 
     @Override
     public Optional<GraphField> findLowestGraphForPoint(Vector2d point) {
+        for (var child : children) {
+            if (child.containsPoint(point)) {
+                return child.findLowestGraphForPoint(point);
+            }
+        }
+
+        if (parent != null) {
+            parent.findLowestGraphForPoint(point);
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<GraphField> findLowestGraphForPoint(Vector2i point) {
         for (var child : children) {
             if (child.containsPoint(point)) {
                 return child.findLowestGraphForPoint(point);

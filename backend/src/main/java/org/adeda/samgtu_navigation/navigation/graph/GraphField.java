@@ -33,4 +33,6 @@ public interface GraphField {
     }
 
     Optional<GraphField> findLowestGraphForPoint(Vector2d point);
+
+    Optional<GraphField> findLowestGraphForPoint(Vector2i point);
 }

@@ -4,6 +4,7 @@ import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.adeda.samgtu_navigation.core.util.Rect;
 import org.adeda.samgtu_navigation.core.util.RectInt;
 import org.adeda.samgtu_navigation.core.util.Vector2d;
+import org.adeda.samgtu_navigation.core.util.Vector2i;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,6 +63,19 @@ public class NodesField implements GraphField {
 
     @Override
     public Optional<GraphField> findLowestGraphForPoint(Vector2d point) {
+        if (containsPoint(point)) {
+            return Optional.of(this);
+        }
+
+        if (parent != null) {
+            return parent.findLowestGraphForPoint(point);
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<GraphField> findLowestGraphForPoint(Vector2i point) {
         if (containsPoint(point)) {
             return Optional.of(this);
         }
