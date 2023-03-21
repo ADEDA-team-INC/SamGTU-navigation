@@ -17,11 +17,9 @@ public class NavPointSchema {
 
     @NotNull
     @Min(1)
-    private Integer domainId;
+    private Integer mapObjectId;
 
-    public NavPointSchema(Vector2d position, Integer domainId) {
-        this.positionX = position.getX();
-        this.positionY = position.getY();
-        this.domainId = domainId;
+    public Vector2d getPosition() {
+        return new Vector2d(positionX, positionY);
     }
 }
