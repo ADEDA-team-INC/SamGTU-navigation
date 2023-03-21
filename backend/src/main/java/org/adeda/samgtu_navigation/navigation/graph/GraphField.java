@@ -9,8 +9,12 @@ import java.util.Optional;
 
 public interface GraphField {
     Rect getDomainRect();
+    void setDomainRect(Rect domainRect);
 
     RectInt getFieldRect();
+    void setFieldRect(RectInt fieldRect);
+
+    Optional<QuaternaryField> getParent();
 
     default boolean containsPoint(Vector2d point) {
         return getDomainRect().containsPoint(point);
