@@ -12,6 +12,11 @@ public class RectInt {
     @NonNull
     private Vector2i size;
 
+    public RectInt(int x, int y, int width, int height) {
+        this.position = new Vector2i(x, y);
+        this.size = new Vector2i(width, height);
+    }
+
     public Vector2d getCenter() {
         return new Vector2d(
             position.getX() + size.getX() * 0.5,
