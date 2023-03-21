@@ -58,12 +58,10 @@ paths:
           application/json:
             schema:
               title: NavigationRequest
-              type: object
-              properties:
-                startPoint:
-                  $ref: "#/components/schemas/nav_point"
-                endPoint:
-                  $ref: "#/components/schemas/nav_point"
+              type: array
+              items:
+                $ref: "#/components/schemas/nav_point"
+              minItems: 2
       responses:
         200:
           description: Operation went successfully
@@ -73,13 +71,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/nav_point"
+        400:
+          description: |
+            Given points list size lesser than 2. Or point position
+            is beyond of map object bounds. Or map objects are situated in
+            different buildings.
         404:
-          description: Unable to find path
+          description: Unable to find path or given map objects don't exist
       
 
 components:
   schemas:
-    bbox:
+    bounding_box:
       title: BoundingBox
       type: object
       properties:
@@ -91,13 +94,14 @@ components:
       title: MapObject
       properties:
         id: { type: integer }
-        type: { type: string }
-        number: { type: integer }
+        type:
+          type: string
+          enum: [ HALL, ROOM, STAIRS, EXIT ]
         displayName: { type: string }
         displayDescription: { type: string }
         bboxes:
           type: array
-          items: { $ref: "#/components/schemas/bbox" }
+          items: { $ref: "#/components/schemas/bounding_box"}
     map_building:
       title: MapBuilding
       type: object
@@ -105,7 +109,6 @@ components:
         id: { type: integer }
         latitude: { type: number }
         longitude: { type: number }
-        number: { type: integer,  }
         displayName: { type: string }
         displayDescription: { type: string }
         domainIds:
@@ -116,16 +119,15 @@ components:
       type: object
       properties:
         url: { type: string }
-        realWidth: { type: number }
-        realOffsetX: { type: number }
-        realOffsetY: { type: number }
+        width: { type: number }
+        offsetX: { type: number }
+        offsetY: { type: number }
     map_domain:
       title: MapDomain
       type: object
       properties:
         id: { type: integer }
         mapBuildingId: { type: integer }
-        number: { type: integer }
         image:
           $ref: "#/components/schemas/map_domain_image"
         mapObjects:
@@ -138,7 +140,7 @@ components:
       properties:
         positionX: { type: number }
         positionY: { type: number }
-        domainId: { type: integer }
+        mapObjectId: { type: integer }
 
 
 tags:
