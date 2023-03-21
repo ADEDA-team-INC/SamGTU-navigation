@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "map_objects", indexes = {
+    @Index(columnList = "type")
+})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Setter
