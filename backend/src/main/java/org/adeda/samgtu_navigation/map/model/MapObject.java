@@ -2,9 +2,11 @@ package org.adeda.samgtu_navigation.map.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.adeda.samgtu_navigation.core.util.Rect;
 import org.adeda.samgtu_navigation.map.enums.MapObjectType;
 import org.adeda.samgtu_navigation.navigation.model.NavNode;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,16 +32,14 @@ public class MapObject {
     @Enumerated(EnumType.ORDINAL)
     private MapObjectType type;
 
-    private Integer number;
-
     @NonNull
     private String displayName;
 
     @NonNull
     private String displayDescription;
 
-    @OneToMany(mappedBy = "mapObject")
-    private Set<BoundingBox> boundingBoxes;
+    @ElementCollection
+    private List<Rect> boundingBoxes;
 
     @OneToMany(mappedBy = "mapObject")
     private Set<NavNode> nodes;
