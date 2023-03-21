@@ -2,11 +2,13 @@ package org.adeda.samgtu_navigation.navigation.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.adeda.samgtu_navigation.core.util.Vector2d;
 import org.adeda.samgtu_navigation.map.model.MapObject;
 
 import java.util.Set;
 
 @Entity
+@Table(name = "nodes")
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
@@ -26,11 +28,9 @@ public class NavNode {
     @ToString.Exclude
     private MapObject mapObject;
 
+    @Embedded
     @NonNull
-    private Double positionX;
-
-    @NonNull
-    private Double positionY;
+    private Vector2d position;
 
     @OneToMany(mappedBy = "nodeA", fetch = FetchType.EAGER)
     @ToString.Exclude
