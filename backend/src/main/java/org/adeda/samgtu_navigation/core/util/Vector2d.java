@@ -53,6 +53,10 @@ public class Vector2d {
         return new Vector2d(x / s, y / s);
     }
 
+    public double length() {
+        return Math.sqrt(x * x + y * y);
+    }
+
     public static Vector2d zero() {
         return new Vector2d(0.0, 0.0);
     }
