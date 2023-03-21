@@ -17,12 +17,24 @@ public class Vector2d {
         return new Vector2d(x + v.x,  y + v.y);
     }
 
+    public Vector2d add(double x, double y) {
+        return new Vector2d(this.x + x,  this.y + y);
+    }
+
     public Vector2d subtract(Vector2d v) {
         return new Vector2d(x - v.x, y - v.y);
     }
 
+    public Vector2d subtract(double x, double y) {
+        return new Vector2d(this.x - x, this.y - y);
+    }
+
     public Vector2d multiply(Vector2d v) {
         return new Vector2d(x * v.x, y * v.y);
+    }
+
+    public Vector2d multiply(double x, double y) {
+        return new Vector2d(this.x * x, this.y * y);
     }
 
     public Vector2d multiply(double s) {
@@ -33,7 +45,19 @@ public class Vector2d {
         return new Vector2d(x / v.x, y / v.y);
     }
 
+    public Vector2d divide(double x, double y) {
+        return new Vector2d(this.x / x, this.y / y);
+    }
+
     public Vector2d divide(double s) {
         return new Vector2d(x / s, y / s);
+    }
+
+    public static Vector2d zero() {
+        return new Vector2d(0.0, 0.0);
+    }
+
+    public static Vector2d one() {
+        return new Vector2d(1.0, 1.0);
     }
 }
