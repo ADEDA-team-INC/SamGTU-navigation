@@ -1,11 +1,13 @@
 package org.adeda.samgtu_navigation.core.util;
 
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
+@Embeddable
 public class Rect {
     @NonNull
     private Vector2d position;

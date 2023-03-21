@@ -1,17 +1,15 @@
 package org.adeda.samgtu_navigation.core.util;
 
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@Embeddable
 public class Vector2d {
     private double x;
     private double y;
-
-    public Vector2i to2i() {
-        return new Vector2i((int)x, (int)y);
-    }
 
     public Vector2d add(Vector2d v) {
         return new Vector2d(x + v.x,  y + v.y);
