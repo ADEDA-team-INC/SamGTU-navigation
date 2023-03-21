@@ -3,6 +3,7 @@ package org.adeda.samgtu_navigation.map.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.adeda.samgtu_navigation.core.util.Rect;
+import org.adeda.samgtu_navigation.core.util.Vector2d;
 import org.adeda.samgtu_navigation.map.enums.MapObjectType;
 import org.adeda.samgtu_navigation.navigation.model.NavNode;
 
@@ -43,4 +44,8 @@ public class MapObject {
 
     @OneToMany(mappedBy = "mapObject")
     private Set<NavNode> nodes;
+
+    public boolean containsPoint(Vector2d point) {
+        return boundingBoxes.stream().allMatch(rect -> rect.containsPoint(point));
+    }
 }
