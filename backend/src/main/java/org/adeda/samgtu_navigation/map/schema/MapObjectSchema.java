@@ -18,8 +18,6 @@ public class MapObjectSchema {
     @NotNull
     private MapObjectType type;
 
-    private Integer number;
-
     @NotBlank
     private String displayName;
 
@@ -35,11 +33,14 @@ public class MapObjectSchema {
 
         schema.setId(mapObject.getId());
         schema.setType(mapObject.getType());
-        schema.setNumber(mapObject.getNumber());
         schema.setDisplayName(mapObject.getDisplayName());
         schema.setDisplayDescription(mapObject.getDisplayDescription());
         schema.setBboxes(
-            mapObject.getBoundingBoxes().stream().map(BoundingBoxSchema::createFromModel).toList()
+            mapObject.getBoundingBoxes().stream().map(
+                bbox -> new BoundingBoxSchema(
+                    bbox.getPosition().getX(), bbox.getPosition().getY(), bbox.getWidth(), bbox.getHeight()
+                )
+            ).toList()
         );
 
         return schema;

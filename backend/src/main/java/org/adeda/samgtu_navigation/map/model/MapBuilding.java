@@ -26,8 +26,6 @@ public class MapBuilding {
     @NonNull
     private Double longitude;
 
-    private Integer number;
-
     @ToString.Include
     private String displayName;
 

@@ -20,9 +20,6 @@ public class MapDomainSchema {
     private Integer mapBuildingId;
 
     @NotNull
-    private Integer number;
-
-    @NotNull
     private DomainImageSchema image;
 
     @NotNull
@@ -34,7 +31,6 @@ public class MapDomainSchema {
 
         schema.setId(domain.getId());
         schema.setMapBuildingId(domain.getBuilding().getId());
-        schema.setNumber(domain.getNumber());
         schema.setImage(
             DomainImageSchema.createFromModel(domain.getImage())
         );

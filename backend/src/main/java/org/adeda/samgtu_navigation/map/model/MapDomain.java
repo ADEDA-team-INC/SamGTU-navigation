@@ -24,9 +24,6 @@ public class MapDomain {
     @JoinColumn(name = "building_id", nullable = false)
     private MapBuilding building;
 
-    @NonNull
-    private Integer number;
-
     @Embedded
     private DomainImage image;
 

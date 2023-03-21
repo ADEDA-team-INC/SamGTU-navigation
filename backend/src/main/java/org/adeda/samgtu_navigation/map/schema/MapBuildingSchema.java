@@ -25,9 +25,6 @@ public class MapBuildingSchema {
     @Max(180)
     private Double longitude;
 
-    @Min(0)
-    private Integer number;
-
     @NotBlank
     private String displayName;
 
@@ -44,7 +41,6 @@ public class MapBuildingSchema {
         schema.setId(building.getId());
         schema.setLatitude(building.getLatitude());
         schema.setLongitude(building.getLongitude());
-        schema.setNumber(building.getNumber());
         schema.setDisplayName(building.getDisplayName());
         schema.setDisplayDescription(building.getDisplayDescription());
         schema.setDomainIds(
