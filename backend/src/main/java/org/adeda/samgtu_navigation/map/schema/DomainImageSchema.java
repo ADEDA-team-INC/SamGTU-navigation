@@ -14,21 +14,21 @@ public class DomainImageSchema {
     private String url;
 
     @NotNull
-    private Double realWidth;
+    private Double width;
 
     @NotNull
-    private Double realOffsetX;
+    private Double offsetX;
 
     @NotNull
-    private Double realOffsetY;
+    private Double offsetY;
 
     public static DomainImageSchema createFromModel(DomainImage domainImage) {
         var schema = new DomainImageSchema();
 
         schema.setUrl(domainImage.getUrl());
-        schema.setRealWidth(domainImage.getRealWidth());
-        schema.setRealOffsetX(domainImage.getRealOffsetX());
-        schema.setRealOffsetY(domainImage.getRealOffsetY());
+        schema.setWidth(domainImage.getWidth());
+        schema.setOffsetX(domainImage.getOffset().getX());
+        schema.setOffsetY(domainImage.getOffset().getY());
 
         return schema;
     }

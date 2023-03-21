@@ -1,7 +1,9 @@
 package org.adeda.samgtu_navigation.map.model;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 import lombok.*;
+import org.adeda.samgtu_navigation.core.util.Vector2d;
 
 @Embeddable
 @NoArgsConstructor
@@ -13,11 +15,8 @@ public class DomainImage {
     private String url;
 
     @NonNull
-    private Double realWidth;
+    private Double width;
 
-    @NonNull
-    private Double realOffsetX;
-
-    @NonNull
-    private Double realOffsetY;
+    @Embedded
+    private Vector2d offset;
 }
