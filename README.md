@@ -6,7 +6,7 @@
 
 ## Технологический стек
 - __Backend:__ Java, Spring Boot, Spring Data JPA, PostgreSQL и т.д.
-- __Frontend:__ React, React Redux, Tailwind CSS
+- __Frontend:__ React, React Redux, Sass
 - Docker, Docker Compose
 
 ## Установка и запуск
