@@ -3,57 +3,66 @@ package org.adeda.samgtu_navigation.core.util;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
 @Embeddable
 public class Rect {
-    @NonNull
-    private Vector2d position;
-    @NonNull
-    private Vector2d size;
+    private double positionX;
+    private double positionY;
+    private double width;
+    private double height;
 
-    public Rect(double x, double y, double width, double height) {
-        this.position = new Vector2d(x, y);
-        this.size = new Vector2d(width, height);
+    public Rect(Vector2d position, Vector2d size) {
+        setPosition(position);
+        setSize(size);
+    }
+
+    public Vector2d getPosition() {
+        return new Vector2d(positionX, positionY);
+    }
+
+    public void setPosition(Vector2d position) {
+        positionX = position.getX();
+        positionY = position.getY();
+    }
+
+    public Vector2d getSize() {
+        return new Vector2d(width, height);
+    }
+
+    public void setSize(Vector2d size) {
+        width = size.getX();
+        height = size.getY();
     }
 
     public Vector2d getCenter() {
         return new Vector2d(
-            position.getX() + size.getX() * 0.5,
-            position.getY() + size.getY() * 0.5
+            positionX + width * 0.5,
+            positionY + height * 0.5
         );
     }
 
-    public double getWidth() {
-        return size.getX();
-    }
-
-    public double getHeight() {
-        return size.getY();
-    }
-
     public double getTop() {
-        return position.getY();
+        return positionY;
     }
 
     public double getBottom() {
-        return position.getY() + size.getY();
+        return positionY + height;
     }
 
     public double getLeft() {
-        return position.getX();
+        return positionX;
     }
 
     public double getRight() {
-        return position.getX() + size.getX();
+        return positionX + width;
     }
 
     public boolean containsPoint(Vector2d point) {
-        return point.getX() >= getLeft() &&
-            point.getX() <= getRight() &&
-            point.getY() >= getTop() &&
-            point.getY() <= getBottom();
+        return point.getX() >= positionX &&
+            point.getX() <= positionX + width &&
+            point.getY() >= positionY &&
+            point.getY() <= positionY + height;
     }
 }
