@@ -21,12 +21,17 @@ public class MapDomain {
     @ToString.Include
     private Integer id;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "building_id", nullable = false)
     private MapBuilding building;
 
+    @NonNull
     @Embedded
     private DomainImage image;
+
+    @NonNull
+    private Integer ordinalNumber;
 
     @OneToMany(mappedBy = "domain")
     private Set<MapObject> mapObjects;

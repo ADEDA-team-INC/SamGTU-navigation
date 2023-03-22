@@ -27,9 +27,11 @@ public class MapBuilding {
     @NonNull
     private Double longitude;
 
+    @NonNull
     @ToString.Include
     private String displayName;
 
+    @NonNull
     private String displayDescription;
 
     @OneToMany(mappedBy = "building")

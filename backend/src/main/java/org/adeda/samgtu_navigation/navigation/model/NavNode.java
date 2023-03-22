@@ -28,8 +28,8 @@ public class NavNode {
     @ToString.Exclude
     private MapObject mapObject;
 
-    @Embedded
     @NonNull
+    @Embedded
     private Vector2d position;
 
     @OneToMany(mappedBy = "nodeA", fetch = FetchType.EAGER)

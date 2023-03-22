@@ -17,6 +17,7 @@ public class DomainImage {
     @NonNull
     private Double width;
 
+    @NonNull
     @Embedded
     private Vector2d offset;
 }

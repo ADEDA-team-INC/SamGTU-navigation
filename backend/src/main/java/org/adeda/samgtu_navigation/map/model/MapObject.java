@@ -28,6 +28,7 @@ public class MapObject {
     @ToString.Include
     private Integer id;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "domain_id", nullable = false)
     private MapDomain domain;
@@ -42,6 +43,7 @@ public class MapObject {
     @NonNull
     private String displayDescription;
 
+    @NonNull
     @ElementCollection
     private List<Rect> boundingBoxes;
 

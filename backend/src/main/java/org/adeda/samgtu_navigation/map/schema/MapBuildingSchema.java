@@ -6,7 +6,8 @@ import lombok.Setter;
 import org.adeda.samgtu_navigation.map.model.MapBuilding;
 import org.adeda.samgtu_navigation.map.model.MapDomain;
 
-import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -33,7 +34,7 @@ public class MapBuildingSchema {
 
     @NotNull
     @NotEmpty
-    private List<Integer> domainIds;
+    private Map<Integer, Integer> domainIds;
 
     public static MapBuildingSchema createFromModel(MapBuilding building) {
         var schema = new MapBuildingSchema();
@@ -44,7 +45,9 @@ public class MapBuildingSchema {
         schema.setDisplayName(building.getDisplayName());
         schema.setDisplayDescription(building.getDisplayDescription());
         schema.setDomainIds(
-            building.getDomains().stream().map(MapDomain::getId).toList()
+            building.getDomains().stream().collect(
+                Collectors.toMap(MapDomain::getOrdinalNumber, MapDomain::getId)
+            )
         );
 
         return schema;

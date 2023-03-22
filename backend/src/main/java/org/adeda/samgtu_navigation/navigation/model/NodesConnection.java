@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(indexes = {
-    @Index(columnList = "nodeA, nodeB", unique = true)
+@Table(name = "nodes_connections", indexes = {
+    @Index(columnList = "node_a_id, node_b_id", unique = true)
 })
 @NoArgsConstructor
 @RequiredArgsConstructor
