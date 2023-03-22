@@ -112,8 +112,14 @@ components:
         displayName: { type: string }
         displayDescription: { type: string }
         domainIds:
-          type: array
-          items: { type: integer }
+          description: Key is ordinal number of floor, value is id of domain
+          type: object
+          additionalProperties:
+            type: integer
+          example:
+            "-1": 1
+            "1": 2
+            "2": 3
     map_domain_image:
       title: DomainImage
       type: object
