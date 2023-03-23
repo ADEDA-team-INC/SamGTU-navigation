@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap');
 
 .logo {
   height: 6em;
@@ -5,9 +6,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -16,6 +19,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -36,6 +40,16 @@
 }
 
 .main {
+  &__top__container {
+    position: absolute;
+    padding: 10px;
+    top: 0;
+    right: 0;
+    left: 0;
+    width:  max-content;
+    margin: 0 auto;
+  }
+
   &__right__container {
     position: absolute;
     padding: 10px;
