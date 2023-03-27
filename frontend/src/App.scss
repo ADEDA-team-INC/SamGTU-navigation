@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap');
 
+#root {
+  overflow: hidden;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -40,6 +44,13 @@
 }
 
 .main {
+  &__left__container {
+    position: absolute;
+    padding: 10px;
+    top: 0;
+    left: 0;
+  }
+
   &__top__container {
     position: absolute;
     padding: 10px;
