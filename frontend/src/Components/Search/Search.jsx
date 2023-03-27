@@ -31,7 +31,7 @@ function Search({ details }) {
                 onChange={handleChange} />
             <Scroll>
                 <h1 className={s.search__title}>
-                    Результаты
+                    Результаты:
                 </h1>
                 <>
                     {filteredBuildings.length > 0 ? <SearchList filteredBuildings={filteredBuildings} /> : <div className={s.nothing__text}> Ничего не найдено </div>}
