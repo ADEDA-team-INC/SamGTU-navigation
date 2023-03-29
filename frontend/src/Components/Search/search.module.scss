@@ -1,5 +1,33 @@
 
+.off {
+    display: none;
+}
+
 .search {
+
+    transition: all .3s ease-in-out;
+    transform: translateY(0);
+
+    &__active {
+        transition: all .3s ease-in-out;
+        transform: translateY(260px);
+    }
+
+    &__container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    &__pointer {
+        display: none;
+
+        @media (max-width: 1160px) {
+            display: block;
+        }
+    }
+
     &__input {
         margin-bottom: 14px;
         width: 100%;
@@ -34,7 +62,6 @@
     }
 
     &__title {
-        margin-bottom: 15px;
         color: #000000;
         font-size: 28px;
         font-weight: 600;
