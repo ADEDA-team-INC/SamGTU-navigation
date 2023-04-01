@@ -2,10 +2,9 @@ package org.adeda.samgtu_navigation.navigation.graph;
 
 import org.adeda.samgtu_navigation.core.util.Pair;
 import org.adeda.samgtu_navigation.navigation.model.NavNode;
-import org.adeda.samgtu_navigation.navigation.model.NodesConnection;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -13,44 +12,25 @@ import java.util.List;
 public class GraphFactory {
     /**
      * Метод создания нового графа. Внутри заранее просчитывает матрицу расстояний
-     * для связанных узлов. При этом, матрица расстояний НЕ содержит в себе
-     * повторяющихся значений.
+     * для всех узлов.
      * @param nodes список узлов, по которым необходимо создать граф
      * @return Новый объект графа
      */
     public Graph createGraph(List<NavNode> nodes) {
-        DistanceMatrix distances = new DistanceMatrix();
+        var matrix = new HashMap<Pair<NavNode, NavNode>, Double>();
 
-        for(NavNode node: nodes){
-            var connections = node.getConnections();
-            for(NodesConnection connection: connections){
-                Pair<NavNode, NavNode> pair = new Pair<>(connection.getNodeA(), connection.getNodeB());
-                if(!distances.isEmpty()){
-                    boolean isExists = false;
+        // Создаем матрицу расстояний только с верхним треугольником
+        for (int i = 0; i < nodes.size() - 1; ++i) {
+            for (int j = i + 1; j < nodes.size(); ++j) {
+                var pair = new Pair<>(nodes.get(i), nodes.get(j));
 
-                    for(Pair<NavNode, NavNode> conPair: distances.keySet()){
-                        if (conPair.equals(pair)) {
-                            isExists = true;
-                            break;
-                        }
-                    }
+                var firstPos = pair.getFirst().getPosition();
+                var secondPos = pair.getSecond().getPosition();
 
-                    if(!isExists) distances.put(pair, calcDist(pair));
-                } else {
-                    distances.put(pair, calcDist(pair));
-                }
+                matrix.put(pair, firstPos.subtract(secondPos).length());
             }
         }
 
-        return new GraphImpl(new HashSet<NavNode>(nodes), distances);
-    }
-
-    //Рассчитывает Евклидово растояние между двумя точками
-    private double calcDist(Pair<NavNode, NavNode> nodes){
-        var a = nodes.getFirst().getPosition();
-        var b = nodes.getSecond().getPosition();
-
-        return Math.sqrt(Math.pow(a.getX() - b.getX(), 2)
-                + Math.pow(a.getY() - b.getY(), 2));
+        return new GraphImpl(new HashSet<>(nodes), new DistanceMatrix(matrix));
     }
 }
