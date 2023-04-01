@@ -1,5 +1,6 @@
 package org.adeda.samgtu_navigation.navigation.graph;
 
+import lombok.ToString;
 import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.navigation.model.NavNode;
@@ -7,6 +8,7 @@ import org.adeda.samgtu_navigation.navigation.model.NavNode;
 import java.util.List;
 import java.util.Set;
 
+@ToString
 public class GraphImpl implements Graph {
     private final Set<NavNode> nodes;
     private final DistanceMatrix distanceMatrix;
