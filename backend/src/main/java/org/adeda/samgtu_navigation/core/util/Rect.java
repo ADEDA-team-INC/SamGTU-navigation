@@ -1,14 +1,17 @@
 package org.adeda.samgtu_navigation.core.util;
 
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @Embeddable
 public class Rect {
+    @Getter(AccessLevel.PRIVATE)
+    @Setter(AccessLevel.PRIVATE)
     private double positionX;
+    @Getter(AccessLevel.PRIVATE)
+    @Setter(AccessLevel.PRIVATE)
     private double positionY;
     private double width;
     private double height;
