@@ -11,11 +11,11 @@ import java.util.Set;
 @ToString
 public class GraphImpl implements Graph {
     private final Set<NavNode> nodes;
-    private final DistanceMatrix distanceMatrix;
+    private final DistanceMatrix matrix;
 
-    public GraphImpl(Set<NavNode> nodes, DistanceMatrix distanceMatrix) {
+    public GraphImpl(Set<NavNode> nodes, DistanceMatrix matrix) {
         this.nodes = nodes;
-        this.distanceMatrix = distanceMatrix;
+        this.matrix = matrix;
     }
 
     @Override
