@@ -1,6 +1,7 @@
 package org.adeda.samgtu_navigation.map.schema;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.adeda.samgtu_navigation.map.enums.MapObjectType;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class MapObjectSchema {
     @NotNull
     @Min(1)
@@ -28,21 +30,11 @@ public class MapObjectSchema {
     @NotEmpty
     private List<BoundingBoxSchema> bboxes;
 
-    public static MapObjectSchema createFromModel(MapObject mapObject) {
-        var schema = new MapObjectSchema();
-
-        schema.setId(mapObject.getId());
-        schema.setType(mapObject.getType());
-        schema.setDisplayName(mapObject.getDisplayName());
-        schema.setDisplayDescription(mapObject.getDisplayDescription());
-        schema.setBboxes(
-            mapObject.getBoundingBoxes().stream().map(
-                bbox -> new BoundingBoxSchema(
-                    bbox.getPosition().getX(), bbox.getPosition().getY(), bbox.getWidth(), bbox.getHeight()
-                )
-            ).toList()
-        );
-
-        return schema;
+    public MapObjectSchema(MapObject mapObject) {
+        this.id = mapObject.getId();
+        this.type = mapObject.getType();
+        this.displayName = mapObject.getDisplayName();
+        this.displayDescription = mapObject.getDisplayDescription();
+        this.bboxes = mapObject.getBoundingBoxes().stream().map(BoundingBoxSchema::new).toList();
     }
 }

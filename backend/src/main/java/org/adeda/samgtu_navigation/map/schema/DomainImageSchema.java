@@ -1,6 +1,7 @@
 package org.adeda.samgtu_navigation.map.schema;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.adeda.samgtu_navigation.map.model.DomainImage;
@@ -8,6 +9,7 @@ import org.hibernate.validator.constraints.URL;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class DomainImageSchema {
     @NotNull
     @URL
@@ -22,14 +24,10 @@ public class DomainImageSchema {
     @NotNull
     private Double offsetY;
 
-    public static DomainImageSchema createFromModel(DomainImage domainImage) {
-        var schema = new DomainImageSchema();
-
-        schema.setUrl(domainImage.getUrl());
-        schema.setWidth(domainImage.getWidth());
-        schema.setOffsetX(domainImage.getOffset().getX());
-        schema.setOffsetY(domainImage.getOffset().getY());
-
-        return schema;
+    public DomainImageSchema(DomainImage domainImage) {
+        this.url = domainImage.getUrl();
+        this.width = domainImage.getWidth();
+        this.offsetX = domainImage.getOffset().getX();
+        this.offsetY = domainImage.getOffset().getY();
     }
 }
