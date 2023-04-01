@@ -7,21 +7,25 @@ import org.adeda.samgtu_navigation.map.schema.MapDomainSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MapServiceImpl implements MapService{
+    private final MapBuildingRepository buildingRepository;
+    private final MapDomainRepository domainRepository;
 
-    @Autowired
-    private MapBuildingRepository buildingRepository;
-    @Autowired
-    private MapDomainRepository domainRepository;
-
-    @Override
-    public MapBuildingSchema getBuildingById(Integer id) {
-        return buildingRepository.findById(id).map(MapBuildingSchema::createFromModel).orElse(null);
+    public MapServiceImpl(MapBuildingRepository buildingRepository, MapDomainRepository domainRepository) {
+        this.buildingRepository = buildingRepository;
+        this.domainRepository = domainRepository;
     }
 
     @Override
-    public MapDomainSchema getDomainById(Integer id) {
-        return domainRepository.findById(id).map(MapDomainSchema::createFromModel).orElse(null);
+    public Optional<MapBuildingSchema> getBuildingById(Integer id) {
+        return buildingRepository.findById(id).map(MapBuildingSchema::new);
+    }
+
+    @Override
+    public Optional<MapDomainSchema> getDomainById(Integer id) {
+        return domainRepository.findById(id).map(MapDomainSchema::new);
     }
 }
