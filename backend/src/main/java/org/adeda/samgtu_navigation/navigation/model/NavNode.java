@@ -30,6 +30,7 @@ public class NavNode {
 
     @NonNull
     @Embedded
+    @Column(nullable = false)
     private Vector2d position;
 
     @OneToMany(mappedBy = "nodeA", fetch = FetchType.EAGER)

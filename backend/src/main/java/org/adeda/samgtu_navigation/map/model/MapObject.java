@@ -35,16 +35,20 @@ public class MapObject {
 
     @NonNull
     @Enumerated(EnumType.ORDINAL)
+    @Column(nullable = false)
     private MapObjectType type;
 
     @NonNull
+    @Column(nullable = false)
     private String displayName;
 
     @NonNull
+    @Column(nullable = false)
     private String displayDescription;
 
     @NonNull
     @ElementCollection
+    @Column(nullable = false)
     private List<Rect> boundingBoxes;
 
     @OneToMany(mappedBy = "mapObject")

@@ -28,9 +28,11 @@ public class MapDomain {
 
     @NonNull
     @Embedded
+    @Column(nullable = false)
     private DomainImage image;
 
     @NonNull
+    @Column(nullable = false)
     private Integer ordinalNumber;
 
     @OneToMany(mappedBy = "domain")

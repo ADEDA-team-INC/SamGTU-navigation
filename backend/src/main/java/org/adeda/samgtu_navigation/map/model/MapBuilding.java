@@ -22,16 +22,20 @@ public class MapBuilding {
     private Integer id;
 
     @NonNull
+    @Column(nullable = false)
     private Double latitude;
 
     @NonNull
+    @Column(nullable = false)
     private Double longitude;
 
     @NonNull
+    @Column(nullable = false)
     @ToString.Include
     private String displayName;
 
     @NonNull
+    @Column(nullable = false)
     private String displayDescription;
 
     @OneToMany(mappedBy = "building")
