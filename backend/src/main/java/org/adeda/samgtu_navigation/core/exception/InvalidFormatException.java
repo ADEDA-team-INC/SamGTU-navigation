@@ -16,4 +16,3 @@ public class InvalidFormatException extends AppException {
         super(details, status);
     }
 }
-/**/
