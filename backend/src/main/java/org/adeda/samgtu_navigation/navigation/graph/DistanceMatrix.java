@@ -13,6 +13,10 @@ public class DistanceMatrix {
     }
 
     public double getDistance(NavNode firstNode, NavNode secondNode) {
+        if (firstNode.equals(secondNode)) {
+            return 0.0;
+        }
+
         var pair = new Pair<>(firstNode, secondNode);
 
         if (matrix.containsKey(pair)) {
