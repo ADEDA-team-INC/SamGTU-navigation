@@ -21,7 +21,7 @@ public class GraphFactory {
 
         // Создаем матрицу расстояний только с верхним треугольником
         for (int i = 0; i < nodes.size() - 1; ++i) {
-            for (int j = i; j < nodes.size(); ++j) {
+            for (int j = i + 1; j < nodes.size(); ++j) {
                 var pair = new Pair<>(nodes.get(i), nodes.get(j));
 
                 var firstPos = pair.getFirst().getPosition();
