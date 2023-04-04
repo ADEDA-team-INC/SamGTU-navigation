@@ -1,8 +1,10 @@
 package org.adeda.samgtu_navigation.map.repository;
 
 import org.adeda.samgtu_navigation.map.model.MapBuilding;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface MapBuildingRepository extends CrudRepository<MapBuilding, Integer> {
+import java.util.Optional;
 
+public interface MapBuildingRepository extends PagingAndSortingRepository<MapBuilding, Integer> {
+    Optional<MapBuilding> findById(Integer id);
 }
