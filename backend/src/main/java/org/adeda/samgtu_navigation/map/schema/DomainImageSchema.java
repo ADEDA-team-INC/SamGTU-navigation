@@ -3,6 +3,7 @@ package org.adeda.samgtu_navigation.map.schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.adeda.samgtu_navigation.map.model.DomainImage;
 import org.hibernate.validator.constraints.URL;
@@ -10,6 +11,7 @@ import org.hibernate.validator.constraints.URL;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class DomainImageSchema {
     @NotNull
     @URL

@@ -3,6 +3,7 @@ package org.adeda.samgtu_navigation.map.schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.adeda.samgtu_navigation.map.enums.MapObjectType;
 import org.adeda.samgtu_navigation.map.model.MapObject;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class MapObjectSchema {
     @NotNull
     @Min(1)
