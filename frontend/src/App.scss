@@ -2,6 +2,8 @@
 
 
 body{
+  display: flex;
+  justify-content: center;
   overflow: hidden;
 }
 
@@ -49,6 +51,11 @@ h1,h2,h3 {
 }
 
 .main {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   &__left__container {
     position: absolute;
     padding: 10px;

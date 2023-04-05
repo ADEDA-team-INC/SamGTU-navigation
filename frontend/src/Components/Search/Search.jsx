@@ -5,7 +5,7 @@ import s from "./search.module.scss";
 import pointer from '../../assets/img/point.svg'
 import up from '../../assets/img/up.svg'
 
-function Search({ details }) {
+function Search({ details, addMap}) {
     const [searchField, setSearchField] = useState("");
     const [ifPointer, setIfPointer] = useState(false);
 
@@ -46,7 +46,7 @@ function Search({ details }) {
                     </a>
                 </div>
                 <>
-                    {filteredBuildings.length > 0 ? <SearchList filteredBuildings={filteredBuildings} /> : <div className={s.nothing__text}> Ничего не найдено </div>}
+                    {filteredBuildings.length > 0 ? <SearchList filteredBuildings={filteredBuildings} addMap = {addMap}/> : <div className={s.nothing__text}> Ничего не найдено </div>}
                 </>
             </Scroll>
         </section>
