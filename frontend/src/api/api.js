@@ -5,7 +5,11 @@ const instance = axios.create({
 })
 
 export const mainAPI = {
-    getData(map) {
-        return instance.get(`${map}`)
+    getBuildings(map) {
+        return instance.get(`${map}/buildings`)
+    },
+
+    getCurrentBuilding(map, id) {
+        return instance.get(`${map}/building/${id}`)
     }
 }
