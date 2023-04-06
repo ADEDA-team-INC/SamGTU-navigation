@@ -11,5 +11,13 @@ export const mainAPI = {
 
     getCurrentBuilding(map, id) {
         return instance.get(`${map}/building/${id}`)
+    },
+
+    getCurrentDomainBuilding(map, id) {
+        return instance.get(`${map}/domain/${id}`)
+    },
+    
+    getOutdoorObjects(map) {
+        return instance.get(`${map}/outdoor_objects`)
     }
 }
