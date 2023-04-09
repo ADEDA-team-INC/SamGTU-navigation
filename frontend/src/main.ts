@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import mainRoute from './routes/cards-routes'
-import './style.scss'
+import './scss/style.scss'
 import App from './App.vue'
 
 const router = createRouter({
