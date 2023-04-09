@@ -111,8 +111,7 @@ paths:
         400:
           description: |
             Given points list size lesser than 2. Or point position
-            is beyond of map object bounds. Or map objects are situated in
-            different buildings.
+            is beyond of map object bounds.
         404:
           description: Unable to find path or given map objects don't exist
       
