@@ -12,11 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class NavigationServiceImpl implements NavigationService{
-
-    MapObjectRepository mapObjectRepository;
-
-    GraphService graphService;
+public class NavigationServiceImpl implements NavigationService {
+    private final MapObjectRepository mapObjectRepository;
+    private final GraphService graphService;
 
     public NavigationServiceImpl(MapObjectRepository mapObjectRepository, GraphService graphService) {
         this.mapObjectRepository = mapObjectRepository;
@@ -25,51 +23,45 @@ public class NavigationServiceImpl implements NavigationService{
 
     @Override
     public List<NavPointSchema> findPath(List<NavPointSchema> points) throws NotFoundException, InvalidFormatException {
-        List<MapObject> pointsMapObjects = points.stream().map(p -> mapObjectRepository.findByObjectId(p.getMapObjectId())).toList();
-
-        GraphImpl graph = (GraphImpl) graphService.getGraphByBuildingId(
-                pointsMapObjects.get(0).getDomain().getBuilding().getId()
+        var nodes = points.stream().map(this::findClosestNode).toList();
+        
+        var graph = graphService.getByBuildingId(
+            nodes.get(0).getMapObject().getDomain().getBuilding().getId()
         );
 
-        //Проверка точек на принадлежность одному зданию
-        for(int i = 1; i < points.size() - 1; i++){
-            if(!pointsMapObjects.get(i).getDomain().getBuilding().getId().equals
-                    (pointsMapObjects.get(0).getDomain().getBuilding().getId()))
-                throw new InvalidFormatException("Points from different buildings");
+        var path = new LinkedList<NavPointSchema>();
+        for (int i = 0; i < nodes.size() - 1; ++i) {
+            path.add(points.get(i));
+            path.addAll(
+                graph.findPath(
+                    nodes.get(i), nodes.get(i + 1)
+                ).stream().map(NavPointSchema::new).toList()
+            );
         }
+        path.add(points.get(points.size() - 1));
 
-        List<NavNode> nodeList = points.stream().map(p -> findClosestNode(p, mapObjectRepository.findByObjectId(p.getMapObjectId()).getNodes().stream().toList())).toList();
-        List<NavPointSchema> response = new LinkedList<>();
-
-        //Прокладывание пути
-        for (int i = 0; i < nodeList.size() - 1; i++){
-            response.addAll(graph.findPath
-                    (nodeList.get(i), nodeList.get(i + 1))
-                    .stream().map(NavPointSchema::new).toList());
-
-        }
-
-        return response;
+        return path;
     }
 
-    private NavNode findClosestNode(NavPointSchema point, List<NavNode> sameObjectNodes){
-        if(sameObjectNodes.size() == 0)
-            throw new InvalidFormatException("This object(s) does not exist");
+    private NavNode findClosestNode(NavPointSchema point) {
+        var pos = point.getPosition();
 
-        if(sameObjectNodes.size() == 1)
-            return sameObjectNodes.get(0);
-
-        //Поиск ближайшей точки
-        NavNode favouriteNode = sameObjectNodes.get(0);
-        for(int i = 1; i < sameObjectNodes.size(); i++){
-            if(favouriteNode.getPosition().subtract(point.getPositionX(), point.getPositionY()).length()
-                    >
-                    sameObjectNodes.get(i).getPosition().subtract(point.getPositionX(), point.getPositionY()).length()){
-                favouriteNode = sameObjectNodes.get(i);
-            }
+        var mapObject = mapObjectRepository.findById(point.getMapObjectId()).orElse(null);
+        if (mapObject == null) {
+            throw new NotFoundException("MapObject with given id doesn't exist");
+        }
+        if (!mapObject.containsPoint(pos)) {
+            throw new InvalidFormatException("NavPoint doesn't belong to given MapObject");
         }
 
+        var closestNode = mapObject.getNodes().stream().min(
+            Comparator.comparingDouble(n -> n.getPosition().subtract(pos).length())
+        );
 
-        return favouriteNode;
+        if (closestNode.isEmpty()) {
+            throw new NotFoundException("Unable to find closest node for given NavPoint");
+        }
+
+        return closestNode.get();
     }
 }
