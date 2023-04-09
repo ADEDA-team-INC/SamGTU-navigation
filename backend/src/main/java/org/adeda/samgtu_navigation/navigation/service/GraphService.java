@@ -8,5 +8,5 @@ public interface GraphService {
      * @param buildingId идентификатор здания
      * @return Новый объект графа, созданный с помощью `GraphFactory`, либо уже существующий.
      */
-    Graph getGraphByBuildingId(Integer buildingId);
+    Graph getByBuildingId(Integer buildingId);
 }
