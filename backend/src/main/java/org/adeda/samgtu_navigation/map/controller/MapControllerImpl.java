@@ -1,7 +1,6 @@
 package org.adeda.samgtu_navigation.map.controller;
 
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.map.schema.MapBuildingSchema;
 import org.adeda.samgtu_navigation.map.schema.MapDomainSchema;
@@ -42,7 +41,7 @@ public class MapControllerImpl implements MapController {
     ) throws NotFoundException {
         var building = service.getBuildingById(id);
         if (building.isEmpty()) {
-            throw new NotFoundException();
+            throw new NotFoundException("MapBuilding with given id doesn't exist");
         }
 
         return building.get();
@@ -55,7 +54,7 @@ public class MapControllerImpl implements MapController {
     ) throws NotFoundException {
         var domain = service.getDomainById(id);
         if (domain.isEmpty()) {
-            throw new NotFoundException();
+            throw new NotFoundException("MapDomain with given id doesn't exist");
         }
 
         return domain.get();
