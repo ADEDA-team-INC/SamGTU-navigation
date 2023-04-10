@@ -19,10 +19,12 @@ paths:
   /map/buildings:
     get:
       tags: [Map]
-      operationId: getAllMapBuildings
+      operationId: searchMapBuildings
       parameters:
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/search_query"
+        - $ref: "#/components/parameters/accept_language"
       responses:
         200:
           description: Operation went successfully
@@ -37,10 +39,8 @@ paths:
       tags: [Map]
       operationId: getMapBuildingById
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema: { type: integer }
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/accept_language"
       responses:
         200:
           description: Operation went successfully
@@ -56,10 +56,8 @@ paths:
       tags: [Map]
       operationId: getMapDomainById
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema: { type: integer }
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/accept_language"
       responses:
         200:
           description: Operation went successfully
@@ -70,6 +68,26 @@ paths:
         404:
           description: Map domain was not found
   
+  /map/objects:
+    get:
+      tags: [Map]
+      operationId: searchMapObjects
+      parameters:
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/search_query"
+        - $ref: "#/components/parameters/accept_language"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/map_object"
+                
+  
   /map/outdoor_objects:
     get:
       tags: [Map]
@@ -77,6 +95,8 @@ paths:
       parameters:
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/search_query"
+        - $ref: "#/components/parameters/accept_language"
       responses:
         200:
           description: Operation went successfully
@@ -118,6 +138,15 @@ paths:
 
 components:
   schemas:
+    info:
+      title: Info
+      type: object
+      properties:
+        images:
+          type: array
+          items: { type: string }
+        displayName: { type: string }
+        displayDescription: { type: string }
     bounding_box:
       title: BoundingBox
       type: object
@@ -130,11 +159,12 @@ components:
       title: MapObject
       properties:
         id: { type: integer }
+        mapDomainId: { type: integer }
+        mapBuildingId: { type: integer }
         type:
           type: string
           enum: [ HALL, ROOM, STAIRS, EXIT ]
-        displayName: { type: string }
-        displayDescription: { type: string }
+        info: { $ref: "#/components/schemas/info" }
         bboxes:
           type: array
           items: { $ref: "#/components/schemas/bounding_box"}
@@ -145,8 +175,7 @@ components:
         id: { type: integer }
         latitude: { type: number }
         longitude: { type: number }
-        displayName: { type: string }
-        displayDescription: { type: string }
+        info: { $ref: "#/components/schemas/info" }
         domainIds:
           description: Key is ordinal number of floor, value is id of domain
           type: object
@@ -186,8 +215,7 @@ components:
           enum: [ SIGHT, CAFE, SHOP ]
         latitude: { type: number }
         longitude: { type: number }
-        displayName: { type: string }
-        displayDescription: { type: string }
+        info: { $ref: "#/components/schemas/info" }
     nav_point:
       title: NavigationPoint
       type: object
@@ -196,6 +224,11 @@ components:
         positionY: { type: number }
         mapObjectId: { type: integer }
   parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema: { type: integer }
     size:
       name: size
       in: query
@@ -206,3 +239,14 @@ components:
       in: query
       required: false
       schema: { type: integer, default: 0 }
+    search_query:
+      name: search_query
+      in: query
+      required: false
+      schema: { type: string, minLength: 1 }
+    accept_language:
+      name: Accept-Language
+      in: header
+      required: false
+      schema: { type: string, default: 'ru-RU' }
+
