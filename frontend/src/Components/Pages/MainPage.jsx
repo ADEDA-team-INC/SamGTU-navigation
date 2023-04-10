@@ -16,16 +16,19 @@ export const MainPage = props => {
 
     useEffect(() => {
         const canvas = new fabric.Canvas('map', {
-            backgroundImage: 'https://img3.akspic.ru/previews/7/4/2/8/6/168247/168247-kosti_3d-igra_v_kosti_3d-azartnaya_igra-pitevaya_igra-kazino-500x.jpg'
+            width: window.innerWidth,
+            height: window.innerHeight,
         })
-        const rect = new fabric.Rect({
-            left: 100,
-            top: 100,
-            fill: 'red',
-            width: 20,
-            height: 20
+
+        fabric.Image.fromURL('https://sun9-20.userapi.com/impg/ETeepUo26XEVhYsdIiRGgIslOWGxGEw4oBPMAg/pWSZdOtya44.jpg?size=1404x664&quality=96&sign=287b1f00efe07ab05a02e30278e1d8de&type=album', function (oImg) {
+            oImg.lockScalingX = false,
+            oImg.lockScalingY = false,
+            oImg.lockRotation = false,
+            oImg.hasBorders = false,
+            oImg.hasControls = false,
+            canvas.add(oImg);
         });
-        canvas.add(rect);
+
         onAddMap;
     }, [])
 
