@@ -23,7 +23,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/search_query"
         - $ref: "#/components/parameters/accept_language"
       responses:
         200:
@@ -75,7 +74,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/search_query"
         - $ref: "#/components/parameters/accept_language"
       responses:
         200:
@@ -87,7 +85,6 @@ paths:
                 items:
                   $ref: "#/components/schemas/map_object"
                 
-  
   /map/outdoor_objects:
     get:
       tags: [Map]
@@ -95,7 +92,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/search_query"
         - $ref: "#/components/parameters/accept_language"
       responses:
         200:
@@ -105,7 +101,37 @@ paths:
               schema:
                 type: array
                 items: { $ref: "#/components/schemas/outdoor_object" }
-                
+
+  /map/search:
+    get:
+      tags: [Map]
+      operationId: searchMapEntities
+      parameters:
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/page"
+        - name: search_query
+          in: query
+          required: true
+          schema: { type: string, minLength: 1 }
+        - $ref: "#/components/parameters/accept_language"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mapBuildings:
+                    type: array
+                    items: { $ref: "#/components/schemas/map_building" }
+                  mapObjects:
+                    type: array
+                    items: { $ref: "#/components/schemas/map_object" }
+                  outdoorObjects:
+                    type: array
+                    items: { $ref: "#/components/schemas/outdoor_object" }
+          
   /navigation:
     post:
       tags: [ Navigation ]
@@ -239,11 +265,6 @@ components:
       in: query
       required: false
       schema: { type: integer, default: 0 }
-    search_query:
-      name: search_query
-      in: query
-      required: false
-      schema: { type: string, minLength: 1 }
     accept_language:
       name: Accept-Language
       in: header
