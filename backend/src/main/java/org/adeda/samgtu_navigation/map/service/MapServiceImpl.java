@@ -1,11 +1,11 @@
 package org.adeda.samgtu_navigation.map.service;
 
+import org.adeda.samgtu_navigation.map.model.MapBuilding;
+import org.adeda.samgtu_navigation.map.model.MapDomain;
+import org.adeda.samgtu_navigation.map.model.OutdoorObject;
 import org.adeda.samgtu_navigation.map.repository.MapBuildingRepository;
 import org.adeda.samgtu_navigation.map.repository.MapDomainRepository;
 import org.adeda.samgtu_navigation.map.repository.OutdoorObjectRepository;
-import org.adeda.samgtu_navigation.map.schema.MapBuildingSchema;
-import org.adeda.samgtu_navigation.map.schema.MapDomainSchema;
-import org.adeda.samgtu_navigation.map.schema.OutdoorObjectSchema;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -29,22 +29,22 @@ public class MapServiceImpl implements MapService {
     }
 
     @Override
-    public List<MapBuildingSchema> getAllBuildings(int size, int page) {
-        return buildingRepository.findAll(PageRequest.of(page, size)).map(MapBuildingSchema::new).toList();
+    public List<MapBuilding> getAllBuildings(int size, int page) {
+        return buildingRepository.findAll(PageRequest.of(page, size)).toList();
     }
 
     @Override
-    public Optional<MapBuildingSchema> getBuildingById(Integer id) {
-        return buildingRepository.findById(id).map(MapBuildingSchema::new);
+    public Optional<MapBuilding> getBuildingById(Integer id) {
+        return buildingRepository.findById(id);
     }
 
     @Override
-    public Optional<MapDomainSchema> getDomainById(Integer id) {
-        return domainRepository.findById(id).map(MapDomainSchema::new);
+    public Optional<MapDomain> getDomainById(Integer id) {
+        return domainRepository.findById(id);
     }
 
     @Override
-    public List<OutdoorObjectSchema> getAllOutdoorObjects(int size, int page) {
-        return outdoorObjectRepository.findAll(PageRequest.of(page, size)).map(OutdoorObjectSchema::new).toList();
+    public List<OutdoorObject> getAllOutdoorObjects(int size, int page) {
+        return outdoorObjectRepository.findAll(PageRequest.of(page, size)).toList();
     }
 }

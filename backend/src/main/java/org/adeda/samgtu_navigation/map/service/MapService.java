@@ -1,8 +1,8 @@
 package org.adeda.samgtu_navigation.map.service;
 
-import org.adeda.samgtu_navigation.map.schema.MapBuildingSchema;
-import org.adeda.samgtu_navigation.map.schema.MapDomainSchema;
-import org.adeda.samgtu_navigation.map.schema.OutdoorObjectSchema;
+import org.adeda.samgtu_navigation.map.model.MapBuilding;
+import org.adeda.samgtu_navigation.map.model.MapDomain;
+import org.adeda.samgtu_navigation.map.model.OutdoorObject;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ public interface MapService {
      * @param page номер страницы
      * @return Список всех зданий с учетом текущей страницы
      */
-    List<MapBuildingSchema> getAllBuildings(int size, int page);
+    List<MapBuilding> getAllBuildings(int size, int page);
 
     /**
      * Получения объекта здания на карте
@@ -22,14 +22,14 @@ public interface MapService {
      *
      * @return Объект здания `MapBuildingSchema`.
      */
-    Optional<MapBuildingSchema> getBuildingById(Integer id);
+    Optional<MapBuilding> getBuildingById(Integer id);
 
     /**
      * Получения объекта пространства на карте
      * @param id идентификатор пространства
      * @return Объект пространства `MapDomainSchema`.
      */
-    Optional<MapDomainSchema> getDomainById(Integer id);
+    Optional<MapDomain> getDomainById(Integer id);
 
     /**
      * Получить все уличные объекты на карте. Поддерживает пагинацию
@@ -37,5 +37,5 @@ public interface MapService {
      * @param page номер страницы
      * @return Список всех уличных объектов с учетом текущей страницы
      */
-    List<OutdoorObjectSchema> getAllOutdoorObjects(int size, int page);
+    List<OutdoorObject> getAllOutdoorObjects(int size, int page);
 }
