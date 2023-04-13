@@ -30,13 +30,9 @@ public class MapBuilding {
     private Double longitude;
 
     @NonNull
+    @Embedded
     @Column(nullable = false)
-    @ToString.Include
-    private String displayName;
-
-    @NonNull
-    @Column(nullable = false)
-    private String displayDescription;
+    private MapEntityInfo info;
 
     @OneToMany(mappedBy = "building")
     private Set<MapDomain> domains;

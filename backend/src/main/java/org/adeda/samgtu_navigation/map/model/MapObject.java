@@ -39,12 +39,9 @@ public class MapObject {
     private MapObjectType type;
 
     @NonNull
+    @Embedded
     @Column(nullable = false)
-    private String displayName;
-
-    @NonNull
-    @Column(nullable = false)
-    private String displayDescription;
+    private MapEntityInfo info;
 
     @NonNull
     @ElementCollection
