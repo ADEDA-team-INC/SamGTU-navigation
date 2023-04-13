@@ -6,7 +6,10 @@
 </template>
 
 <style scoped lang="scss">
+@import "../scss/defines";
+
 .icon-button {
+    min-width: $icon-button-min-width;
     display: inline-block;
     text-align: center;
     text-decoration: none;
@@ -16,8 +19,8 @@
 </style>
 
 <script setup lang="ts">
-const props = defineProps({
-    subtitle: String,
-    iconClass: String
-})
+const props = defineProps<{
+    subtitle: string,
+    iconClass: string
+}>()
 </script>
