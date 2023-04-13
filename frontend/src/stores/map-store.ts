@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, reactive } from 'vue'
 import { MapBuildingSchema, MapDomainSchema, MapObjectSchema } from '../schemas/map-schemas'
-import { fetchBuildingById, fetchBuildings, fetchDomainById } from '../utils/rest-api'
+import { fetchBuildingById, fetchBuildings, fetchDomainById } from '../api/map-api'
 import defines from '../defines'
 
 export const useBuildingsStore = defineStore('buildings', () => {
