@@ -14,14 +14,13 @@ import java.util.List;
 
 @RestController
 @Validated
-public class NavigationControllerImpl implements NavigationController {
+public class NavigationControllerImpl {
     private final NavigationService service;
 
     public NavigationControllerImpl(NavigationService service) {
         this.service = service;
     }
 
-    @Override
     @PostMapping("/navigation")
     public List<NavPointSchema> findPath(
         @NotNull @Size(min = 2) List<NavPointSchema> points
