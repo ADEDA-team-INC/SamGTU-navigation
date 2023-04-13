@@ -2,7 +2,6 @@ package org.adeda.samgtu_navigation.localization.service;
 
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface LocalizationService {
@@ -13,14 +12,13 @@ public interface LocalizationService {
      * @return Переведенная строка, либо `Optional.empty()`, если перевода на данный язык не существует,
      * либо данного ключа нет в таблице.
      */
-    Optional<String> getStringByKey(String key, SupportedLanguage language);
+    Optional<String> getByKey(String key, SupportedLanguage language);
 
     /**
-     * Метод получения множества локализованных(переведенных) строк.
-     * @param keys Список ключей, по которым нужно получить значения строки.
+     * Метод "безопасного" получения строки.
+     * @param key ключ, по которому искать значение строчки
      * @param language поддерживаемый язык, для которого нужно получить перевод
-     * @return Список переведенных строк в том же порядке, что и ключи. Если перевод для ключа не доступен,
-     * то значение строчки будет равно `null`.
+     * @return Переведенная строка, либо значение самого ключа, если перевод не найден.
      */
-    List<String> getStringsByKeys(List<String> keys, SupportedLanguage language);
+    String getByKeySafe(String key, SupportedLanguage language);
 }

@@ -5,9 +5,7 @@ import org.adeda.samgtu_navigation.localization.model.LocalizedString;
 import org.adeda.samgtu_navigation.localization.repository.LocalizedStringRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class LocalizationServiceImpl implements LocalizationService {
@@ -18,19 +16,12 @@ public class LocalizationServiceImpl implements LocalizationService {
     }
 
     @Override
-    public Optional<String> getStringByKey(String key, SupportedLanguage language) {
+    public Optional<String> getByKey(String key, SupportedLanguage language) {
         return repository.findByKey(key, language).map(LocalizedString::getText);
     }
 
     @Override
-    public List<String> getStringsByKeys(List<String> keys, SupportedLanguage language) {
-        var result = repository.findByKeys(keys, language).stream().collect(
-            Collectors.toMap(
-                tuple -> (String)tuple.get("key"),
-                tuple -> (String)tuple.get("string")
-            )
-        );
-
-        return keys.stream().map(result::get).toList();
+    public String getByKeySafe(String key, SupportedLanguage language) {
+        return getByKey(key, language).orElse(String.format("[%s]", key));
     }
 }
