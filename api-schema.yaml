@@ -19,7 +19,7 @@ paths:
   /map/buildings:
     get:
       tags: [Map]
-      operationId: searchMapBuildings
+      operationId: getMapBuildings
       parameters:
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/page"
@@ -31,7 +31,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: { $ref: "#/components/schemas/map_building" }
+                items: { $ref: "#/components/schemas/map_building_info" }
 
   /map/building/{id}:
     get:
@@ -67,13 +67,12 @@ paths:
         404:
           description: Map domain was not found
   
-  /map/objects:
+  /map/object/{id}:
     get:
       tags: [Map]
-      operationId: searchMapObjects
+      operationId: getMapObjectById
       parameters:
-        - $ref: "#/components/parameters/size"
-        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/id"
         - $ref: "#/components/parameters/accept_language"
       responses:
         200:
@@ -83,12 +82,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/map_object"
+                  $ref: "#/components/schemas/detailed_map_object"
                 
   /map/outdoor_objects:
     get:
       tags: [Map]
-      operationId: getAllOutdoorObjects
+      operationId: getOutdoorObjects
       parameters:
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/page"
@@ -107,9 +106,7 @@ paths:
       tags: [Map]
       operationId: searchMapEntities
       parameters:
-        - $ref: "#/components/parameters/size"
-        - $ref: "#/components/parameters/page"
-        - name: search_query
+        - name: query
           in: query
           required: true
           schema: { type: string, minLength: 1 }
@@ -124,10 +121,10 @@ paths:
                 properties:
                   mapBuildings:
                     type: array
-                    items: { $ref: "#/components/schemas/map_building" }
+                    items: { $ref: "#/components/schemas/map_building_info" }
                   mapObjects:
                     type: array
-                    items: { $ref: "#/components/schemas/map_object" }
+                    items: { $ref: "#/components/schemas/map_object_info" }
                   outdoorObjects:
                     type: array
                     items: { $ref: "#/components/schemas/outdoor_object" }
@@ -160,7 +157,7 @@ paths:
             is beyond of map object bounds.
         404:
           description: Unable to find path or given map objects don't exist
-      
+
 
 components:
   schemas:
@@ -185,15 +182,31 @@ components:
       title: MapObject
       properties:
         id: { type: integer }
-        mapDomainId: { type: integer }
-        mapBuildingId: { type: integer }
         type:
           type: string
           enum: [ HALL, ROOM, STAIRS, EXIT ]
         info: { $ref: "#/components/schemas/info" }
         bboxes:
           type: array
-          items: { $ref: "#/components/schemas/bounding_box"}
+          items: { $ref: "#/components/schemas/bounding_box" }
+    map_object_info:
+      title: MapObjectInfo
+      properties:
+        id: { type: integer }
+        type:
+          type: string
+          enum: [ HALL, ROOM, STAIRS, EXIT ]
+        info: { $ref: "#/components/schemas/info" }
+    detailed_map_object:
+      title: DetailedMapObject
+      properties:
+        id: { type: integer }
+        mapBuildingId: { type: integer }
+        mapDomainId: { type: integer }
+        type:
+          type: string
+          enum: [ HALL, ROOM, STAIRS, EXIT ]
+        info: { $ref: "#/components/schemas/info" }
     map_building:
       title: MapBuilding
       type: object
@@ -211,6 +224,12 @@ components:
             "-1": 1
             "1": 2
             "2": 3
+    map_building_info:
+      title: MapBuildingInfo
+      type: object
+      properties:
+        id: { type: integer }
+        info: { $ref: "#/components/schemas/info" }
     map_domain_image:
       title: DomainImage
       type: object
@@ -224,7 +243,6 @@ components:
       type: object
       properties:
         id: { type: integer }
-        mapBuildingId: { type: integer }
         image:
           $ref: "#/components/schemas/map_domain_image"
         mapObjects:
@@ -232,7 +250,7 @@ components:
           items:
             $ref: "#/components/schemas/map_object"
     outdoor_object:
-      title: OutdoorObject
+      title: OutdoorObjectInfo
       type: object
       properties:
         id: { type: integer }
