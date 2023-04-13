@@ -1,6 +1,9 @@
-package org.adeda.samgtu_navigation.navigation.graph;
+package org.adeda.samgtu_navigation.navigation.service;
 
 import org.adeda.samgtu_navigation.core.util.Pair;
+import org.adeda.samgtu_navigation.navigation.graph.DistanceMatrix;
+import org.adeda.samgtu_navigation.navigation.graph.Graph;
+import org.adeda.samgtu_navigation.navigation.graph.GraphImpl;
 import org.adeda.samgtu_navigation.navigation.model.NavNode;
 import org.springframework.stereotype.Component;
 
@@ -9,13 +12,14 @@ import java.util.HashSet;
 import java.util.List;
 
 @Component
-public class GraphFactory {
+public class GraphFactoryImpl implements GraphFactory {
     /**
      * Метод создания нового графа. Внутри заранее просчитывает матрицу расстояний
      * для всех узлов.
      * @param nodes список узлов, по которым необходимо создать граф
      * @return Новый объект графа
      */
+    @Override
     public Graph createGraph(List<NavNode> nodes) {
         var matrix = new HashMap<Pair<NavNode, NavNode>, Double>();
 
