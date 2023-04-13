@@ -3,7 +3,6 @@ package org.adeda.samgtu_navigation.navigation.service;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.map.repository.MapBuildingRepository;
 import org.adeda.samgtu_navigation.navigation.graph.Graph;
-import org.adeda.samgtu_navigation.navigation.graph.GraphFactory;
 import org.adeda.samgtu_navigation.navigation.repository.NodeRepository;
 import org.springframework.stereotype.Service;
 
