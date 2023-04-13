@@ -3,7 +3,7 @@ package org.adeda.samgtu_navigation.map.schema.outdoor_object;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.adeda.samgtu_navigation.map.enums.OutdoorObjectType;
-import org.adeda.samgtu_navigation.map.schema.common.InfoSchema;
+import org.adeda.samgtu_navigation.map.schema.InfoSchema;
 
 @Getter
 @Setter

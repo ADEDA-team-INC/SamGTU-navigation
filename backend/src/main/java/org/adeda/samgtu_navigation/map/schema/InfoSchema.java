@@ -1,4 +1,4 @@
-package org.adeda.samgtu_navigation.map.schema.common;
+package org.adeda.samgtu_navigation.map.schema;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

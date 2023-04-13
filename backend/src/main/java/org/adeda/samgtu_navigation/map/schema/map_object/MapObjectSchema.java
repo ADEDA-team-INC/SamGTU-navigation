@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.adeda.samgtu_navigation.map.enums.MapObjectType;
-import org.adeda.samgtu_navigation.map.schema.common.InfoSchema;
+import org.adeda.samgtu_navigation.map.schema.InfoSchema;
 
 import java.util.List;
 

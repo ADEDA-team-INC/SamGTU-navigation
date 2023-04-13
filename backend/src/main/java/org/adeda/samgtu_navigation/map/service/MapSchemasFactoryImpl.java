@@ -3,7 +3,7 @@ package org.adeda.samgtu_navigation.map.service;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 import org.adeda.samgtu_navigation.localization.service.LocalizationService;
 import org.adeda.samgtu_navigation.map.model.*;
-import org.adeda.samgtu_navigation.map.schema.common.InfoSchema;
+import org.adeda.samgtu_navigation.map.schema.InfoSchema;
 import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingInfo;
 import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingSchema;
 import org.adeda.samgtu_navigation.map.schema.map_domain.DomainImageSchema;
