@@ -1,0 +1,17 @@
+package org.adeda.samgtu_navigation.map.service;
+
+import org.adeda.samgtu_navigation.core.exception.NotFoundException;
+import org.adeda.samgtu_navigation.map.model.OutdoorObject;
+import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectCreateSchema;
+
+import java.util.Optional;
+
+public interface OutdoorObjectService {
+    OutdoorObject create(OutdoorObjectCreateSchema schema);
+
+    Optional<OutdoorObject> getById(Integer id);
+
+    OutdoorObject updateById(Integer id, OutdoorObjectCreateSchema schema) throws NotFoundException;
+
+    void deleteById(Integer id) throws NotFoundException;
+}
