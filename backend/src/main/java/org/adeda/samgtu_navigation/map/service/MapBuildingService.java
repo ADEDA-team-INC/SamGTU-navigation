@@ -4,10 +4,13 @@ import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.map.model.MapBuilding;
 import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingCreateSchema;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MapBuildingService {
     MapBuilding create(MapBuildingCreateSchema schema);
+
+    List<MapBuilding> getAll(int size, int limit);
 
     Optional<MapBuilding> getById(Integer id);
 
