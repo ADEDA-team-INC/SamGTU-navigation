@@ -21,9 +21,6 @@ public class MapDomainSchema {
     private Integer id;
 
     @NotNull
-    private Integer mapBuildingId;
-
-    @NotNull
     private DomainImageSchema image;
 
     @NotNull
