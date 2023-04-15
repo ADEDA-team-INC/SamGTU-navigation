@@ -6,8 +6,7 @@ import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 
 @Entity
 @Table(name = "localization", indexes = {
-    @Index(columnList = "language"),
-    @Index(columnList = "key", unique = true)
+    @Index(columnList = "key, language", unique = true)
 })
 @NoArgsConstructor
 @RequiredArgsConstructor
