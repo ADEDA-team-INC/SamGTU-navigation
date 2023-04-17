@@ -6,11 +6,12 @@ import org.adeda.samgtu_navigation.localization.service.LocalizationService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
 @Component
-public class InitialDataCreator implements ApplicationRunner {
+public class InitialLocalesCreator implements ApplicationRunner {
     private final SupportedLanguage language = SupportedLanguage.RUSSIAN;
     private final Map<String, String> textsTable = Map.ofEntries(
         Map.entry("null",               ""),
@@ -28,11 +29,12 @@ public class InitialDataCreator implements ApplicationRunner {
 
     private final LocalizationService service;
 
-    public InitialDataCreator(LocalizationService service) {
+    public InitialLocalesCreator(LocalizationService service) {
         this.service = service;
     }
 
     @Override
+    @Transactional
     public void run(ApplicationArguments args) throws Exception {
         for (var key : textsTable.keySet()) {
             try {

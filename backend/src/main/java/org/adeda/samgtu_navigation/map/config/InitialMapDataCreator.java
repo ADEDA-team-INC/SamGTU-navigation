@@ -1,10 +1,7 @@
 package org.adeda.samgtu_navigation.map.config;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.adeda.samgtu_navigation.map.enums.MapObjectType;
 import org.adeda.samgtu_navigation.map.enums.OutdoorObjectType;
-import org.adeda.samgtu_navigation.map.model.MapDomain;
 import org.adeda.samgtu_navigation.map.schema.info.InfoCreateSchema;
 import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingCreateSchema;
 import org.adeda.samgtu_navigation.map.schema.map_domain.DomainImageSchema;
@@ -19,11 +16,12 @@ import org.adeda.samgtu_navigation.map.service.OutdoorObjectService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
-public class InitialDataCreator implements ApplicationRunner {
+public class InitialMapDataCreator implements ApplicationRunner {
     private record DomainData (Integer buildingId, MapDomainCreateSchema schema) { }
     private record MapObjectData (Integer domainId, MapObjectCreateSchema schema) { }
 
@@ -192,7 +190,7 @@ public class InitialDataCreator implements ApplicationRunner {
     private final MapObjectService mapObjectService;
     private final OutdoorObjectService outdoorObjectService;
 
-    public InitialDataCreator(
+    public InitialMapDataCreator(
         MapBuildingService buildingService,
         MapDomainService domainService,
         MapObjectService mapObjectService,
@@ -205,6 +203,7 @@ public class InitialDataCreator implements ApplicationRunner {
     }
 
     @Override
+    @Transactional
     public void run(ApplicationArguments args) throws Exception {
         for (int i = 1; i <= buildings.size(); ++i) {
             if (buildingService.getById(i).isEmpty()) {
