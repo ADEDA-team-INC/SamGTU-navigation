@@ -3,6 +3,7 @@
     <deployment type="docker-compose.yml">
       <settings>
         <option name="envFilePath" value="" />
+        <option name="commandLineOptions" value="--build" />
         <option name="secondarySourceFiles">
           <list>
             <option value="../docker-compose.dev.yml" />
@@ -10,7 +11,7 @@
         </option>
         <option name="services">
           <list>
-            <option value="database" />
+            <option value="backend" />
           </list>
         </option>
         <option name="sourceFilePath" value="../docker-compose.yml" />
