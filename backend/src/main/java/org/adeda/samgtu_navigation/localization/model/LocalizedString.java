@@ -34,6 +34,6 @@ public class LocalizedString {
     private String key;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(columnDefinition = "text", nullable = false)
     private String text;
 }
