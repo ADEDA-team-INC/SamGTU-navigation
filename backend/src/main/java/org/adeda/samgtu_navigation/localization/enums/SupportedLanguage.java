@@ -21,6 +21,7 @@ public enum SupportedLanguage {
         return switch (locale.getLanguage()) {
             case "ru" -> RUSSIAN;
             case "en" -> ENGLISH;
+            default -> throw new IllegalArgumentException();
         };
     }
 
