@@ -1,6 +1,8 @@
 package org.adeda.samgtu_navigation.localization.enums;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import java.util.Locale;
 
@@ -20,5 +22,9 @@ public enum SupportedLanguage {
             case "ru" -> RUSSIAN;
             case "en" -> ENGLISH;
         };
+    }
+
+    public static SupportedLanguage fromRequest(HttpServletRequest request) {
+        return byLocale(RequestContextUtils.getLocale(request));
     }
 }
