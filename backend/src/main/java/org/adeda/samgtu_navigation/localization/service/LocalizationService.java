@@ -19,16 +19,6 @@ public interface LocalizationService {
     LocalizedString create(String key, String text, SupportedLanguage language) throws AlreadyExistsException;
 
     /**
-     * Метод обновления текста существующей строки
-     * @param key Ключ строки
-     * @param text Новый текст с переводом на данный язык
-     * @param language Язык перевода
-     * @return Объект обновленной строки
-     * @throws NotFoundException Если строка с данным ключом и языком не существует
-     */
-    LocalizedString update(String key, String text, SupportedLanguage language) throws NotFoundException;
-
-    /**
      * Метод получения локализованной(переведенной) строки.
      * @param key ключ, по которому искать значение строчки
      * @param language поддерживаемый язык, для которого нужно получить перевод
@@ -44,6 +34,16 @@ public interface LocalizationService {
      * @return Переведенная строка, либо значение самого ключа, если перевод не найден.
      */
     String getByKeySafe(String key, SupportedLanguage language);
+
+    /**
+     * Метод обновления текста существующей строки
+     * @param key Ключ строки
+     * @param text Новый текст с переводом на данный язык
+     * @param language Язык перевода
+     * @return Объект обновленной строки
+     * @throws NotFoundException Если строка с данным ключом и языком не существует
+     */
+    LocalizedString update(String key, String text, SupportedLanguage language) throws NotFoundException;
 
     /**
      * Метод удаления локализованной строки
