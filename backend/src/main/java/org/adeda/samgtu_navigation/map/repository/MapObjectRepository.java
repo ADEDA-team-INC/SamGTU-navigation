@@ -8,8 +8,9 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface MapObjectRepository extends CrudRepository<MapObject, Integer> {
-    @Query(value = """
-        
+    @Query(value =
+        """
+        SELECT * FROM map_objects LIMIT :limit OFFSET :offset --:query
         """,
         nativeQuery = true
     )
