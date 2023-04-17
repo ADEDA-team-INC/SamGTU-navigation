@@ -30,4 +30,8 @@ public class BoundingBoxSchema {
         this.width = rect.getWidth();
         this.height = rect.getHeight();
     }
+
+    public Rect asRect() {
+        return new Rect(getPositionX(), getPositionY(), getWidth(), getHeight());
+    }
 }

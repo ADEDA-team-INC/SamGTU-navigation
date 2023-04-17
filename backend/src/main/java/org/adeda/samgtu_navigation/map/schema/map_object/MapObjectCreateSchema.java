@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.adeda.samgtu_navigation.map.enums.MapObjectType;
-import org.adeda.samgtu_navigation.map.schema.InfoSchema;
+import org.adeda.samgtu_navigation.map.schema.info.InfoCreateSchema;
+import org.adeda.samgtu_navigation.map.schema.info.InfoSchema;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class MapObjectCreateSchema {
     private MapObjectType type;
 
     @NotNull
-    private InfoSchema info;
+    private InfoCreateSchema info;
 
     @NotNull
     @NotEmpty

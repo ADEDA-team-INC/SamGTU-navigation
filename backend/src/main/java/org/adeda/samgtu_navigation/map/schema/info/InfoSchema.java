@@ -1,4 +1,4 @@
-package org.adeda.samgtu_navigation.map.schema;
+package org.adeda.samgtu_navigation.map.schema.info;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

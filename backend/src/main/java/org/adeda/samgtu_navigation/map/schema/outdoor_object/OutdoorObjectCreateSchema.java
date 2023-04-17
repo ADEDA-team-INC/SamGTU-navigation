@@ -3,7 +3,7 @@ package org.adeda.samgtu_navigation.map.schema.outdoor_object;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.adeda.samgtu_navigation.map.enums.OutdoorObjectType;
-import org.adeda.samgtu_navigation.map.schema.InfoSchema;
+import org.adeda.samgtu_navigation.map.schema.info.InfoCreateSchema;
 
 @Getter
 @Setter
@@ -20,5 +20,5 @@ public class OutdoorObjectCreateSchema {
     private Double longitude;
 
     @NotNull
-    private InfoSchema info;
+    private InfoCreateSchema info;
 }

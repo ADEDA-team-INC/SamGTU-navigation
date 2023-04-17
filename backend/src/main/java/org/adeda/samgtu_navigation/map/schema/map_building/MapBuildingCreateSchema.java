@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.adeda.samgtu_navigation.map.schema.InfoSchema;
+import org.adeda.samgtu_navigation.map.schema.info.InfoCreateSchema;
 
 @Getter
 @Setter
@@ -19,5 +19,5 @@ public class MapBuildingCreateSchema {
     private Double longitude;
 
     @NotNull
-    private InfoSchema info;
+    private InfoCreateSchema info;
 }
