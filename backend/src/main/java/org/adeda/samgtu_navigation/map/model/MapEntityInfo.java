@@ -2,6 +2,7 @@ package org.adeda.samgtu_navigation.map.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.adeda.samgtu_navigation.map.schema.info.InfoCreateSchema;
 
 @Embeddable
 @NoArgsConstructor
@@ -23,4 +24,10 @@ public class MapEntityInfo {
     @NonNull
     @Column(nullable = false)
     private String descriptionKey;
+
+    public MapEntityInfo(InfoCreateSchema schema) {
+        this.imagesUrls = String.join("\n", schema.getImages());
+        this.nameKey = schema.getNameKey();
+        this.descriptionKey = schema.getDescriptionKey();
+    }
 }
