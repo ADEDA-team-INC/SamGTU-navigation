@@ -9,9 +9,11 @@ import org.adeda.samgtu_navigation.map.schema.map_object.BoundingBoxSchema;
 import org.adeda.samgtu_navigation.map.schema.map_object.MapObjectCreateSchema;
 import org.adeda.samgtu_navigation.map.service.MapObjectService;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class MapObjectServiceImpl implements MapObjectService {
     private final MapObjectRepository repository;
     private final MapDomainRepository domainRepository;

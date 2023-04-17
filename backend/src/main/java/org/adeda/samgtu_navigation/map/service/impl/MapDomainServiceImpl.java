@@ -3,16 +3,18 @@ package org.adeda.samgtu_navigation.map.service.impl;
 import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
 import org.adeda.samgtu_navigation.core.exception.EntityDependsException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
-import org.adeda.samgtu_navigation.core.util.Vector2d;
 import org.adeda.samgtu_navigation.map.model.DomainImage;
 import org.adeda.samgtu_navigation.map.model.MapDomain;
 import org.adeda.samgtu_navigation.map.repository.MapBuildingRepository;
 import org.adeda.samgtu_navigation.map.repository.MapDomainRepository;
 import org.adeda.samgtu_navigation.map.schema.map_domain.MapDomainCreateSchema;
 import org.adeda.samgtu_navigation.map.service.MapDomainService;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
+@Service
 public class MapDomainServiceImpl implements MapDomainService {
     private final MapDomainRepository repository;
     private final MapBuildingRepository buildingRepository;
@@ -43,7 +45,8 @@ public class MapDomainServiceImpl implements MapDomainService {
         var domain = new MapDomain(
             building,
             new DomainImage(schema.getImage()),
-            schema.getOrdinalNumber()
+            schema.getOrdinalNumber(),
+            Set.of()
         );
 
         return repository.save(domain);

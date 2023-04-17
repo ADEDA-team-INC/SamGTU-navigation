@@ -14,10 +14,12 @@ import org.adeda.samgtu_navigation.map.schema.map_object.MapObjectInfo;
 import org.adeda.samgtu_navigation.map.schema.map_object.MapObjectSchema;
 import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectSchema;
 import org.adeda.samgtu_navigation.map.service.MapSchemasFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class MapSchemasFactoryImpl implements MapSchemasFactory {
     private final LocalizationService localizationService;
 

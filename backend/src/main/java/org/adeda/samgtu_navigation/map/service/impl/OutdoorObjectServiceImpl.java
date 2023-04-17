@@ -7,10 +7,12 @@ import org.adeda.samgtu_navigation.map.repository.OutdoorObjectRepository;
 import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectCreateSchema;
 import org.adeda.samgtu_navigation.map.service.OutdoorObjectService;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class OutdoorObjectServiceImpl implements OutdoorObjectService {
     private final OutdoorObjectRepository repository;
 
