@@ -14,7 +14,7 @@ import org.adeda.samgtu_navigation.map.schema.map_domain.DomainImageSchema;
 @Getter
 public class DomainImage {
     @NonNull
-    @Column(nullable = false)
+    @Column(columnDefinition = "text", nullable = false)
     private String url;
 
     @NonNull

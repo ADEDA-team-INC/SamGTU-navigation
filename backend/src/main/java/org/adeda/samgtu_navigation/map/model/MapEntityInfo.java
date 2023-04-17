@@ -14,7 +14,7 @@ public class MapEntityInfo {
     // Множество URL адресов изображений,
     // разделенных символом перевода строки (\n)
     @NonNull
-    @Column(nullable = false)
+    @Column(columnDefinition = "text", nullable = false)
     private String imagesUrls;
 
     @NonNull

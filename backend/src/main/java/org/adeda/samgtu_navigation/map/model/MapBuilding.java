@@ -34,6 +34,7 @@ public class MapBuilding {
     @Column(nullable = false)
     private MapEntityInfo info;
 
+    @NonNull
     @OneToMany(mappedBy = "building")
     private Set<MapDomain> domains;
 }
