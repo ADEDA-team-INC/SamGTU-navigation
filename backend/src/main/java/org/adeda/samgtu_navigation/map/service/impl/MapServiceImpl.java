@@ -1,5 +1,6 @@
-package org.adeda.samgtu_navigation.map.service;
+package org.adeda.samgtu_navigation.map.service.impl;
 
+import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 import org.adeda.samgtu_navigation.map.model.MapBuilding;
 import org.adeda.samgtu_navigation.map.model.MapDomain;
 import org.adeda.samgtu_navigation.map.model.MapObject;
@@ -9,58 +10,49 @@ import org.adeda.samgtu_navigation.map.repository.MapDomainRepository;
 import org.adeda.samgtu_navigation.map.repository.MapObjectRepository;
 import org.adeda.samgtu_navigation.map.repository.OutdoorObjectRepository;
 import org.adeda.samgtu_navigation.map.schema.MapSearchResult;
-import org.springframework.data.domain.PageRequest;
+import org.adeda.samgtu_navigation.map.service.MapSchemasFactory;
+import org.adeda.samgtu_navigation.map.service.MapService;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MapServiceImpl implements MapService {
     private final MapBuildingRepository buildingRepository;
-    private final MapDomainRepository domainRepository;
     private final MapObjectRepository mapObjectRepository;
     private final OutdoorObjectRepository outdoorObjectRepository;
+    private final MapSchemasFactory schemasFactory;
 
     public MapServiceImpl(
         MapBuildingRepository buildingRepository,
-        MapDomainRepository domainRepository,
         MapObjectRepository mapObjectRepository,
-        OutdoorObjectRepository outdoorObjectRepository
+        OutdoorObjectRepository outdoorObjectRepository,
+        MapSchemasFactory schemasFactory
     ) {
         this.buildingRepository = buildingRepository;
-        this.domainRepository = domainRepository;
         this.mapObjectRepository = mapObjectRepository;
         this.outdoorObjectRepository = outdoorObjectRepository;
+        this.schemasFactory = schemasFactory;
     }
 
     @Override
-    public List<MapBuilding> getBuildings(int size, int page) {
-        return buildingRepository.findAll(PageRequest.of(page, size)).toList();
-    }
+    public MapSearchResult search(String query, SupportedLanguage language, int limit) {
+        var result = new MapSearchResult();
 
-    @Override
-    public Optional<MapBuilding> getBuildingById(Integer id) {
-        return buildingRepository.findById(id);
-    }
+        result.setMapBuildings(
+            buildingRepository.search(query, limit, 0).stream().map(
+                b -> schemasFactory.getBuildingInfo(b, language)
+            ).toList()
+        );
+        result.setMapObjects(
+            mapObjectRepository.search(query, limit, 0).stream().map(
+                o -> schemasFactory.getObjectInfo(o, language)
+            ).toList()
+        );
+        result.setOutdoorObjects(
+            outdoorObjectRepository.search(query, limit, 0).stream().map(
+                o -> schemasFactory.getOutdoorObjectSchema(o, language)
+            ).toList()
+        );
 
-    @Override
-    public Optional<MapDomain> getDomainById(Integer id) {
-        return domainRepository.findById(id);
-    }
-
-    @Override
-    public Optional<MapObject> getObjectById(Integer id) {
-        return mapObjectRepository.findById(id);
-    }
-
-    @Override
-    public List<OutdoorObject> getOutdoorObjects(int size, int page) {
-        return outdoorObjectRepository.findAll(PageRequest.of(page, size)).toList();
-    }
-
-    @Override
-    public MapSearchResult search(String query) {
-        throw new UnsupportedOperationException();
+        return result;
     }
 }

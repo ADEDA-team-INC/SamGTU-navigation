@@ -1,9 +1,9 @@
-package org.adeda.samgtu_navigation.map.service;
+package org.adeda.samgtu_navigation.map.service.impl;
 
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 import org.adeda.samgtu_navigation.localization.service.LocalizationService;
 import org.adeda.samgtu_navigation.map.model.*;
-import org.adeda.samgtu_navigation.map.schema.InfoSchema;
+import org.adeda.samgtu_navigation.map.schema.info.InfoSchema;
 import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingInfo;
 import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingSchema;
 import org.adeda.samgtu_navigation.map.schema.map_domain.DomainImageSchema;
@@ -13,6 +13,7 @@ import org.adeda.samgtu_navigation.map.schema.map_object.DetailedMapObject;
 import org.adeda.samgtu_navigation.map.schema.map_object.MapObjectInfo;
 import org.adeda.samgtu_navigation.map.schema.map_object.MapObjectSchema;
 import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectSchema;
+import org.adeda.samgtu_navigation.map.service.MapSchemasFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,7 +50,6 @@ public class MapSchemasFactoryImpl implements MapSchemasFactory {
     public MapDomainSchema getDomainSchema(MapDomain domain, SupportedLanguage language) {
         return new MapDomainSchema(
             domain.getId(),
-            domain.getBuilding().getId(),
             new DomainImageSchema(domain.getImage()),
             domain.getMapObjects().stream().map(mapObject -> getObjectSchema(mapObject, language)).toList()
         );
