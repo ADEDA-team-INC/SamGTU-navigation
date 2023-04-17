@@ -7,7 +7,7 @@ info:
 
 
 servers:
-  - url: http://localhost:8080/
+  - url: http://localhost:8080
 
 
 tags:
@@ -110,6 +110,7 @@ paths:
           in: query
           required: true
           schema: { type: string, minLength: 1 }
+        - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/accept_language"
       responses:
         200:
