@@ -89,6 +89,10 @@ paths:
       tags: [Map]
       operationId: getOutdoorObjects
       parameters:
+        - name: type
+          in: query
+          required: false
+          schema: { $ref: "#/components/schemas/outdoor_object_type" }
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/accept_language"
@@ -179,14 +183,14 @@ components:
         positionY: { type: number }
         width: { type: number }
         height: { type: number }
+    map_object_type:
+      type: string
+      enum: [ HALL, ROOM, STAIRS, EXIT ]
     map_object:
       title: MapObject
       properties:
         id: { type: integer }
-        type:
-          type: string
-          enum: [ HALL, ROOM, STAIRS, EXIT ]
-        info: { $ref: "#/components/schemas/info" }
+        type: { $ref: "#/components/schemas/map_object_type" }
         bboxes:
           type: array
           items: { $ref: "#/components/schemas/bounding_box" }
@@ -194,9 +198,7 @@ components:
       title: MapObjectInfo
       properties:
         id: { type: integer }
-        type:
-          type: string
-          enum: [ HALL, ROOM, STAIRS, EXIT ]
+        type: { $ref: "#/components/schemas/map_object_type" }
         info: { $ref: "#/components/schemas/info" }
     detailed_map_object:
       title: DetailedMapObject
@@ -204,9 +206,7 @@ components:
         id: { type: integer }
         mapBuildingId: { type: integer }
         mapDomainId: { type: integer }
-        type:
-          type: string
-          enum: [ HALL, ROOM, STAIRS, EXIT ]
+        type: { $ref: "#/components/schemas/map_object_type" }
         info: { $ref: "#/components/schemas/info" }
     map_building:
       title: MapBuilding
@@ -250,14 +250,15 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/map_object"
+    outdoor_object_type:
+      type: string
+      enum: [ SIGHT, CAFE, SHOP ]
     outdoor_object:
       title: OutdoorObjectInfo
       type: object
       properties:
         id: { type: integer }
-        type:
-          type: string
-          enum: [ SIGHT, CAFE, SHOP ]
+        type: { $ref: "#/components/schemas/outdoor_object_type" }
         latitude: { type: number }
         longitude: { type: number }
         info: { $ref: "#/components/schemas/info" }
