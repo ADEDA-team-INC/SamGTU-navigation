@@ -1,10 +1,15 @@
 
+export interface InfoSchema {
+    images: string[]
+    displayName: string
+    displayDescription: string
+}
+
 export interface MapBuildingSchema {
     id: number
     latitude: number
     longitude: number
-    displayName: string
-    displayDescription: string
+    info: InfoSchema
     domainIds: {
         [key: string]: number
     }
@@ -41,7 +46,40 @@ export interface BoundingBox {
 export interface MapObjectSchema {
     id: number
     type: MapObjectType
-    displayName: string
-    displayDescription: string
+    info: InfoSchema
     bboxes: BoundingBox[]
+}
+
+export interface MapObjectInfo {
+    id: number
+    type: MapObjectType
+    info: InfoSchema
+}
+
+export interface DetailedMapObject {
+    id: number
+    mapBuildingId: number
+    mapDomainId: number
+    type: MapObjectType
+    info: InfoSchema
+}
+
+export enum OutdoorObjectType {
+    Sight = 'SIGHT',
+    Cafe = 'CAFE',
+    Shop = 'SHOP'
+}
+
+export interface OutdoorObjectSchema {
+    id: number
+    type: OutdoorObjectType
+    latitude: number
+    longitude: number
+    info: InfoSchema
+}
+
+export interface MapSearchResult {
+    mapBuildings: MapBuildingSchema[]
+    mapObjects: MapObjectInfo[]
+    outdoorObjects: OutdoorObjectSchema[]
 }
