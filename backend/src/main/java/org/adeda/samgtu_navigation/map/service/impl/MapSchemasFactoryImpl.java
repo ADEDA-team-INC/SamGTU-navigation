@@ -4,7 +4,6 @@ import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 import org.adeda.samgtu_navigation.localization.service.LocalizationService;
 import org.adeda.samgtu_navigation.map.model.*;
 import org.adeda.samgtu_navigation.map.schema.info.InfoSchema;
-import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingInfo;
 import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingSchema;
 import org.adeda.samgtu_navigation.map.schema.map_domain.DomainImageSchema;
 import org.adeda.samgtu_navigation.map.schema.map_domain.MapDomainSchema;
@@ -37,14 +36,6 @@ public class MapSchemasFactoryImpl implements MapSchemasFactory {
             building.getDomains().stream().collect(
                 Collectors.toMap(MapDomain::getOrdinalNumber, MapDomain::getId)
             )
-        );
-    }
-
-    @Override
-    public MapBuildingInfo getBuildingInfo(MapBuilding building, SupportedLanguage language) {
-        return new MapBuildingInfo(
-            building.getId(),
-            getInfoSchema(building.getInfo(), language)
         );
     }
 

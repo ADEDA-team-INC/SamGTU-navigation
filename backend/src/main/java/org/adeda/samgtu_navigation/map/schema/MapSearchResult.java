@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingInfo;
+import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingSchema;
 import org.adeda.samgtu_navigation.map.schema.map_object.MapObjectInfo;
 import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectSchema;
 
@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class MapSearchResult {
     @NotNull
-    private List<MapBuildingInfo> mapBuildings;
+    private List<MapBuildingSchema> mapBuildings;
     @NotNull
     private List<MapObjectInfo> mapObjects;
     @NotNull

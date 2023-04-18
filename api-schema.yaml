@@ -31,7 +31,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: { $ref: "#/components/schemas/map_building_info" }
+                items: { $ref: "#/components/schemas/map_building" }
 
   /map/building/{id}:
     get:
@@ -126,7 +126,7 @@ paths:
                 properties:
                   mapBuildings:
                     type: array
-                    items: { $ref: "#/components/schemas/map_building_info" }
+                    items: { $ref: "#/components/schemas/map_building" }
                   mapObjects:
                     type: array
                     items: { $ref: "#/components/schemas/map_object_info" }
@@ -225,12 +225,6 @@ components:
             "-1": 1
             "1": 2
             "2": 3
-    map_building_info:
-      title: MapBuildingInfo
-      type: object
-      properties:
-        id: { type: integer }
-        info: { $ref: "#/components/schemas/info" }
     map_domain_image:
       title: DomainImage
       type: object
@@ -254,7 +248,7 @@ components:
       type: string
       enum: [ SIGHT, CAFE, SHOP ]
     outdoor_object:
-      title: OutdoorObjectInfo
+      title: OutdoorObject
       type: object
       properties:
         id: { type: integer }
@@ -290,4 +284,3 @@ components:
       in: header
       required: false
       schema: { type: string, default: 'ru-RU' }
-

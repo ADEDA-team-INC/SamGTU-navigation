@@ -39,7 +39,7 @@ public class MapServiceImpl implements MapService {
 
         result.setMapBuildings(
             buildingRepository.search(query, limit, 0).stream().map(
-                b -> schemasFactory.getBuildingInfo(b, language)
+                b -> schemasFactory.getBuildingSchema(b, language)
             ).toList()
         );
         result.setMapObjects(
