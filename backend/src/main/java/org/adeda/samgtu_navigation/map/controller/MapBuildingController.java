@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
-import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingInfo;
 import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingSchema;
 import org.adeda.samgtu_navigation.map.service.MapBuildingService;
 import org.adeda.samgtu_navigation.map.service.MapSchemasFactory;
@@ -27,14 +26,14 @@ public class MapBuildingController {
     }
 
     @GetMapping("/buildings")
-    public List<MapBuildingInfo> getMapBuildings(
+    public List<MapBuildingSchema> getMapBuildings(
         @RequestParam(defaultValue = "10") @NotNull @Min(1) Integer size,
         @RequestParam(defaultValue = "0") @NotNull @Min(0) Integer page,
         HttpServletRequest request
     ) {
         var language = SupportedLanguage.fromRequest(request);
         return service.getAll(size, page).stream().map(
-            b -> schemasFactory.getBuildingInfo(b, language)
+            b -> schemasFactory.getBuildingSchema(b, language)
         ).toList();
     }
 
