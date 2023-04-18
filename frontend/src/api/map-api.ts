@@ -1,104 +1,37 @@
 import defines from '../defines'
-import { delay } from '../utils'
-import { MapBuildingSchema, MapDomainSchema, MapObjectType } from '../schemas/map-schemas'
-
-const buildings = new Map<number, MapBuildingSchema>([
-    [1, {
-        id: 1,
-        latitude: 0.0,
-        longitude: 0.0,
-        displayName: 'Корпус №8',
-        displayDescription: 'Молодогвардейская ул., 244',
-        domainIds: { '-1': 1, '1': 2 }
-    }],
-    [2, {
-        id: 2,
-        latitude: 0.0,
-        longitude: 0.0,
-        displayName: 'Корпус №9',
-        displayDescription: 'Ново-Садовая ул., 10',
-        domainIds: { '1': 3, '2': 4 }
-    }],
-    [3, {
-        id: 3,
-        latitude: 0.0,
-        longitude: 0.0,
-        displayName: 'Корпус №14',
-        displayDescription: 'Ново-Садовая ул., 14',
-        domainIds: {}
-    }]
-])
-
-const domains = new Map<number, MapDomainSchema>([
-    [1, {
-        id: 1,
-        mapBuildingId: 1,
-        image: {
-            url: '',
-            width: 100.0,
-            offsetX: 0.0,
-            offsetY: 0.0
-        },
-        mapObjects: [
-            { id: 1, type: MapObjectType.Room, displayName: 'Аудитория 1', displayDescription: '', bboxes: [] }
-        ]
-    }],
-    [2, {
-        id: 2,
-        mapBuildingId: 1,
-        image: {
-            url: '',
-            width: 100.0,
-            offsetX: 0.0,
-            offsetY: 0.0
-        },
-        mapObjects: [
-            { id: 1, type: MapObjectType.Room, displayName: 'Аудитория 101', displayDescription: '', bboxes: [] }
-        ]
-    }],
-    [3, {
-        id: 3,
-        mapBuildingId: 1,
-        image: {
-            url: '',
-            width: 100.0,
-            offsetX: 0.0,
-            offsetY: 0.0
-        },
-        mapObjects: [
-            { id: 1, type: MapObjectType.Room, displayName: 'Аудитория 100', displayDescription: 'Преподовательская', bboxes: [] }
-        ]
-    }],
-    [4, {
-        id: 4,
-        mapBuildingId: 1,
-        image: {
-            url: '',
-            width: 100.0,
-            offsetX: 0.0,
-            offsetY: 0.0
-        },
-        mapObjects: [
-            { id: 1, type: MapObjectType.Room, displayName: 'Аудитория 201', displayDescription: 'Лекционная', bboxes: [] }
-        ]
-    }],
-])
+import { DetailedMapObject, MapBuildingSchema, MapDomainSchema, MapObjectType, MapSearchResult, OutdoorObjectSchema, OutdoorObjectType } from '../schemas/map-schemas'
+import apiUtils from '../utils/api-utils'
 
 export async function fetchBuildings(page: number) {
-    let ids = Array.from(buildings.keys())
-    ids = ids.slice(page * defines.FETCH_PAGE_SIZE, (page + 1) * defines.FETCH_PAGE_SIZE)
-
-    await delay(500)
-
-    return ids.map((id) => buildings.get(id) as MapBuildingSchema)
+    return await apiUtils.get('map/buildings', {
+        size: defines.FETCH_PAGE_SIZE.toString(),
+        page: page.toString()
+    }) as MapBuildingSchema[]
 }
 
 export async function fetchBuildingById(id: number) {
-    await delay(500)
-    return buildings.get(id)
+    return await apiUtils.get(`map/building/${id}`, {}) as MapBuildingSchema
 }
 
 export async function fetchDomainById(id: number) {
-    await delay(500)
-    return domains.get(id)
+    return await apiUtils.get(`map/domain/${id}`, {}) as MapDomainSchema
+}
+
+export async function fetchMapObjectById(id: number) {
+    return await apiUtils.get(`map/object/${id}`, {}) as DetailedMapObject
+}
+
+export async function fetchOutdoorObjects(type: OutdoorObjectType | null, page: number) {
+    return await apiUtils.get('map/buildings', {
+        type,
+        size: defines.FETCH_PAGE_SIZE.toString(),
+        page: page.toString()
+    }) as OutdoorObjectSchema[]
+}
+
+export async function search(query: string) {
+    return await apiUtils.get('map/search', {
+        query,
+        size: defines.FETCH_PAGE_SIZE.toString()
+    }) as MapSearchResult
 }
