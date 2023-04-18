@@ -1,10 +1,10 @@
 import { RouteRecordRaw } from 'vue-router'
-import ObjectsCard from '../components/cards/ObjectsCard.vue'
-import BuildingListCard from '../components/cards/BuildingsListCard.vue'
-import BuildingCard from '../components/cards/BuildingCard.vue'
-import DomainCard from '../components/cards/DomainCard.vue'
-import MapObjectCard from '../components/cards/MapObjectCard.vue'
-import OutdoorObjectCard from '../components/cards/OutdoorObjectCard.vue'
+import ObjectsCard from './views/cards/ObjectsCard.vue'
+import BuildingListCard from './views/cards/BuildingsListCard.vue'
+import BuildingCard from './views/cards/BuildingCard.vue'
+import DomainCard from './views/cards/DomainCard.vue'
+import MapObjectCard from './views/cards/MapObjectCard.vue'
+import OutdoorObjectCard from './views/cards/OutdoorObjectCard.vue'
 
 const routes: RouteRecordRaw[] = [
     { path: '/', component: ObjectsCard },

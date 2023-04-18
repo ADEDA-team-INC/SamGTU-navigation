@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
-import mainRoute from './routes/cards-routes'
+import mainRoute from './routes'
 import './scss/style.scss'
 import App from './App.vue'
 
