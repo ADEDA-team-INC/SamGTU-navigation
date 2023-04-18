@@ -5,7 +5,12 @@ export interface InfoSchema {
     displayDescription: string
 }
 
-export interface MapBuildingSchema {
+export interface MapEntity {
+    id: number
+    info: InfoSchema
+}
+
+export interface MapBuildingSchema extends MapEntity {
     id: number
     latitude: number
     longitude: number
@@ -43,20 +48,20 @@ export interface BoundingBox {
     height: number
 }
 
-export interface MapObjectSchema {
+export interface MapObjectSchema extends MapEntity {
     id: number
     type: MapObjectType
     info: InfoSchema
     bboxes: BoundingBox[]
 }
 
-export interface MapObjectInfo {
+export interface MapObjectInfo extends MapEntity {
     id: number
     type: MapObjectType
     info: InfoSchema
 }
 
-export interface DetailedMapObject {
+export interface DetailedMapObject extends MapEntity {
     id: number
     mapBuildingId: number
     mapDomainId: number
@@ -70,7 +75,7 @@ export enum OutdoorObjectType {
     Shop = 'SHOP'
 }
 
-export interface OutdoorObjectSchema {
+export interface OutdoorObjectSchema extends MapEntity {
     id: number
     type: OutdoorObjectType
     latitude: number
