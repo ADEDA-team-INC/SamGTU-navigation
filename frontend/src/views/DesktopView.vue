@@ -12,7 +12,7 @@
 </template>
 
 <style scoped lang="scss">
-@import "../scss/defines";
+@import "../scss/style";
 
 aside {
     width: $sidebar-width;
