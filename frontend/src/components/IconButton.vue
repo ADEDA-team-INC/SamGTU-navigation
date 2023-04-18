@@ -6,7 +6,7 @@
 </template>
 
 <style scoped lang="scss">
-@import "../scss/defines";
+@import "../scss/style";
 
 .icon-button {
     min-width: $icon-button-min-width;
