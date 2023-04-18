@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
+import org.adeda.samgtu_navigation.map.enums.OutdoorObjectType;
 import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectSchema;
 import org.adeda.samgtu_navigation.map.service.MapSchemasFactory;
 import org.adeda.samgtu_navigation.map.service.OutdoorObjectService;
@@ -28,12 +29,13 @@ public class OutdoorObjectController {
 
     @GetMapping("/outdoor_objects")
     public List<OutdoorObjectSchema> getOutdoorObjects(
+        @RequestParam(required = false) OutdoorObjectType type,
         @RequestParam(defaultValue = "10") @NotNull @Min(1) Integer size,
         @RequestParam(defaultValue = "0") @NotNull @Min(0) Integer page,
         HttpServletRequest request
     ) throws NotFoundException {
         var language = SupportedLanguage.fromRequest(request);
-        return service.getAll(size, page).stream().map(
+        return service.getAll(type, size, page).stream().map(
             o -> schemasFactory.getOutdoorObjectSchema(o, language)
         ).toList();
     }

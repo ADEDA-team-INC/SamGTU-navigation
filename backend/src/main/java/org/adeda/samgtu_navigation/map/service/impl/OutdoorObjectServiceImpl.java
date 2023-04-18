@@ -1,6 +1,8 @@
 package org.adeda.samgtu_navigation.map.service.impl;
 
+import jakarta.annotation.Nullable;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
+import org.adeda.samgtu_navigation.map.enums.OutdoorObjectType;
 import org.adeda.samgtu_navigation.map.model.MapEntityInfo;
 import org.adeda.samgtu_navigation.map.model.OutdoorObject;
 import org.adeda.samgtu_navigation.map.repository.OutdoorObjectRepository;
@@ -33,8 +35,8 @@ public class OutdoorObjectServiceImpl implements OutdoorObjectService {
     }
 
     @Override
-    public List<OutdoorObject> getAll(int size, int page) {
-        return repository.findAll(PageRequest.of(page, size)).toList();
+    public List<OutdoorObject> getAll(@Nullable OutdoorObjectType type, int size, int page) {
+        return repository.findAll(type, PageRequest.of(page, size));
     }
 
     @Override

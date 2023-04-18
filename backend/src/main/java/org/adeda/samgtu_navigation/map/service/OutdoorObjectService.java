@@ -1,6 +1,8 @@
 package org.adeda.samgtu_navigation.map.service;
 
+import jakarta.annotation.Nullable;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
+import org.adeda.samgtu_navigation.map.enums.OutdoorObjectType;
 import org.adeda.samgtu_navigation.map.model.OutdoorObject;
 import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectCreateSchema;
 
@@ -10,7 +12,7 @@ import java.util.Optional;
 public interface OutdoorObjectService {
     OutdoorObject create(OutdoorObjectCreateSchema schema);
 
-    List<OutdoorObject> getAll(int size, int page);
+    List<OutdoorObject> getAll(@Nullable OutdoorObjectType type, int size, int page);
 
     Optional<OutdoorObject> getById(Integer id);
 
