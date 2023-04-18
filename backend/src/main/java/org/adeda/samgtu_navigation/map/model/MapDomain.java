@@ -35,6 +35,7 @@ public class MapDomain {
     @Column(nullable = false)
     private Integer ordinalNumber;
 
+    @NonNull
     @OneToMany(mappedBy = "domain")
     private Set<MapObject> mapObjects;
 }

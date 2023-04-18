@@ -1,4 +1,4 @@
-package org.adeda.samgtu_navigation.map.schema;
+package org.adeda.samgtu_navigation.map.schema.map_object;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -29,5 +29,9 @@ public class BoundingBoxSchema {
         this.positionY = rect.getPosition().getY();
         this.width = rect.getWidth();
         this.height = rect.getHeight();
+    }
+
+    public Rect asRect() {
+        return new Rect(getPositionX(), getPositionY(), getWidth(), getHeight());
     }
 }

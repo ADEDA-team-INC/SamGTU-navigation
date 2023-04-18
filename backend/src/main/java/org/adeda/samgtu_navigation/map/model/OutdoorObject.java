@@ -2,7 +2,6 @@ package org.adeda.samgtu_navigation.map.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.adeda.samgtu_navigation.map.enums.MapObjectType;
 import org.adeda.samgtu_navigation.map.enums.OutdoorObjectType;
 
 @Entity
@@ -30,9 +29,14 @@ public class OutdoorObject {
 
     @NonNull
     @Column(nullable = false)
-    private String displayName;
+    private Double latitude;
 
     @NonNull
     @Column(nullable = false)
-    private String displayDescription;
+    private Double longitude;
+
+    @NonNull
+    @Embedded
+    @Column(nullable = false)
+    private MapEntityInfo info;
 }

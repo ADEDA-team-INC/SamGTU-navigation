@@ -3,12 +3,13 @@ package org.adeda.samgtu_navigation.navigation.service;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.map.repository.MapBuildingRepository;
 import org.adeda.samgtu_navigation.navigation.graph.Graph;
-import org.adeda.samgtu_navigation.navigation.graph.GraphFactory;
 import org.adeda.samgtu_navigation.navigation.repository.NodeRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class GraphServiceImpl implements GraphService {
     private final Map<Integer, Graph> graphByBuildingId;
     private final GraphFactory graphFactory;

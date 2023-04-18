@@ -7,7 +7,7 @@ info:
 
 
 servers:
-  - url: http://localhost:8080/
+  - url: http://localhost:8080
 
 
 tags:
@@ -19,10 +19,11 @@ paths:
   /map/buildings:
     get:
       tags: [Map]
-      operationId: getAllMapBuildings
+      operationId: getMapBuildings
       parameters:
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/accept_language"
       responses:
         200:
           description: Operation went successfully
@@ -30,17 +31,15 @@ paths:
             application/json:
               schema:
                 type: array
-                items: { $ref: "#/components/schemas/map_building" }
+                items: { $ref: "#/components/schemas/map_building_info" }
 
   /map/building/{id}:
     get:
       tags: [Map]
       operationId: getMapBuildingById
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema: { type: integer }
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/accept_language"
       responses:
         200:
           description: Operation went successfully
@@ -56,10 +55,8 @@ paths:
       tags: [Map]
       operationId: getMapDomainById
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema: { type: integer }
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/accept_language"
       responses:
         200:
           description: Operation went successfully
@@ -70,13 +67,35 @@ paths:
         404:
           description: Map domain was not found
   
+  /map/object/{id}:
+    get:
+      tags: [Map]
+      operationId: getMapObjectById
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/accept_language"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/detailed_map_object"
+                
   /map/outdoor_objects:
     get:
       tags: [Map]
-      operationId: getAllOutdoorObjects
+      operationId: getOutdoorObjects
       parameters:
+        - name: type
+          in: query
+          required: false
+          schema: { $ref: "#/components/schemas/outdoor_object_type" }
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/accept_language"
       responses:
         200:
           description: Operation went successfully
@@ -85,7 +104,36 @@ paths:
               schema:
                 type: array
                 items: { $ref: "#/components/schemas/outdoor_object" }
-                
+
+  /map/search:
+    get:
+      tags: [Map]
+      operationId: searchMapEntities
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema: { type: string, minLength: 1 }
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/accept_language"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mapBuildings:
+                    type: array
+                    items: { $ref: "#/components/schemas/map_building_info" }
+                  mapObjects:
+                    type: array
+                    items: { $ref: "#/components/schemas/map_object_info" }
+                  outdoorObjects:
+                    type: array
+                    items: { $ref: "#/components/schemas/outdoor_object" }
+          
   /navigation:
     post:
       tags: [ Navigation ]
@@ -114,10 +162,19 @@ paths:
             is beyond of map object bounds.
         404:
           description: Unable to find path or given map objects don't exist
-      
+
 
 components:
   schemas:
+    info:
+      title: Info
+      type: object
+      properties:
+        images:
+          type: array
+          items: { type: string }
+        displayName: { type: string }
+        displayDescription: { type: string }
     bounding_box:
       title: BoundingBox
       type: object
@@ -126,18 +183,31 @@ components:
         positionY: { type: number }
         width: { type: number }
         height: { type: number }
+    map_object_type:
+      type: string
+      enum: [ HALL, ROOM, STAIRS, EXIT ]
     map_object:
       title: MapObject
       properties:
         id: { type: integer }
-        type:
-          type: string
-          enum: [ HALL, ROOM, STAIRS, EXIT ]
-        displayName: { type: string }
-        displayDescription: { type: string }
+        type: { $ref: "#/components/schemas/map_object_type" }
         bboxes:
           type: array
-          items: { $ref: "#/components/schemas/bounding_box"}
+          items: { $ref: "#/components/schemas/bounding_box" }
+    map_object_info:
+      title: MapObjectInfo
+      properties:
+        id: { type: integer }
+        type: { $ref: "#/components/schemas/map_object_type" }
+        info: { $ref: "#/components/schemas/info" }
+    detailed_map_object:
+      title: DetailedMapObject
+      properties:
+        id: { type: integer }
+        mapBuildingId: { type: integer }
+        mapDomainId: { type: integer }
+        type: { $ref: "#/components/schemas/map_object_type" }
+        info: { $ref: "#/components/schemas/info" }
     map_building:
       title: MapBuilding
       type: object
@@ -145,8 +215,7 @@ components:
         id: { type: integer }
         latitude: { type: number }
         longitude: { type: number }
-        displayName: { type: string }
-        displayDescription: { type: string }
+        info: { $ref: "#/components/schemas/info" }
         domainIds:
           description: Key is ordinal number of floor, value is id of domain
           type: object
@@ -156,6 +225,12 @@ components:
             "-1": 1
             "1": 2
             "2": 3
+    map_building_info:
+      title: MapBuildingInfo
+      type: object
+      properties:
+        id: { type: integer }
+        info: { $ref: "#/components/schemas/info" }
     map_domain_image:
       title: DomainImage
       type: object
@@ -169,25 +244,24 @@ components:
       type: object
       properties:
         id: { type: integer }
-        mapBuildingId: { type: integer }
         image:
           $ref: "#/components/schemas/map_domain_image"
         mapObjects:
           type: array
           items:
             $ref: "#/components/schemas/map_object"
+    outdoor_object_type:
+      type: string
+      enum: [ SIGHT, CAFE, SHOP ]
     outdoor_object:
-      title: OutdoorObject
+      title: OutdoorObjectInfo
       type: object
       properties:
         id: { type: integer }
-        type:
-          type: string
-          enum: [ SIGHT, CAFE, SHOP ]
+        type: { $ref: "#/components/schemas/outdoor_object_type" }
         latitude: { type: number }
         longitude: { type: number }
-        displayName: { type: string }
-        displayDescription: { type: string }
+        info: { $ref: "#/components/schemas/info" }
     nav_point:
       title: NavigationPoint
       type: object
@@ -196,6 +270,11 @@ components:
         positionY: { type: number }
         mapObjectId: { type: integer }
   parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema: { type: integer }
     size:
       name: size
       in: query
@@ -206,3 +285,9 @@ components:
       in: query
       required: false
       schema: { type: integer, default: 0 }
+    accept_language:
+      name: Accept-Language
+      in: header
+      required: false
+      schema: { type: string, default: 'ru-RU' }
+

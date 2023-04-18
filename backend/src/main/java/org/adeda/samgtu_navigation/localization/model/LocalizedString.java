@@ -1,40 +1,39 @@
-package org.adeda.samgtu_navigation.map.model;
+package org.adeda.samgtu_navigation.localization.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.Set;
+import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 
 @Entity
-@Table(name = "map_buildings")
+@Table(name = "localization", indexes = {
+    @Index(columnList = "key, language", unique = true)
+})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Setter
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
-public class MapBuilding {
+public class LocalizedString {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Setter(AccessLevel.PRIVATE)
     @EqualsAndHashCode.Include
-    @ToString.Include
     private Integer id;
 
     @NonNull
+    @Enumerated
     @Column(nullable = false)
-    private Double latitude;
+    private SupportedLanguage language;
 
     @NonNull
     @Column(nullable = false)
-    private Double longitude;
+    private String configName;
 
     @NonNull
-    @Embedded
     @Column(nullable = false)
-    private MapEntityInfo info;
+    private String key;
 
     @NonNull
-    @OneToMany(mappedBy = "building")
-    private Set<MapDomain> domains;
+    @Column(columnDefinition = "text", nullable = false)
+    private String text;
 }

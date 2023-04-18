@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import lombok.*;
 import org.adeda.samgtu_navigation.core.util.Vector2d;
+import org.adeda.samgtu_navigation.map.schema.map_domain.DomainImageSchema;
 
 @Embeddable
 @NoArgsConstructor
@@ -13,7 +14,7 @@ import org.adeda.samgtu_navigation.core.util.Vector2d;
 @Getter
 public class DomainImage {
     @NonNull
-    @Column(nullable = false)
+    @Column(columnDefinition = "text", nullable = false)
     private String url;
 
     @NonNull
@@ -23,4 +24,10 @@ public class DomainImage {
     @NonNull
     @Embedded
     private Vector2d offset;
+
+    public DomainImage(DomainImageSchema schema) {
+        this.url = schema.getUrl();
+        this.width = schema.getWidth();
+        this.offset = new Vector2d(schema.getOffsetX(), schema.getOffsetY());
+    }
 }

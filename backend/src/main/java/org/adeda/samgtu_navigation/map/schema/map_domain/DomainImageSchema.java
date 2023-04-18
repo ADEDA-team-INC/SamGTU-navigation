@@ -1,4 +1,4 @@
-package org.adeda.samgtu_navigation.map.schema;
+package org.adeda.samgtu_navigation.map.schema.map_domain;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

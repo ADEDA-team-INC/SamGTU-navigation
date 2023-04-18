@@ -1,41 +1,16 @@
 package org.adeda.samgtu_navigation.map.service;
 
-import org.adeda.samgtu_navigation.map.schema.MapBuildingSchema;
-import org.adeda.samgtu_navigation.map.schema.MapDomainSchema;
-import org.adeda.samgtu_navigation.map.schema.OutdoorObjectSchema;
-
-import java.util.List;
-import java.util.Optional;
+import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
+import org.adeda.samgtu_navigation.map.schema.MapSearchResult;
 
 public interface MapService {
     /**
-     * Получить все здания на карте. Поддерживает пагинацию
-     * @param size размер страницы
-     * @param page номер страницы
-     * @return Список всех зданий с учетом текущей страницы
+     * Метод поиска сущностей на карте по запросу. Поиск идет по вхождению запроса в отображаемое имя или описание
+     * объектов.
+     * @param query текстовая строка запроса
+     * @param language язык, на котором нужно выводить содержания объектов
+     * @param limit ограничение на максимальное кол-во объектов каждого типа отдельно
+     * @return Результат поиска для каждого отдельного вида сущности (MapBuilding, MapObject, OutdoorObject)
      */
-    List<MapBuildingSchema> getAllBuildings(int size, int page);
-
-    /**
-     * Получения объекта здания на карте
-     * @param id идентификатор здания
-     *
-     * @return Объект здания `MapBuildingSchema`.
-     */
-    Optional<MapBuildingSchema> getBuildingById(Integer id);
-
-    /**
-     * Получения объекта пространства на карте
-     * @param id идентификатор пространства
-     * @return Объект пространства `MapDomainSchema`.
-     */
-    Optional<MapDomainSchema> getDomainById(Integer id);
-
-    /**
-     * Получить все уличные объекты на карте. Поддерживает пагинацию
-     * @param size размер страницы
-     * @param page номер страницы
-     * @return Список всех уличных объектов с учетом текущей страницы
-     */
-    List<OutdoorObjectSchema> getAllOutdoorObjects(int size, int page);
+    MapSearchResult search(String query, SupportedLanguage language, int limit);
 }

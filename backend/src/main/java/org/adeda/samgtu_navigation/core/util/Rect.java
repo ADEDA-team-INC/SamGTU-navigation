@@ -16,6 +16,13 @@ public class Rect {
     private double width;
     private double height;
 
+    public Rect() {
+        this.positionX = 0.0;
+        this.positionY = 0.0;
+        this.width = 0.0;
+        this.height = 0.0;
+    }
+
     public Rect(Vector2d position, Vector2d size) {
         setPosition(position);
         setSize(size);
