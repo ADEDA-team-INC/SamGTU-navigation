@@ -13,6 +13,7 @@ servers:
 tags:
   - name: Map
   - name: Navigation
+  - name: Admin
 
 
 paths:
@@ -163,6 +164,173 @@ paths:
         404:
           description: Unable to find path or given map objects don't exist
 
+  /admin/map/building:
+    post:
+      tags: [ Admin ]
+      operationId: createMapBuilding
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_building_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_building" }
+      
+  /admin/map/building/{id}:
+    put:
+      tags: [ Admin ]
+      operationId: updateMapBuildingById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_building_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_building" }
+
+    delete:
+      tags: [ Admin ]
+      operationId: deleteMapBuildingById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+  
+  /admin/map/building/{id}/domain:
+    post:
+      tags: [ Admin ]
+      operationId: createMapDomain
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_domain_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_domain" }
+  
+  /admin/map/domain/{id}:
+    put:
+      tags: [ Admin ]
+      operationId: updateMapDomainById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_domain_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_domain" }
+
+    delete:
+      tags: [ Admin ]
+      operationId: deleteMapDomainById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+  
+  /admin/map/domain/{id}/object:
+    post:
+      tags: [ Admin ]
+      operationId: createMapObject
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_object_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_object" }
+  
+  /admin/map/object/{id}:
+    put:
+      tags: [ Admin ]
+      operationId: updateMapObjectById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_object_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_object" }
+  
+    delete:
+      tags: [ Admin ]
+      operationId: deleteMapObjectById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+  
+  /admin/map/outdoor_object:
+    post:
+      tags: [ Admin ]
+      operationId: createOutdoorObject
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/outdoor_object_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/outdoor_object" }
+  
+  /admin/map/outdoor_object/{id}:
+    put:
+      tags: [ Admin ]
+      operationId: updateOutdoorObjectId
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_object_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_object" }
+
+    delete:
+      tags: [ Admin ]
+      operationId: deleteOutdoorObjectById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
 
 components:
   schemas:
@@ -208,6 +376,14 @@ components:
         mapDomainId: { type: integer }
         type: { $ref: "#/components/schemas/map_object_type" }
         info: { $ref: "#/components/schemas/info" }
+    map_object_create_schema:
+      title: MapObjectCreateSchema
+      properties:
+        type: { $ref: "#/components/schemas/map_object_type" }
+        info: { $ref: "#/components/schemas/info" }
+        bboxes:
+          type: array
+          items: { $ref: "#/components/schemas/bounding_box" }
     map_building:
       title: MapBuilding
       type: object
@@ -225,6 +401,13 @@ components:
             "-1": 1
             "1": 2
             "2": 3
+    map_building_create_schema:
+      title: MapBuildingCreateSchema
+      type: object
+      properties:
+        latitude: { type: number }
+        longitude: { type: number }
+        info: { $ref: "#/components/schemas/info" }
     map_domain_image:
       title: DomainImage
       type: object
@@ -244,6 +427,12 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/map_object"
+    map_domain_create_schema:
+      title: MapDomainCreateSchema
+      type: object
+      properties:
+        ordinalNumber: { type: integer }
+        image: { $ref: "#/components/schemas/map_domain_image" }
     outdoor_object_type:
       type: string
       enum: [ SIGHT, CAFE, SHOP ]
@@ -252,6 +441,14 @@ components:
       type: object
       properties:
         id: { type: integer }
+        type: { $ref: "#/components/schemas/outdoor_object_type" }
+        latitude: { type: number }
+        longitude: { type: number }
+        info: { $ref: "#/components/schemas/info" }
+    outdoor_object_create_schema:
+      title: OutdoorObjectCreateSchema
+      type: object
+      properties:
         type: { $ref: "#/components/schemas/outdoor_object_type" }
         latitude: { type: number }
         longitude: { type: number }
