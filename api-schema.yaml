@@ -399,14 +399,15 @@ paths:
     delete:
       tags: [ Localization ]
       operationId: deleteLocalizedString
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                key: { type: string }
-                language: { type: string, example: ru-RU }
+      parameters:
+        - name: key
+          in: query
+          required: true
+          schema: { type: string, minLength: 1 }
+        - name: lang
+          in: query
+          required: true
+          schema: { type: string, example: ru-RU }
       responses:
         200:
           description: Operation went successfully
