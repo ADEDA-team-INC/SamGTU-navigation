@@ -1,10 +1,13 @@
 package org.adeda.samgtu_navigation.localization.service;
 
+import jakarta.annotation.Nullable;
 import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 import org.adeda.samgtu_navigation.localization.model.LocalizedString;
+import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface LocalizationService {
@@ -17,6 +20,19 @@ public interface LocalizationService {
      * @throws AlreadyExistsException Если строка с данным ключом и языком уже существует
      */
     LocalizedString create(String key, String text, SupportedLanguage language) throws AlreadyExistsException;
+
+    /**
+     * Метод поиска локализованных строк
+     * @param key Подстрока, по которой нужно искать строки. Если равен `null`, то не учитывается в поиске.
+     * @param language Язык строк, по которому нужно их искать. Если равен `null`, то не учитывается в поискею
+     * @param pageable Объект страницы
+     * @return Список локализованных строк, подходящих по критериям и отсортированных по id.
+     */
+    List<LocalizedString> search(
+        @Nullable String key,
+        @Nullable SupportedLanguage language,
+        Pageable pageable
+    );
 
     /**
      * Метод получения локализованной(переведенной) строки.
