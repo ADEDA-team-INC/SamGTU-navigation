@@ -35,10 +35,10 @@ export interface MapDomainSchema {
 }
 
 export enum MapObjectType {
-    Hall = 'Hall',
-    Room = 'Room',
-    Stairs = 'Stairs',
-    Exit = 'Exit'
+    Hall = 'HALL',
+    Room = 'ROOM',
+    Stairs = 'STAIRS',
+    Exit = 'EXIT'
 }
 
 export interface BoundingBox {
