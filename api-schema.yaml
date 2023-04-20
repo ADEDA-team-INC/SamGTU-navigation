@@ -199,9 +199,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/detailed_map_object"
+                $ref: "#/components/schemas/detailed_map_object"
   
   /admin/map/domain/{id}/object:
     post:
@@ -266,6 +264,21 @@ paths:
               schema:
                 type: array
                 items: { $ref: "#/components/schemas/outdoor_object" }
+
+  /map/outdoor_object/{id}:
+    get:
+      tags: [ OutdoorObject ]
+      operationId: getOutdoorObjectById
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/accept_language"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/outdoor_object"
 
   /admin/map/outdoor_object:
     post:
