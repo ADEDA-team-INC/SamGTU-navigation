@@ -1,12 +1,15 @@
 package org.adeda.samgtu_navigation.localization.service;
 
+import jakarta.annotation.Nullable;
 import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 import org.adeda.samgtu_navigation.localization.model.LocalizedString;
 import org.adeda.samgtu_navigation.localization.repository.LocalizedStringRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +32,15 @@ public class LocalizationServiceImpl implements LocalizationService {
         );
 
         return repository.save(str);
+    }
+
+    @Override
+    public List<LocalizedString> search(
+        @Nullable String key,
+        @Nullable SupportedLanguage language,
+        Pageable pageable
+    ) {
+        return repository.search(key, language, pageable.getPageSize(), (int)pageable.getOffset());
     }
 
     @Override

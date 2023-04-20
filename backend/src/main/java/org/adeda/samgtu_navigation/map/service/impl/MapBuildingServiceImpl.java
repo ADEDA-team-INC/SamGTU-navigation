@@ -37,8 +37,8 @@ public class MapBuildingServiceImpl implements MapBuildingService {
     }
 
     @Override
-    public List<MapBuilding> getAll(int size, int page) {
-        return repository.findAll(PageRequest.of(page, size)).toList();
+    public List<MapBuilding> getAll(Pageable pageable) {
+        return repository.findAll(pageable).toList();
     }
 
     @Override
