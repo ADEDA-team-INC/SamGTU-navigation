@@ -9,6 +9,7 @@ import org.adeda.samgtu_navigation.map.enums.OutdoorObjectType;
 import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectSchema;
 import org.adeda.samgtu_navigation.map.service.MapSchemasFactory;
 import org.adeda.samgtu_navigation.map.service.OutdoorObjectService;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +36,7 @@ public class OutdoorObjectController {
         HttpServletRequest request
     ) throws NotFoundException {
         var language = SupportedLanguage.fromRequest(request);
-        return service.getAll(type, size, page).stream().map(
+        return service.getAll(type, PageRequest.of(page, size)).stream().map(
             o -> schemasFactory.getOutdoorObjectSchema(o, language)
         ).toList();
     }
