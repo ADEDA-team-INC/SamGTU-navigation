@@ -1,9 +1,6 @@
 <template>
     <div class="small-card" v-if="info !== null">
-        <div
-            class="thumbnail"
-            :style="{backgroundImage: `url(${info.images[0] ?? ''})`}"
-        ></div>
+        <img :src="info.images[0] ?? ''" class="thumbnail" />
         <div class="flex-grow-1">
             <h4>{{ info.displayName  }}</h4>
             <span>{{ info.displayDescription }}</span>
@@ -29,8 +26,9 @@
     cursor: pointer;
 
     .thumbnail {
-        min-width: $thumbnail-width;
-        min-height: $thumbnail-height;
+        display: inline-block;
+        width: $thumbnail-width;
+        height: $thumbnail-height;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
