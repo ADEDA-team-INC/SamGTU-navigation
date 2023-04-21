@@ -337,6 +337,101 @@ paths:
         404:
           description: Unable to find path or given map objects don't exist
 
+  /admin/node:
+    post:
+      tags: [ Navigation ]
+      operationId: createNavNode
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/nav_node_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/nav_node" }
+        400:
+          description: Node position isn't inside of given map object bounds
+        404:
+          description: |
+            One of the nodes specified in `connections_ids` doesn't exist or map object with
+            `map_object_id` doesn't exist.
+
+  /admin/node/{id}:
+    get:
+      tags: [ Navigation ]
+      operationId: getNavNodeById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/nav_node" }
+
+    put:
+      tags: [ Navigation ]
+      operationId: updateNavNodeById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/nav_node_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/nav_node" }
+        400:
+          description: Node position isn't inside of given map object bounds
+        404:
+          description: |
+            One of the nodes specified in `connections_ids` doesn't exist or map object with
+            `map_object_id` doesn't exist.
+
+    delete:
+      tags: [ Navigation ]
+      operationId: deleteNavNodeById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+  
+  /admin/map/domain/{id}/nodes:
+    get:
+      tags: [ Navigation ]
+      operationId: getNodesFromDomain
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/nav_node" }
+  
+  /admin/map/object/{id}/nodes:
+    get:
+      tags: [ Navigation ]
+      operationId: getNodesFromMapObject
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/nav_node" }
+  
   /admin/localization/strings:
     get:
       tags: [ Localization ]
@@ -554,6 +649,28 @@ components:
         positionX: { type: number }
         positionY: { type: number }
         mapObjectId: { type: integer }
+    nav_node:
+      title: NavNode
+      type: object
+      properties:
+        id: { type: integer }
+        map_object_id: { type: integer }
+        position_x: { type: number }
+        position_y: { type: number }
+        connections_ids:
+          type: array
+          items: { type: integer }
+    nav_node_create_schema:
+      title: NavNodeCreateSchema
+      type: object
+      properties:
+        map_object_id: { type: integer }
+        position_x: { type: number }
+        position_y: { type: number }
+        connections_ids:
+          type: array
+          items: { type: integer }
+      required: [ position_x, position_y, connections_ids ]
     localized_string:
       title: LocalizedString
       type: object
