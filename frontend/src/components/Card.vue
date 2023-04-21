@@ -7,18 +7,25 @@
                     :class="{ active: index == 0 }"
                     v-for="(image, index) in entity.info.images"
                 >
-                    <div
-                        class="carousel-image"
-                        :style="{
-                            backgroundImage: `url(${image})`
-                        }"
-                    ></div>
+                    <img :src="image" class="carousel-image" />
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target=".card-carousel" data-bs-slide="prev">
+            <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target=".card-carousel"
+                data-bs-slide="prev"
+                v-if="entity.info.images.length > 1"
+            >
                 <span class="carousel-control-prev-icon"></span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target=".card-carousel" data-bs-slide="next">
+            <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target=".card-carousel"
+                data-bs-slide="next"
+                v-if="entity.info.images.length > 1"
+            >
                 <span class="carousel-control-next-icon"></span>
             </button>
         </div>
@@ -37,15 +44,18 @@
 <style scoped lang="scss">
 @import "../scss/style.scss";
 
-.carousel-image {
-    display: block;
+.carousel-item {
     width: 100%;
-    min-height: 150px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    height: 150px;
     background-color: rgba($loading-color, 0.5);
     border-radius: $border-radius;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }
 </style>
 
