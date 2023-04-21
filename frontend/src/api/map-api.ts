@@ -22,11 +22,15 @@ export async function fetchMapObjectById(id: number) {
 }
 
 export async function fetchOutdoorObjects(type: OutdoorObjectType | null, page: number) {
-    return await apiUtils.get('map/buildings', {
+    return await apiUtils.get('map/outdoor_objects', {
         type,
         size: defines.FETCH_PAGE_SIZE.toString(),
         page: page.toString()
     }) as OutdoorObjectSchema[]
+}
+
+export async function fetchOutdoorObjectById(id: number) {
+    return await apiUtils.get(`map/outdoor_object/${id}`, {}) as OutdoorObjectSchema
 }
 
 export async function search(query: string) {
