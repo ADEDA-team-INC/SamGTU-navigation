@@ -5,7 +5,7 @@
                 <SmallCard :info="item.info"/>
             </router-link>
         </li>
-        <li v-for="i in 3" v-if="hasNext" ref="loadingCards">
+        <li v-for="i in 3" v-if="hasNext && !isFirstLoaded" ref="loadingCards">
             <SmallCard :info="null"/>
         </li>
     </ul>
@@ -20,9 +20,10 @@ li:not(:first-child) {
 </style>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue'
 import SmallCard from './SmallCard.vue'
-import { MapEntity } from '../schemas/map-schemas';
+import { MapEntity } from '../schemas/map-schemas'
+import defines from '../defines'
 
 const props = defineProps<{
     fetcher: (page: number) => Promise<MapEntity[]>,
@@ -30,6 +31,7 @@ const props = defineProps<{
 }>()
 
 let maxPage = 0
+const isFirstLoaded = ref(true)
 const hasNext = ref(true)
 const items: MapEntity[] = reactive([])
 
@@ -55,8 +57,9 @@ async function getNextPage() {
 
     let newItems = await props.fetcher(maxPage)
     newItems.forEach((val) => items.push(val))
+    isFirstLoaded.value = false
     maxPage++
-    hasNext.value = newItems.length > 0
+    hasNext.value = newItems.length >= defines.FETCH_PAGE_SIZE
 }
 
 </script>
