@@ -39,6 +39,9 @@
         <h2 class="w-100 placeholder mt-2"></h2>
         <span class="w-100 placeholder"></span>
     </div>
+    <div class="flex-grow-1 d-flex flex-column gap-4 mt-4">
+        <slot></slot>
+    </div>
 </template>
 
 <style scoped lang="scss">
