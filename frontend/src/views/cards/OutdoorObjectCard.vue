@@ -1,18 +1,25 @@
 <template>
-    <Card :entity="outdoorObject"/>
+    <Card :entity="outdoorObject">
+        <div>
+            <h4>Показать</h4>
+            <a :href="mapsLink" class="btn btn-primary" v-if="mapsLink !== null">
+                <i class="bi bi-geo-alt-fill"></i>
+                На Яндекс Картах
+            </a>
+        </div>
+    </Card>
 </template>
-
-<style scoped lang="scss">
-</style>
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import Card from '../../components/Card.vue';
 import { onMounted, ref } from 'vue';
 import { fetchOutdoorObjectById } from '../../api/map-api';
+import { getYandexMapsLink } from '../../api/thirdparty-api';
 import { OutdoorObjectSchema } from '../../schemas/map-schemas';
 
 const outdoorObject = ref<OutdoorObjectSchema | null>(null)
+const mapsLink = ref<string | null>(null)
 const route = useRoute()
 
 onMounted(async () => {
@@ -21,6 +28,9 @@ onMounted(async () => {
     }
 
     outdoorObject.value = await fetchOutdoorObjectById(Number.parseInt(route.params.id))
+    mapsLink.value = getYandexMapsLink(
+        outdoorObject.value.latitude, outdoorObject.value.longitude, 18
+    )
 })
 
 </script>
