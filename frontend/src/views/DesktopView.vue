@@ -1,13 +1,11 @@
 <template>
     <div class="vw-100 vh-100 d-flex">
-        <aside class="border-end bg-light d-flex flex-column p-4">
+        <aside class="d-flex flex-column p-4 border-end bg-light shadow-sm">
             <SearchBar />
             <hr class="my-4">
             <router-view />
         </aside>
-        <main class="flex-grow-1">
-
-        </main>
+        <MapViewport class="flex-grow-1" />
     </div>
 </template>
 
@@ -20,5 +18,6 @@ aside {
 </style>
 
 <script setup lang="ts">
+import MapViewport from '../components/MapViewport.vue';
 import SearchBar from '../components/SearchBar.vue'
 </script>
