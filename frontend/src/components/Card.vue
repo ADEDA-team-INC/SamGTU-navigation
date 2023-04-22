@@ -3,11 +3,11 @@
         <div class="card-carousel carousel slide" ref="carouselElem">
             <div class="carousel-inner">
                 <div
-                    class="carousel-item"
+                    class="carousel-item image-container"
                     :class="{ active: index == 0 }"
                     v-for="(image, index) in entity.info.images"
                 >
-                    <img :src="image" class="carousel-image" />
+                    <img :src="image" />
                 </div>
             </div>
             <button
@@ -35,7 +35,7 @@
         </span>
     </div>
     <div class="placeholder-glow" v-else>
-        <div class="carousel-image placeholder"></div>
+        <div class="image-container placeholder"></div>
         <h2 class="w-100 placeholder mt-2"></h2>
         <span class="w-100 placeholder"></span>
     </div>
@@ -47,12 +47,13 @@
 <style scoped lang="scss">
 @import "../scss/style.scss";
 
-.carousel-item {
+.image-container {
     width: 100%;
     height: 150px;
     background-color: rgba($loading-color, 0.5);
     border-radius: $border-radius;
     overflow: hidden;
+    opacity: 1;
 
     img {
         width: 100%;
