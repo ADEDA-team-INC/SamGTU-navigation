@@ -4,7 +4,7 @@
 
         <div class="top-hud-bar">
             <nav>
-                <ol class="breadcrumb m-0">
+                <ol class="breadcrumb justify-content-center m-0">
                     <li class="breadcrumb-item">Корпус №9 СамГТУ</li>
                     <li class="breadcrumb-item">1 этаж</li>
                     <li class="breadcrumb-item">Аудитория 100</li>
