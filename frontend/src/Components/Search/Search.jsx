@@ -9,7 +9,7 @@ function Search({ details, addMap}) {
     const [searchField, setSearchField] = useState("");
     const [ifPointer, setIfPointer] = useState(false);
 
-    const filteredBuildings = details.filter(
+    const filteredBuildings = details.korpusa.filter(
         building => {
             return (
                 building
