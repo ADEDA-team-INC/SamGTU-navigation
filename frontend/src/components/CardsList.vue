@@ -1,21 +1,26 @@
 <template>
-    <ul class="m-0 list-unstyled flex-grow-1 overflow-auto" ref="viewport">
-        <li v-for="item in items" :key="item.id">
-            <router-link class="unstyled-a" :to="linkBuilder(item)">
-                <SmallCard :info="item.info"/>
-            </router-link>
-        </li>
-        <li v-for="i in 3" v-if="hasNext && !isFirstLoaded" ref="loadingCards">
-            <SmallCard :info="null"/>
-        </li>
-    </ul>
+    <div class="cards-list" ref="viewport">
+        <router-link
+            v-for="item in items"
+            :key="item.id"
+            class="unstyled-a"
+            :to="linkBuilder(item)"
+        >
+            <SmallCard :info="item.info"/>
+        </router-link>
+        <SmallCard :info="null" v-for="i in 3" v-if="hasNext" ref="loadingCards"/>
+    </div>
 </template>
 
-<style scoped lang="scss">
-@import "../scss/style";
+<style lang="scss">
+@import "../scss/style.scss";
 
-li:not(:first-child) {
-    margin-top: map-get($spacers, 2);
+.cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacers, 2);
+    overflow: auto;
+    flex-grow: 1;
 }
 </style>
 
@@ -31,7 +36,6 @@ const props = defineProps<{
 }>()
 
 let maxPage = 0
-const isFirstLoaded = ref(true)
 const hasNext = ref(true)
 const items: MapEntity[] = reactive([])
 
@@ -57,7 +61,6 @@ async function getNextPage() {
 
     let newItems = await props.fetcher(maxPage)
     newItems.forEach((val) => items.push(val))
-    isFirstLoaded.value = false
     maxPage++
     hasNext.value = newItems.length >= defines.FETCH_PAGE_SIZE
 }
