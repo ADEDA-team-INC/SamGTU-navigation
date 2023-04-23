@@ -14,9 +14,14 @@ public interface OutdoorObjectRepository extends CrudRepository<OutdoorObject, I
 
     @Query(value =
         """
-        SELECT * FROM outdoor_objects LIMIT :limit OFFSET :offset --:query
+        SELECT outdoor_objects.id, type, latitude, longitude, images_urls, name_key, description_key
+        FROM outdoor_objects
+        INNER JOIN localized_strings ON (key = name_key OR key = description_key)
+        WHERE to_tsvector((:configName)::::regconfig, text) @@ plainto_tsquery((:configName)::::regconfig, :query)
+        ORDER BY outdoor_objects.id ASC
+        LIMIT :limit OFFSET :offset
         """,
         nativeQuery = true
     )
-    List<OutdoorObject> search(String query, int limit, int offset);
+    List<OutdoorObject> search(String query, String configName, int limit, int offset);
 }
