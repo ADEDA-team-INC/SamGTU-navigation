@@ -9,11 +9,14 @@ import java.util.List;
 public interface MapBuildingRepository extends JpaRepository<MapBuilding, Integer> {
     @Query(value =
         """
-        SELECT map_buildings.id, latitude, longitude, images_urls, name_key, description_key
-        FROM map_buildings
-        INNER JOIN localized_strings ON (key = name_key OR key = description_key)
-        WHERE to_tsvector((:configName)::::regconfig, text) @@ plainto_tsquery((:configName)::::regconfig, :query)
-        ORDER BY map_buildings.id ASC
+        WITH ls AS (
+            SELECT key FROM localized_strings WHERE
+            to_tsvector((:configName)::::regconfig, text) @@ plainto_tsquery((:configName)::::regconfig, :query)
+        )
+        SELECT * FROM map_buildings, ls WHERE name_key = ls.key
+        UNION
+        SELECT * FROM map_buildings, ls WHERE description_key = ls.key
+        ORDER BY id ASC
         LIMIT :limit OFFSET :offset
         """,
         nativeQuery = true
