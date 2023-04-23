@@ -667,23 +667,23 @@ components:
       type: object
       properties:
         id: { type: integer }
-        map_object_id: { type: integer }
-        position_x: { type: number }
-        position_y: { type: number }
-        connections_ids:
+        mapObjectId: { type: integer }
+        positionX: { type: number }
+        positionY: { type: number }
+        connectionsIds:
           type: array
           items: { type: integer }
     nav_node_create_schema:
       title: NavNodeCreateSchema
       type: object
       properties:
-        map_object_id: { type: integer }
-        position_x: { type: number }
-        position_y: { type: number }
-        connections_ids:
+        mapObjectId: { type: integer }
+        positionX: { type: number }
+        positionY: { type: number }
+        connectionsIds:
           type: array
           items: { type: integer }
-      required: [ position_x, position_y, connections_ids ]
+      required: [ positionX, positionY, connectionsIds ]
     localized_string:
       title: LocalizedString
       type: object
