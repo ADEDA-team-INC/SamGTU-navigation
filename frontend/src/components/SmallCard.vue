@@ -1,9 +1,9 @@
 <template>
-    <div class="small-card" v-if="info !== null">
-        <img :src="info.images[0] ?? ''" class="thumbnail" />
+    <div class="small-card" v-if="entity !== null">
+        <img :src="entity.info.images[0] ?? ''" class="thumbnail" />
         <div class="flex-grow-1">
-            <h4>{{ info.displayName  }}</h4>
-            <span>{{ info.displayDescription }}</span>
+            <h4>{{ entity.info.displayName  }}</h4>
+            <span>{{ entity.info.displayDescription }}</span>
         </div>
     </div>
     <div class="small-card placeholder-glow" v-else>
@@ -45,9 +45,9 @@
 </style>
 
 <script setup lang="ts">
-import { InfoSchema } from '../schemas/map-schemas';
+import { MapEntity } from '../schemas/map-schemas';
 
 const props = defineProps<{
-    info: InfoSchema | null
+    entity: MapEntity | null
 }>()
 </script>

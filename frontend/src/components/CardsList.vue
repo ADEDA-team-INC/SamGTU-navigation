@@ -6,9 +6,9 @@
             class="unstyled-a"
             :to="linkBuilder(item)"
         >
-            <SmallCard :info="item.info"/>
+            <SmallCard :entity="item"/>
         </router-link>
-        <SmallCard :info="null" v-for="i in 3" v-if="hasNext" ref="loadingCards"/>
+        <SmallCard :entity="null" v-for="i in 3" v-if="hasNext" ref="loadingCards"/>
     </div>
 </template>
 
