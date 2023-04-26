@@ -23,6 +23,7 @@ export interface MapBuildingSchema extends MapEntity {
 export interface DomainImageSchema {
     url: string
     width: number
+    height: number
     offsetX: number
     offsetY: number
 }
