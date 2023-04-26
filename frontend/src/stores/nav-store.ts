@@ -1,5 +1,5 @@
-import { computed, ref, watch } from "vue";
-import { defineStore } from "pinia";
+import { ref, watch } from "vue";
+import { defineStore, mapState } from "pinia";
 import { MapBuildingSchema, MapDomainSchema } from "../schemas/map-schemas";
 import { fetchBuildingById, fetchDomainById } from "../api/map-api";
 
@@ -16,10 +16,13 @@ export const useNavStore = defineStore('navStore', () => {
         } catch {
             building.value = null
         }
-    })
+    }, { immediate: true })
 
     watch(floor, async (newFloor, oldFloor) => {
-        if (building.value === null || building.value.domainIds[newFloor] === null) {
+        if (newFloor.length == 0 ||
+            building.value === null ||
+            building.value.domainIds[newFloor] === null
+        ) {
             domain.value = null
             return
         }
@@ -29,7 +32,7 @@ export const useNavStore = defineStore('navStore', () => {
         } catch {
             domain.value = null
         }
-    })
+    }, { immediate: true })
 
     return { buildingId, building, floor, domain }
 })
