@@ -4,6 +4,14 @@
         <button type="submit" class="btn btn-primary">
             <i class="bi bi-search"></i>
         </button>
+        <button
+            type="button"
+            class="btn btn-primary"
+            v-if="router.currentRoute.value.name !== 'main'"
+            @click="() => router.push({name: 'main'})"
+        >
+            <i class="bi bi-house-door"></i>
+        </button>
     </form>
 </template>
 
@@ -20,9 +28,15 @@ const router = useRouter()
 let searchInput = ref<HTMLInputElement | null>(null)
 
 function onSearchClick() {
+    if (searchInput.value === null ||
+        searchInput.value.value.trim().length == 0
+    ) {
+        return
+    }
+
     router.push({
         name: 'search',
-        query: { query: searchInput.value?.value }
+        query: { query: searchInput.value.value.trim() }
     })
 }
 
