@@ -683,7 +683,6 @@ components:
         connectionsIds:
           type: array
           items: { type: integer }
-      required: [ positionX, positionY, connectionsIds ]
     localized_string:
       title: LocalizedString
       type: object
