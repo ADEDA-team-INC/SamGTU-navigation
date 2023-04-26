@@ -33,6 +33,7 @@ public class NavNode {
     @Column(nullable = false)
     private Vector2d position;
 
+    @NonNull
     @OneToMany(mappedBy = "nodeA", fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<NodesConnection> connections;
