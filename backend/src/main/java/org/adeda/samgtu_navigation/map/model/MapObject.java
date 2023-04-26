@@ -12,7 +12,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "map_objects", indexes = {
-    @Index(columnList = "type")
+    @Index(columnList = "type"),
+    @Index(columnList = "nameKey"),
+    @Index(columnList = "descriptionKey")
 })
 @NoArgsConstructor
 @RequiredArgsConstructor

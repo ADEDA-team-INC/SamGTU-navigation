@@ -8,7 +8,6 @@ import org.adeda.samgtu_navigation.map.model.OutdoorObject;
 import org.adeda.samgtu_navigation.map.repository.OutdoorObjectRepository;
 import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectCreateSchema;
 import org.adeda.samgtu_navigation.map.service.OutdoorObjectService;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

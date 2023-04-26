@@ -1,12 +1,7 @@
 package org.adeda.samgtu_navigation.map.service.impl;
 
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
-import org.adeda.samgtu_navigation.map.model.MapBuilding;
-import org.adeda.samgtu_navigation.map.model.MapDomain;
-import org.adeda.samgtu_navigation.map.model.MapObject;
-import org.adeda.samgtu_navigation.map.model.OutdoorObject;
 import org.adeda.samgtu_navigation.map.repository.MapBuildingRepository;
-import org.adeda.samgtu_navigation.map.repository.MapDomainRepository;
 import org.adeda.samgtu_navigation.map.repository.MapObjectRepository;
 import org.adeda.samgtu_navigation.map.repository.OutdoorObjectRepository;
 import org.adeda.samgtu_navigation.map.schema.MapSearchResult;
@@ -38,19 +33,22 @@ public class MapServiceImpl implements MapService {
         var result = new MapSearchResult();
 
         result.setMapBuildings(
-            buildingRepository.search(query, limit, 0).stream().map(
-                b -> schemasFactory.getBuildingSchema(b, language)
-            ).toList()
+            buildingRepository.search(query, language.getDbConfigName(), limit, 0)
+                .stream().map(
+                    b -> schemasFactory.getBuildingSchema(b, language)
+                ).toList()
         );
         result.setMapObjects(
-            mapObjectRepository.search(query, limit, 0).stream().map(
-                o -> schemasFactory.getObjectInfo(o, language)
-            ).toList()
+            mapObjectRepository.search(query, language.getDbConfigName(), limit,0)
+                .stream().map(
+                    o -> schemasFactory.getObjectInfo(o, language)
+                ).toList()
         );
         result.setOutdoorObjects(
-            outdoorObjectRepository.search(query, limit, 0).stream().map(
-                o -> schemasFactory.getOutdoorObjectSchema(o, language)
-            ).toList()
+            outdoorObjectRepository.search(query, language.getDbConfigName(), limit, 0)
+                .stream().map(
+                    o -> schemasFactory.getOutdoorObjectSchema(o, language)
+                ).toList()
         );
 
         return result;
