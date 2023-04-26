@@ -1,12 +1,7 @@
 package org.adeda.samgtu_navigation.map.service.impl;
 
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
-import org.adeda.samgtu_navigation.map.model.MapBuilding;
-import org.adeda.samgtu_navigation.map.model.MapDomain;
-import org.adeda.samgtu_navigation.map.model.MapObject;
-import org.adeda.samgtu_navigation.map.model.OutdoorObject;
 import org.adeda.samgtu_navigation.map.repository.MapBuildingRepository;
-import org.adeda.samgtu_navigation.map.repository.MapDomainRepository;
 import org.adeda.samgtu_navigation.map.repository.MapObjectRepository;
 import org.adeda.samgtu_navigation.map.repository.OutdoorObjectRepository;
 import org.adeda.samgtu_navigation.map.schema.MapSearchResult;
