@@ -6,6 +6,7 @@ import DomainCard from './views/cards/DomainCard.vue'
 import MapObjectCard from './views/cards/MapObjectCard.vue'
 import OutdoorObjectCard from './views/cards/OutdoorObjectCard.vue'
 import OutdoorObjectsList from './views/cards/OutdoorObjectsList.vue'
+import SearchResultsVue from './views/cards/SearchResults.vue'
 
 const routes: RouteRecordRaw[] = [
     { path: '/', component: ObjectsCard },
@@ -15,6 +16,7 @@ const routes: RouteRecordRaw[] = [
     { path: '/object/:object_id', component: MapObjectCard },
     { path: '/outdoor_objects', component: OutdoorObjectsList },
     { path: '/outdoor_object/:id', component: OutdoorObjectCard },
+    { name: 'search', path: '/search', component: SearchResultsVue }
 ]
 
 export default routes;
