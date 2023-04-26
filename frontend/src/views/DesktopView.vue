@@ -5,7 +5,7 @@
             <hr class="my-4">
             <router-view />
         </aside>
-        <MapViewport class="flex-grow-1" />
+        <MapContainer class="flex-grow-1" />
     </div>
 </template>
 
@@ -14,10 +14,11 @@
 
 aside {
     width: $sidebar-width;
+    z-index: 1;
 }
 </style>
 
 <script setup lang="ts">
-import MapViewport from '../components/MapViewport.vue';
+import MapContainer from '../components/MapContainer.vue';
 import SearchBar from '../components/SearchBar.vue'
 </script>
