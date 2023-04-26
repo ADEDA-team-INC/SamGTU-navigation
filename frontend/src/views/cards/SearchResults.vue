@@ -1,35 +1,57 @@
 <template>
     <h4>Результаты поиска</h4>
-    <div v-if="searchResult === null">
-        <
+    <div class="cards-list" v-if="searchResult === null">
+        <SmallCard :entity="null" v-for="i in 3"/>
     </div>
-    <div v-else>
-        <Card
+    <div class="cards-list" v-else>
+        <router-link
             v-for="building in searchResult?.mapBuildings"
             :key="building.id"
+            class="unstyled-a"
+            :to="`map/building/${building.id}`"
+        >
+            <SmallCard :entity="building"/>
+        </router-link>
 
-        />
+        <router-link
+            v-for="mapObject in searchResult?.mapObjects"
+            :key="mapObject.id"
+            class="unstyled-a"
+            :to="`map/object/${mapObject.id}`"
+        >
+            <SmallCard :entity="mapObject"/>
+        </router-link>
+
+        <router-link
+            v-for="outdoorObject in searchResult?.outdoorObjects"
+            :key="outdoorObject.id"
+            class="unstyled-a"
+            :to="`map/outdoor_object/${outdoorObject.id}`"
+        >
+            <SmallCard :entity="outdoorObject"/>
+        </router-link>
     </div>
 </template>
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import Card from '../../components/Card.vue';
 import { MapSearchResult } from '../../schemas/map-schemas';
 import { search } from '../../api/map-api';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import SmallCard from '../../components/SmallCard.vue';
 
 const route = useRoute()
-
-let searchQuery = ''
-if (typeof route.query['query'] === 'string') {
-    searchQuery = route.query.query
-}
 
 let searchResult = ref<MapSearchResult | null>(null)
 
 onMounted(async () => {
-    searchResult.value = await search(searchQuery)
+    watch(route, async () => {
+        let searchQuery = ''
+        if (typeof route.query['query'] === 'string') {
+            searchQuery = route.query.query
+        }
+        searchResult.value = await search(searchQuery)
+    }, { immediate: true })
 })
 
 </script>
