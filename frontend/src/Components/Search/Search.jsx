@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useTranslation } from "react-i18next";
+
 import Scroll from '../UI/scroll/Scroll';
 import SearchList from './SearchList';
 import s from "./search.module.scss";
 import pointer from '../../assets/img/point.svg'
 import up from '../../assets/img/up.svg'
 
-function Search({ details, addMap}) {
+
+function Search({ details, addMap }) {
     const [searchField, setSearchField] = useState("");
     const [ifPointer, setIfPointer] = useState(false);
 
@@ -29,6 +32,13 @@ function Search({ details, addMap}) {
         setIfPointer(false);
     };
 
+
+    const {t, i18n} = useTranslation();
+
+    const changeLanguage = (language) => {
+        i18n.changeLanguage(language)
+    }
+
     return (
         <section className={!ifPointer ? s.search : s.search__active}>
             <input type="search" className={s.search__input} placeholder="Поиск"
@@ -36,7 +46,7 @@ function Search({ details, addMap}) {
             <Scroll>
                 <div className={s.search__container}>
                     <h1 className={s.search__title}>
-                        Результаты:
+                        {t('results')}:
                     </h1>
                     <a href="##" onClick={
                         ifPointer ? () => (setIfPointer(false)) : () => (setIfPointer(true))
@@ -46,9 +56,13 @@ function Search({ details, addMap}) {
                     </a>
                 </div>
                 <>
-                    {filteredBuildings.length > 0 ? <SearchList filteredBuildings={filteredBuildings} addMap = {addMap}/> : <div className={s.nothing__text}> Ничего не найдено </div>}
+                    {filteredBuildings.length > 0 ? <SearchList filteredBuildings={filteredBuildings} addMap={addMap} /> : <div className={s.nothing__text}> Ничего не найдено </div>}
                 </>
             </Scroll>
+
+
+            <button onClick={() => changeLanguage('en')}>EN</button>
+            <button onClick={() => changeLanguage('ru')}>RU</button>
         </section>
 
     );

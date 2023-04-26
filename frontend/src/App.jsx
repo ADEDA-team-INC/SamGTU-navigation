@@ -4,7 +4,7 @@ import { MainPage } from './Components/Pages/MainPage'
 function App() {
 
   return (
-    <MainPage />
+      <MainPage />
   )
 }
 
