@@ -1,6 +1,6 @@
 <template>
-    <div class="map-viewport">
-        <MapRenderer class="w-100 h-100" />
+    <div class="map-container">
+        <MapRenderer :domains="domains" @object-click="onObjectClick" />
 
         <div class="top-hud-bar">
             <nav>
@@ -36,7 +36,7 @@
 <style scoped lang="scss">
 @import "../scss/style.scss";
 
-.map-viewport {
+.map-container {
     position: relative;
 }
 
@@ -66,6 +66,26 @@
 </style>
 
 <script setup lang="ts">
+import { reactive, watch } from 'vue';
+import { useNavStore } from '../stores/nav-store';
 import MapRenderer from './MapRenderer.vue';
+import { MapDomainSchema, MapObjectSchema } from '../schemas/map-schemas';
+import { useRouter } from 'vue-router';
+
+const navStore = useNavStore()
+const router = useRouter()
+
+const domains = reactive<Array<MapDomainSchema>>([])
+
+navStore.$subscribe((mutation, state) => {
+    domains.length = 0
+    if (state.domain !== null) {
+        domains.push(state.domain)
+    }
+})
+
+function onObjectClick(mapObject: MapObjectSchema) {
+    router.push({ name: 'map_object', params: { id: mapObject.id } })
+}
 
 </script>
