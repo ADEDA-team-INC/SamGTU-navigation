@@ -615,6 +615,7 @@ components:
       properties:
         url: { type: string }
         width: { type: number }
+        height: { type: number }
         offsetX: { type: number }
         offsetY: { type: number }
     map_domain:

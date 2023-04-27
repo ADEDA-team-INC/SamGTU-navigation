@@ -22,12 +22,17 @@ public class DomainImage {
     private Double width;
 
     @NonNull
+    @Column(nullable = false)
+    private Double height;
+
+    @NonNull
     @Embedded
     private Vector2d offset;
 
     public DomainImage(DomainImageSchema schema) {
         this.url = schema.getUrl();
         this.width = schema.getWidth();
+        this.height = schema.getHeight();
         this.offset = new Vector2d(schema.getOffsetX(), schema.getOffsetY());
     }
 }
