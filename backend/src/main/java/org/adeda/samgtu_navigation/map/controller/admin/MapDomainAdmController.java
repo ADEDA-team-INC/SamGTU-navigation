@@ -1,6 +1,7 @@
 package org.adeda.samgtu_navigation.map.controller.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
 import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
@@ -29,7 +30,7 @@ public class MapDomainAdmController {
         @PathVariable Integer id,
         @RequestBody MapDomainCreateSchema createSchema,
         HttpServletRequest request
-    ) throws NotFoundException, InvalidFormatException {
+    ) throws NotFoundException, InvalidFormatException, AlreadyExistsException {
         return schemasFactory.getDomainSchema(service.create(id, createSchema),
                 SupportedLanguage.fromRequest(request));
     }
