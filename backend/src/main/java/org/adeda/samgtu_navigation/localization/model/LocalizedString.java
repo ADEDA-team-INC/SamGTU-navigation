@@ -21,13 +21,9 @@ public class LocalizedString {
     private Integer id;
 
     @NonNull
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SupportedLanguage language;
-
-    @NonNull
-    @Column(nullable = false)
-    private String configName;
 
     @NonNull
     @Column(nullable = false)
