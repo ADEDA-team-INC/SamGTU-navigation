@@ -2,8 +2,6 @@ package org.adeda.samgtu_navigation.map.controller.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
-import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectCreateSchema;

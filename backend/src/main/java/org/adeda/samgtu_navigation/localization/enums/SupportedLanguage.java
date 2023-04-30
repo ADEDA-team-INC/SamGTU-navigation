@@ -1,7 +1,6 @@
 package org.adeda.samgtu_navigation.localization.enums;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Getter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import java.util.Locale;

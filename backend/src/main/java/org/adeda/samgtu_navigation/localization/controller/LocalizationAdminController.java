@@ -8,7 +8,6 @@ import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
 import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
-import org.adeda.samgtu_navigation.localization.model.LocalizedString;
 import org.adeda.samgtu_navigation.localization.schema.LocalizedStringSchema;
 import org.adeda.samgtu_navigation.localization.service.LocalizationService;
 import org.springframework.data.domain.PageRequest;
