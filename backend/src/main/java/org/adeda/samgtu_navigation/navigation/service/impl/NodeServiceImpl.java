@@ -119,7 +119,7 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public void delete(Integer id) throws NotFoundException {
+    public void deleteById(Integer id) throws NotFoundException {
         var node = repository.findById(id).orElse(null);
         if (node == null) {
             throw new NotFoundException("NavNode with given id was not found");
