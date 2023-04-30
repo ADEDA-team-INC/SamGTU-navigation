@@ -29,7 +29,7 @@ public class LocalizationServiceImpl implements LocalizationService {
         }
 
         var str = new LocalizedString(
-            schema.getLanguage(), schema.getKey(), schema.getText()
+            schema.getLanguage(), schema.getLanguage().getConfigName(), schema.getKey(), schema.getText()
         );
 
         return repository.save(str);

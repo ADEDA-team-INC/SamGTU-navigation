@@ -27,6 +27,10 @@ public class LocalizedString {
 
     @NonNull
     @Column(nullable = false)
+    private String configName;
+
+    @NonNull
+    @Column(nullable = false)
     private String key;
 
     @NonNull

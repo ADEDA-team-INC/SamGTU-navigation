@@ -33,19 +33,19 @@ public class MapServiceImpl implements MapService {
         var result = new MapSearchResult();
 
         result.setMapBuildings(
-            buildingRepository.search(query, language.getDbConfigName(), limit, 0)
+            buildingRepository.search(query, language.getConfigName(), limit, 0)
                 .stream().map(
                     b -> schemasFactory.getBuildingSchema(b, language)
                 ).toList()
         );
         result.setMapObjects(
-            mapObjectRepository.search(query, language.getDbConfigName(), limit,0)
+            mapObjectRepository.search(query, language.getConfigName(), limit,0)
                 .stream().map(
                     o -> schemasFactory.getObjectInfo(o, language)
                 ).toList()
         );
         result.setOutdoorObjects(
-            outdoorObjectRepository.search(query, language.getDbConfigName(), limit, 0)
+            outdoorObjectRepository.search(query, language.getConfigName(), limit, 0)
                 .stream().map(
                     o -> schemasFactory.getOutdoorObjectSchema(o, language)
                 ).toList()

@@ -31,11 +31,11 @@ public class LocalizationAdminController {
     public List<LocalizedStringSchema> getLocalizedStrings(
         @RequestParam(defaultValue = "10") @NotNull @Min(1) Integer size,
         @RequestParam(defaultValue = "0") @NotNull @Min(0) Integer page,
-        @RequestParam String key,
-        @RequestParam String language
+        @RequestParam(required = false) String key,
+        @RequestParam(required = false) SupportedLanguage language
     ) throws InvalidFormatException {
         return service.search(
-            key, SupportedLanguage.byLocale(new Locale(language)), PageRequest.of(page, size)
+            key, language, PageRequest.of(page, size)
         ).stream().map(LocalizedStringSchema::new).toList();
     }
 

@@ -10,6 +10,7 @@ import org.adeda.samgtu_navigation.map.service.MapBuildingService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,7 +29,7 @@ public class MapBuildingServiceImpl implements MapBuildingService {
             schema.getLatitude(),
             schema.getLongitude(),
             new MapEntityInfo(schema.getInfo()),
-            Set.of()
+            new HashSet<>()
         );
 
         return repository.save(building);

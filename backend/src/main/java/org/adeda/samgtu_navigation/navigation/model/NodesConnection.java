@@ -20,7 +20,7 @@ public class NodesConnection {
     private Integer id;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(name = "node_a_id", nullable = false)
     private NavNode nodeA;
 

@@ -5,6 +5,7 @@ import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 import org.adeda.samgtu_navigation.localization.model.LocalizedString;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +16,13 @@ public interface LocalizedStringRepository extends CrudRepository<LocalizedStrin
 
     @Query(value = """
         SELECT * FROM localized_strings WHERE
-            (?1 IS NULL OR text ILIKE CONCAT('%', ?1, '%')) AND
-            (?2 IS NULL OR language = ?2)
-            LIMIT ?3 OFFSET ?4
+            (:key IS NULL OR key ILIKE CONCAT('%', :key, '%')) AND
+            (:#{#lang == null} OR language = :#{#lang?.name()})
+            LIMIT :limit OFFSET :offset
         """,
         nativeQuery = true
     )
-    List<LocalizedString> search(@Nullable String key, @Nullable SupportedLanguage language, int limit, int offset);
+    List<LocalizedString> search(
+        @Nullable String key, @Nullable @Param("lang") SupportedLanguage language, int limit, int offset
+    );
 }

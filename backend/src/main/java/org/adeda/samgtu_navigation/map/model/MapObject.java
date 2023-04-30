@@ -31,7 +31,7 @@ public class MapObject {
     private Integer id;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(name = "domain_id", nullable = false)
     private MapDomain domain;
 
@@ -50,7 +50,7 @@ public class MapObject {
     @Column(nullable = false)
     private List<Rect> boundingBoxes;
 
-    @OneToMany(mappedBy = "mapObject")
+    @OneToMany(mappedBy = "mapObject", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private Set<NavNode> nodes;
 
     public boolean containsPoint(Vector2d point) {
