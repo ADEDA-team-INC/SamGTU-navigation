@@ -15,19 +15,19 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import Card from '../../components/Card.vue';
-import { onMounted, ref } from 'vue';
+import { ref, watch } from 'vue';
 import { fetchMapObjectById } from '../../api/map-api';
 import {  DetailedMapObject } from '../../schemas/map-schemas';
 
 const mapObject = ref<DetailedMapObject | null>(null)
 const route = useRoute()
 
-onMounted(async () => {
+watch(route, async () => {
     if (typeof route.params.id !== 'string') {
         return
     }
 
     mapObject.value = await fetchMapObjectById(Number.parseInt(route.params.id))
-})
+}, { immediate: true })
 
 </script>

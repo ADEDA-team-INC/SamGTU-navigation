@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import Card from '../../components/Card.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { fetchOutdoorObjectById } from '../../api/map-api';
 import { getYandexMapsLink } from '../../api/thirdparty-api';
 import { OutdoorObjectSchema } from '../../schemas/map-schemas';
@@ -22,7 +22,7 @@ const outdoorObject = ref<OutdoorObjectSchema | null>(null)
 const mapsLink = ref<string | null>(null)
 const route = useRoute()
 
-onMounted(async () => {
+watch(route, async () => {
     if (typeof route.params.id !== 'string') {
         return
     }
@@ -31,6 +31,6 @@ onMounted(async () => {
     mapsLink.value = getYandexMapsLink(
         outdoorObject.value.latitude, outdoorObject.value.longitude, 18
     )
-})
+}, { immediate: true })
 
 </script>
