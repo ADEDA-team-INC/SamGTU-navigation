@@ -1,12 +1,10 @@
 package org.adeda.samgtu_navigation.navigation.controller;
 
-import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
+import jakarta.validation.Valid;
 import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
-import org.adeda.samgtu_navigation.map.model.MapObject;
 import org.adeda.samgtu_navigation.map.service.MapDomainService;
 import org.adeda.samgtu_navigation.map.service.MapObjectService;
-import org.adeda.samgtu_navigation.navigation.model.NavNode;
 import org.adeda.samgtu_navigation.navigation.schema.NavNodeCreateSchema;
 import org.adeda.samgtu_navigation.navigation.schema.NavNodeSchema;
 import org.adeda.samgtu_navigation.navigation.service.NodeService;
@@ -14,17 +12,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
 @Validated
 public class NodeAdminController {
-
     private final NodeService service;
-
     private final MapDomainService domainService;
-
     private final MapObjectService objectService;
 
     public NodeAdminController(NodeService service, MapDomainService domainService, MapObjectService objectService) {
@@ -34,56 +28,49 @@ public class NodeAdminController {
     }
 
     @GetMapping("/node/{id}")
-    public NavNodeSchema getNavNode(
+    public NavNodeSchema getNodeById(
         @PathVariable Integer id
     ) throws NotFoundException {
-        var ONavNode = service.getById(id);
-        if(ONavNode.isPresent()) {
-            NavNode navNode = ONavNode.get();
-            return new NavNodeSchema(navNode);
-        }
-
-        throw new NotFoundException("Node with this id is`t exist");
+        return service.getById(id).map(NavNodeSchema::new).orElseThrow(
+            () -> new NotFoundException("Node with given id doesn't exist")
+        );
     }
 
     @GetMapping("/map/domain/{id}/nodes")
     public List<NavNodeSchema> getNodesByDomainId(
-            @PathVariable Integer id
+        @PathVariable Integer id
     ) throws NotFoundException {
-            return domainService.getNodes(id).stream().map(NavNodeSchema::new).toList();
+        return domainService.getNodes(id).stream().map(NavNodeSchema::new).toList();
     }
 
     @GetMapping("/map/object/{id}/nodes")
     public List<NavNodeSchema> getNodesByObjectId(
-            @PathVariable Integer id
+        @PathVariable Integer id
     ) throws NotFoundException {
-        Optional<MapObject> mapObject = objectService.getById(id);
-        if(mapObject.isPresent()) {
-            return mapObject.get().getNodes().stream().map(NavNodeSchema::new).toList();
-        }
-
-        throw new NotFoundException("Object with this id is`t exist");
+        return objectService.getById(id).orElseThrow(
+            () -> new NotFoundException("MapObject with given id doesn't exist")
+        ).getNodes().stream().map(NavNodeSchema::new).toList();
     }
 
     @PostMapping("/node")
-    public NavNodeSchema postNavNode(
-        @RequestBody NavNodeCreateSchema createSchema
-    ) throws InvalidFormatException, AlreadyExistsException {
-        return new NavNodeSchema(service.create(createSchema));
+    public NavNodeSchema createNode(
+        @RequestBody @Valid NavNodeCreateSchema schema
+    ) throws InvalidFormatException, NotFoundException {
+        return new NavNodeSchema(service.create(schema));
     }
 
     @PutMapping("/node/{id}")
-    public NavNodeSchema putNavNode(
+    public NavNodeSchema updateNodeById(
         @PathVariable Integer id,
-        @RequestBody NavNodeCreateSchema createSchema
-    ) throws NotFoundException,InvalidFormatException {
-        return new NavNodeSchema(service.update(id, createSchema));
+        @RequestBody @Valid NavNodeCreateSchema schema
+    ) throws NotFoundException, InvalidFormatException {
+        return new NavNodeSchema(service.update(id, schema));
     }
 
     @DeleteMapping("/node/{id}")
-    public void deleteNavNode(
+    public void deleteNodeById(
         @PathVariable Integer id
     ) throws NotFoundException {
-        service.delete(id);
+        service.deleteById(id);
     }
 }

@@ -1,6 +1,7 @@
 package org.adeda.samgtu_navigation.map.controller.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
 import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
@@ -15,38 +16,40 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/admin/map/outdoor_object")
 @Validated
-public class OutdoorObjectAdmController {
-
+public class OutdoorObjectAdminController {
     private final OutdoorObjectService service;
-
     private final MapSchemasFactory schemasFactory;
 
-    public OutdoorObjectAdmController(OutdoorObjectService service, MapSchemasFactory schemasFactory) {
+    public OutdoorObjectAdminController(OutdoorObjectService service, MapSchemasFactory schemasFactory) {
         this.service = service;
         this.schemasFactory = schemasFactory;
     }
 
     @PostMapping
-    public OutdoorObjectSchema postOutdoorObject(
-        @RequestBody OutdoorObjectCreateSchema createSchema,
+    public OutdoorObjectSchema createOutdoorObject(
+        @RequestBody @Valid OutdoorObjectCreateSchema schema,
         HttpServletRequest request
-    ) throws InvalidFormatException, AlreadyExistsException {
-        return schemasFactory.getOutdoorObjectSchema(service.create(createSchema),
-                SupportedLanguage.fromRequest(request));
+    ) {
+        return schemasFactory.getOutdoorObjectSchema(
+            service.create(schema),
+            SupportedLanguage.fromRequest(request)
+        );
     }
 
     @PutMapping("/{id}")
-    public OutdoorObjectSchema putOutdoorObject(
+    public OutdoorObjectSchema updateOutdoorObjectById(
         @PathVariable Integer id,
-        @RequestBody OutdoorObjectCreateSchema createSchema,
+        @RequestBody @Valid OutdoorObjectCreateSchema schema,
         HttpServletRequest request
-    ) throws NotFoundException, InvalidFormatException {
-        return schemasFactory.getOutdoorObjectSchema(service.updateById(id, createSchema),
-                SupportedLanguage.fromRequest(request));
+    ) throws NotFoundException {
+        return schemasFactory.getOutdoorObjectSchema(
+            service.updateById(id, schema),
+            SupportedLanguage.fromRequest(request)
+        );
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOutdoorObject(
+    public void deleteOutdoorObjectById(
         @PathVariable Integer id
     ) throws NotFoundException {
         service.deleteById(id);

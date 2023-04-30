@@ -1,6 +1,7 @@
 package org.adeda.samgtu_navigation.map.controller.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
 import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
@@ -15,37 +16,40 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/admin/map")
 @Validated
-public class MapBuildingAdmController {
-
+public class MapBuildingAdminController {
     private final MapBuildingService service;
     private final MapSchemasFactory schemasFactory;
 
-    public MapBuildingAdmController(MapBuildingService service, MapSchemasFactory schemasFactory) {
+    public MapBuildingAdminController(MapBuildingService service, MapSchemasFactory schemasFactory) {
         this.service = service;
         this.schemasFactory = schemasFactory;
     }
 
     @PostMapping("/building")
-    public MapBuildingSchema postMapBuilding(
-        @RequestBody MapBuildingCreateSchema createSchema,
+    public MapBuildingSchema createMapBuilding(
+        @RequestBody @Valid MapBuildingCreateSchema schema,
         HttpServletRequest request
-    ) throws InvalidFormatException, AlreadyExistsException {
-        return schemasFactory.getBuildingSchema(service.create(createSchema),
-                SupportedLanguage.fromRequest(request));
+    ) {
+        return schemasFactory.getBuildingSchema(
+            service.create(schema),
+            SupportedLanguage.fromRequest(request)
+        );
     }
 
     @PutMapping("/building/{id}")
-    public MapBuildingSchema putMapBuilding(
+    public MapBuildingSchema updateMapBuildingById(
         @PathVariable Integer id,
-        @RequestBody MapBuildingCreateSchema createSchema,
+        @RequestBody @Valid MapBuildingCreateSchema schema,
         HttpServletRequest request
-    ) throws NotFoundException, InvalidFormatException {
-        return schemasFactory.getBuildingSchema(service.updateById(id, createSchema),
-                SupportedLanguage.fromRequest(request));
+    ) throws NotFoundException {
+        return schemasFactory.getBuildingSchema(
+            service.updateById(id, schema),
+            SupportedLanguage.fromRequest(request)
+        );
     }
 
     @DeleteMapping("/building/{id}")
-    public void deleteMapBuilding(
+    public void deleteMapBuildingById(
         @PathVariable Integer id
     ) throws NotFoundException {
         service.deleteById(id);

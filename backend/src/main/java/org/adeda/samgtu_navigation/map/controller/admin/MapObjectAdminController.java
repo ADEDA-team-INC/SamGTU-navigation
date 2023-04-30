@@ -1,6 +1,7 @@
 package org.adeda.samgtu_navigation.map.controller.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
 import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
@@ -15,39 +16,41 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/admin/map")
 @Validated
-public class MapObjectAdmController {
-
+public class MapObjectAdminController {
     private final MapObjectService service;
-
     private final MapSchemasFactory schemasFactory;
 
-    public MapObjectAdmController(MapObjectService service, MapSchemasFactory schemasFactory) {
+    public MapObjectAdminController(MapObjectService service, MapSchemasFactory schemasFactory) {
         this.service = service;
         this.schemasFactory = schemasFactory;
     }
 
     @PostMapping("/domain/{id}/object")
-    public MapObjectSchema postMapObject(
+    public MapObjectSchema createMapObject(
         @PathVariable Integer id,
-        @RequestBody MapObjectCreateSchema createSchema,
+        @RequestBody @Valid MapObjectCreateSchema schema,
         HttpServletRequest request
-    ) throws InvalidFormatException, AlreadyExistsException {
-        return schemasFactory.getObjectSchema(service.create(id, createSchema),
-                SupportedLanguage.fromRequest(request));
+    ) throws NotFoundException {
+        return schemasFactory.getObjectSchema(
+            service.create(id, schema),
+            SupportedLanguage.fromRequest(request)
+        );
     }
 
     @PutMapping("/object/{id}")
-    public MapObjectSchema putMapObject(
+    public MapObjectSchema updateMapObjectById(
         @PathVariable Integer id,
-        @RequestBody MapObjectCreateSchema createSchema,
+        @RequestBody @Valid MapObjectCreateSchema schema,
         HttpServletRequest request
-    ) throws NotFoundException, InvalidFormatException {
-        return schemasFactory.getObjectSchema(service.updateById(id, createSchema),
-                SupportedLanguage.fromRequest(request));
+    ) throws NotFoundException {
+        return schemasFactory.getObjectSchema(
+            service.updateById(id, schema),
+            SupportedLanguage.fromRequest(request)
+        );
     }
 
     @DeleteMapping("/object/{id}")
-    public void deleteMapObject(
+    public void deleteMapObjectById(
         @PathVariable Integer id
     ) throws NotFoundException {
         service.deleteById(id);

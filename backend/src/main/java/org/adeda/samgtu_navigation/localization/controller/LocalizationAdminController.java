@@ -1,5 +1,6 @@
 package org.adeda.samgtu_navigation.localization.controller;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,12 +16,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/admin/localization")
 @Validated
 public class LocalizationAdminController {
-
     private final LocalizationService service;
 
     public LocalizationAdminController(LocalizationService service) {
@@ -28,43 +29,36 @@ public class LocalizationAdminController {
     }
 
     @GetMapping("/strings")
-    public List<LocalizedStringSchema> getLocalizedString(
+    public List<LocalizedStringSchema> getLocalizedStrings(
         @RequestParam(defaultValue = "10") @NotNull @Min(1) Integer size,
         @RequestParam(defaultValue = "0") @NotNull @Min(0) Integer page,
         @RequestParam String key,
         @RequestParam String language
     ) throws InvalidFormatException {
-        return service.search(key, SupportedLanguage.valueOf(language), PageRequest.of(page, size)).stream()
-                .map(s -> new LocalizedStringSchema(s.getLanguage(), s.getKey(), s.getText())).toList();
+        return service.search(
+            key, SupportedLanguage.byLocale(new Locale(language)), PageRequest.of(page, size)
+        ).stream().map(LocalizedStringSchema::new).toList();
     }
 
     @PostMapping("/string")
-    public LocalizedStringSchema postLocalizedString(
-        @RequestBody LocalizedStringSchema createSchema
+    public LocalizedStringSchema createLocalizedString(
+        @RequestBody @Valid LocalizedStringSchema schema
     ) throws InvalidFormatException, AlreadyExistsException {
-        LocalizedString localizedString = service.create(
-                createSchema.getKey(),
-                createSchema.getText(),
-                createSchema.getLanguage());
-        return new LocalizedStringSchema(localizedString.getLanguage(), localizedString.getKey(), localizedString.getText());
+        return new LocalizedStringSchema(service.create(schema));
     }
 
     @PutMapping("/string")
-    public LocalizedStringSchema putLocalizedString(
-        @RequestBody LocalizedStringSchema createSchema
+    public LocalizedStringSchema updateLocalizedString(
+        @RequestBody @Valid LocalizedStringSchema schema
     ) throws NotFoundException,InvalidFormatException {
-        LocalizedString localizedString = service.update(
-                createSchema.getKey(),
-                createSchema.getText(),
-                createSchema.getLanguage());
-        return new LocalizedStringSchema(localizedString.getLanguage(), localizedString.getKey(), localizedString.getText());
+        return new LocalizedStringSchema(service.update(schema));
     }
 
     @DeleteMapping("/string")
     public void deleteLocalizedString(
         @RequestParam @NotBlank String key,
-        @RequestParam @NotBlank String language
+        @RequestParam @NotNull SupportedLanguage language
     ) throws NotFoundException {
-        service.delete(key, SupportedLanguage.valueOf(language));
+        service.delete(key, language);
     }
 }
