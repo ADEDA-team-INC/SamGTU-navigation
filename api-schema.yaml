@@ -298,7 +298,7 @@ paths:
   /admin/map/outdoor_object/{id}:
     put:
       tags: [ OutdoorObject ]
-      operationId: updateOutdoorObjectId
+      operationId: updateOutdoorObjectById
       parameters:
         - $ref: "#/components/parameters/id"
       requestBody:
@@ -459,7 +459,7 @@ paths:
         - name: lang
           in: query
           required: false
-          schema: { type: string, example: ru-RU }
+          schema: { $ref: "#/components/schemas/supported_language" }
       responses:
         200:
           description: Operation went successfully
@@ -515,7 +515,7 @@ paths:
         - name: lang
           in: query
           required: true
-          schema: { type: string, example: ru-RU }
+          schema: { $ref: "#/components/schemas/supported_language" }
       responses:
         200:
           description: Operation went successfully
@@ -615,6 +615,7 @@ components:
       properties:
         url: { type: string }
         width: { type: number }
+        height: { type: number }
         offsetX: { type: number }
         offsetY: { type: number }
     map_domain:
@@ -683,12 +684,16 @@ components:
         connectionsIds:
           type: array
           items: { type: integer }
+    supported_language:
+      title: SupportedLanguage
+      type: string
+      enum: [ RUSSIAN, ENGLISH ]
     localized_string:
       title: LocalizedString
       type: object
       properties:
         key: { type: string }
-        language: { type: string, example: ru-RU }
+        language: { $ref: "#/components/schemas/supported_language" }
         text: { type: string }
   parameters:
     id:

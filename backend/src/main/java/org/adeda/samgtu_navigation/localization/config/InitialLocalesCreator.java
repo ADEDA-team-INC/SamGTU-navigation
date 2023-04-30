@@ -2,6 +2,7 @@ package org.adeda.samgtu_navigation.localization.config;
 
 import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
+import org.adeda.samgtu_navigation.localization.schema.LocalizedStringSchema;
 import org.adeda.samgtu_navigation.localization.service.LocalizationService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -37,10 +38,11 @@ public class InitialLocalesCreator implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
         for (var key : textsTable.keySet()) {
+            var schema = new LocalizedStringSchema(language, key, textsTable.get(key));
             try {
-                service.create(key, textsTable.get(key), language);
+                service.create(schema);
             } catch (AlreadyExistsException ignored) {
-                service.update(key, textsTable.get(key), language);
+                service.update(schema);
             }
         }
     }

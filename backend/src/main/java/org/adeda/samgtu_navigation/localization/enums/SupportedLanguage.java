@@ -11,10 +11,10 @@ public enum SupportedLanguage {
     ENGLISH("english");
 
     @Getter
-    private final String dbConfigName;
+    private final String configName;
 
     SupportedLanguage(String dbLanguage) {
-        this.dbConfigName = dbLanguage;
+        this.configName = dbLanguage;
     }
 
     public static SupportedLanguage byLocale(Locale locale) {

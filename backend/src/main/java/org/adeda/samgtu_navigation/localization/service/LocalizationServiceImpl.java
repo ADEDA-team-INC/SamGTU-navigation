@@ -6,6 +6,7 @@ import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 import org.adeda.samgtu_navigation.localization.model.LocalizedString;
 import org.adeda.samgtu_navigation.localization.repository.LocalizedStringRepository;
+import org.adeda.samgtu_navigation.localization.schema.LocalizedStringSchema;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +22,14 @@ public class LocalizationServiceImpl implements LocalizationService {
     }
 
     @Override
-    public LocalizedString create(String key, String text, SupportedLanguage language) throws AlreadyExistsException {
-        var result = repository.findByKey(key, language).orElse(null);
+    public LocalizedString create(LocalizedStringSchema schema) throws AlreadyExistsException {
+        var result = repository.findByKey(schema.getKey(), schema.getLanguage()).orElse(null);
         if (result != null) {
             throw new AlreadyExistsException("LanguageString with given key and language already exists");
         }
 
         var str = new LocalizedString(
-            language, language.getDbConfigName(), key, text
+            schema.getLanguage(), schema.getLanguage().getConfigName(), schema.getKey(), schema.getText()
         );
 
         return repository.save(str);
@@ -54,13 +55,13 @@ public class LocalizationServiceImpl implements LocalizationService {
     }
 
     @Override
-    public LocalizedString update(String key, String text, SupportedLanguage language) throws NotFoundException {
-        var str = repository.findByKey(key, language).orElse(null);
+    public LocalizedString update(LocalizedStringSchema schema) throws NotFoundException {
+        var str = repository.findByKey(schema.getKey(), schema.getLanguage()).orElse(null);
         if (str == null) {
             throw new NotFoundException("LocalizedString with given key and language was not found");
         }
 
-        str.setText(text);
+        str.setText(schema.getText());
 
         return repository.save(str);
     }

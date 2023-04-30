@@ -14,5 +14,5 @@ public interface NodeService {
 
     NavNode update(Integer id, NavNodeCreateSchema schema) throws InvalidFormatException, NotFoundException;
 
-    void delete(Integer id) throws NotFoundException;
+    void deleteById(Integer id) throws NotFoundException;
 }

@@ -5,6 +5,7 @@ import org.adeda.samgtu_navigation.core.exception.AlreadyExistsException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 import org.adeda.samgtu_navigation.localization.model.LocalizedString;
+import org.adeda.samgtu_navigation.localization.schema.LocalizedStringSchema;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -13,13 +14,11 @@ import java.util.Optional;
 public interface LocalizationService {
     /**
      * Метод создания новой локализованной строки
-     * @param key Ключ строки
-     * @param text Текст с переводом строки на соответствующий язык
-     * @param language Язык перевода
+     * @param schema Объект строки
      * @return Ссылка на строку, хранящуюся в базе данных
      * @throws AlreadyExistsException Если строка с данным ключом и языком уже существует
      */
-    LocalizedString create(String key, String text, SupportedLanguage language) throws AlreadyExistsException;
+    LocalizedString create(LocalizedStringSchema schema) throws AlreadyExistsException;
 
     /**
      * Метод поиска локализованных строк
@@ -53,19 +52,17 @@ public interface LocalizationService {
 
     /**
      * Метод обновления текста существующей строки
-     * @param key Ключ строки
-     * @param text Новый текст с переводом на данный язык
-     * @param language Язык перевода
+     * @param schema Объект строки
      * @return Объект обновленной строки
      * @throws NotFoundException Если строка с данным ключом и языком не существует
      */
-    LocalizedString update(String key, String text, SupportedLanguage language) throws NotFoundException;
+    LocalizedString update(LocalizedStringSchema schema) throws NotFoundException;
 
     /**
      * Метод удаления локализованной строки
      * @param key ключ строки
      * @param language язык строки
-     * @throws NotFoundException Данная строка не была надйена.
+     * @throws NotFoundException Данная строка не была найдена.
      */
     void delete(String key, SupportedLanguage language) throws NotFoundException;
 }

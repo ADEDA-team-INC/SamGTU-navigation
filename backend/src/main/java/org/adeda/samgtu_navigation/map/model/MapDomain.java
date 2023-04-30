@@ -22,7 +22,7 @@ public class MapDomain {
     private Integer id;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(name = "building_id", nullable = false)
     private MapBuilding building;
 
@@ -36,6 +36,6 @@ public class MapDomain {
     private Integer ordinalNumber;
 
     @NonNull
-    @OneToMany(mappedBy = "domain")
+    @OneToMany(mappedBy = "domain", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private Set<MapObject> mapObjects;
 }

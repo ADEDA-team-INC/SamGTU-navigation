@@ -10,10 +10,12 @@ import org.adeda.samgtu_navigation.navigation.repository.NodeRepository;
 import org.adeda.samgtu_navigation.navigation.repository.NodesConnectionRepository;
 import org.adeda.samgtu_navigation.navigation.schema.NavNodeCreateSchema;
 import org.adeda.samgtu_navigation.navigation.service.NodeService;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class NodeServiceImpl implements NodeService {
     private final NodeRepository repository;
     private final NodesConnectionRepository connectionRepository;
@@ -119,7 +121,7 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public void delete(Integer id) throws NotFoundException {
+    public void deleteById(Integer id) throws NotFoundException {
         var node = repository.findById(id).orElse(null);
         if (node == null) {
             throw new NotFoundException("NavNode with given id was not found");

@@ -12,6 +12,7 @@ import org.adeda.samgtu_navigation.map.service.MapDomainService;
 import org.adeda.samgtu_navigation.navigation.model.NavNode;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -48,7 +49,7 @@ public class MapDomainServiceImpl implements MapDomainService {
             building,
             new DomainImage(schema.getImage()),
             schema.getOrdinalNumber(),
-            Set.of()
+            new HashSet<>()
         );
 
         return repository.save(domain);

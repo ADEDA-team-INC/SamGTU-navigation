@@ -15,10 +15,10 @@ import java.util.List;
 
 @RestController
 @Validated
-public class NavigationControllerImpl {
+public class NavigationController {
     private final NavigationService service;
 
-    public NavigationControllerImpl(NavigationService service) {
+    public NavigationController(NavigationService service) {
         this.service = service;
     }
 

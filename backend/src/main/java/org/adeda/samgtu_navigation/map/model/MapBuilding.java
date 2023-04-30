@@ -38,6 +38,6 @@ public class MapBuilding {
     private MapEntityInfo info;
 
     @NonNull
-    @OneToMany(mappedBy = "building")
+    @OneToMany(mappedBy = "building", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private Set<MapDomain> domains;
 }

@@ -1,5 +1,6 @@
 package org.adeda.samgtu_navigation.navigation.schema;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class NavPointSchema {
         this.mapObjectId = node.getMapObject().getId();
     }
 
+    @JsonIgnore
     public Vector2d getPosition() {
         return new Vector2d(positionX, positionY);
     }
