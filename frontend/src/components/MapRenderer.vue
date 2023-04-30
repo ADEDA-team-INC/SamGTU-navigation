@@ -11,18 +11,16 @@
 </template>
 
 <style scoped lang="scss">
-
 .map-viewport {
     width: 100%;
     height: 100%;
     position: relative;
     overflow: hidden;
 }
-
 </style>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import {
     Application, Container, Sprite, Graphics,
     Point, ISVGResourceOptions, MIPMAP_MODES, Rectangle
@@ -32,10 +30,20 @@ import { MapDomainSchema, MapObjectSchema } from '../schemas/map-schemas';
 const ZOOM_STEP = 1 / 500
 const MIN_ZOOM = 0.8
 const MAX_ZOOM = 5
+const SVG_PIXELS_PER_METER = 4
+const OBJECT_CLICK_DELAY = 100
 
 const props = defineProps<{
     domains: MapDomainSchema[]
 }>()
+
+function getZoom() {
+    return viewZoom
+}
+function setZoom(value: number) {
+    viewZoom = value
+    pixiUpdateRootTransform()
+}
 
 const emit = defineEmits<{
     (e: 'objectClick', mapObject: MapObjectSchema): void
@@ -52,10 +60,16 @@ let viewZoom = 1.0
 
 const viewport = ref<HTMLElement | null>(null)
 const resizeObserver = new ResizeObserver(onResize)
+
 let lastPointerX = 0.0
 let lastPointerY = 0.0
 let pointerId: number | null = null
 let isDragging = false
+
+let objectPointerId: number | null = null
+let objectPointerDownTime = 0.0
+
+defineExpose({ getZoom, setZoom })
 
 onMounted(() => {
     if (viewport.value !== null) {
@@ -109,7 +123,6 @@ function onPointerUp(e: PointerEvent) {
 
 function onWheel(e: WheelEvent) {
     viewZoom -= e.deltaY * ZOOM_STEP
-    viewZoom = Math.min(Math.max(viewZoom, MIN_ZOOM), MAX_ZOOM)
     pixiUpdateRootTransform()
 }
 
@@ -118,7 +131,9 @@ function onResize() {
 }
 
 function recreatePixiObjects() {
-    pixiRoot.removeChildren()
+    for (let i = 0; i < pixiRoot.children.length; ++i) {
+        pixiRoot.children[i].destroy()
+    }
 
     for (let i = 0; i < props.domains.length; ++i) {
         let domain = props.domains[i]
@@ -134,7 +149,8 @@ function pixiAddDomain(domain: MapDomainSchema) {
     let sprite = Sprite.from(domain.image.url, {
         mipmap: MIPMAP_MODES.ON,
         resourceOptions: {
-            scale: 5
+            width: domain.image.width * SVG_PIXELS_PER_METER,
+            height: domain.image.height * SVG_PIXELS_PER_METER
         } as ISVGResourceOptions
     })
 
@@ -153,9 +169,18 @@ function pixiAddMapObject(mapObject: MapObjectSchema) {
         let bounds = new Graphics()
         bounds.eventMode = 'static'
         bounds.hitArea = new Rectangle(bbox.positionX, bbox.positionY, bbox.width, bbox.height)
+        bounds.on('pointerdown', (e) => {
+            if (e.button === 0 && objectPointerId === null) {
+                objectPointerId = e.pointerId
+                objectPointerDownTime = e.timeStamp
+            }
+        })
         bounds.on('pointerup', (e) => {
-            if (e.button === 0) {
-                emit('objectClick', mapObject)
+            if (e.button === 0 && e.pointerId == objectPointerId) {
+                objectPointerId = null
+                if (e.timeStamp - objectPointerDownTime < OBJECT_CLICK_DELAY) {
+                    emit('objectClick', mapObject)
+                }
             }
         })
 
@@ -164,6 +189,8 @@ function pixiAddMapObject(mapObject: MapObjectSchema) {
 }
 
 function pixiUpdateRootTransform() {
+    viewZoom = Math.min(Math.max(viewZoom, MIN_ZOOM), MAX_ZOOM)
+
     pixiRoot.scale = new Point(viewZoom, viewZoom)
     pixiRoot.x = -viewPosX * viewZoom + pixiApp.screen.width * 0.5
     pixiRoot.y = -viewPosY * viewZoom + pixiApp.screen.height * 0.5
