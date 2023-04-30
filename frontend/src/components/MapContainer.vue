@@ -1,6 +1,6 @@
 <template>
     <div class="map-container">
-        <MapRenderer :domains="domains" @object-click="onObjectClick" />
+        <MapRenderer :domains="domains" @object-click="onObjectClick" ref="renderer" />
 
         <div class="top-hud-bar">
             <nav>
@@ -11,13 +11,45 @@
                 </ol>
             </nav>
         </div>
-        
+
         <div class="side-hud-bar">
+            <div
+                class="btn-group-vertical border rounded shadow-sm"
+                v-if="navStore.building !== null"
+            >
+                <template v-for="floor in Object.keys(navStore.building.domainIds)">
+                    <input
+                        type="radio"
+                        class="btn-check"
+                        name="floor-radio"
+                        :id="'floor-radio-' + floor"
+                        :checked="navStore.floor == floor"
+                    />
+                    <label class="btn btn-light" :for="'floor-radio-' + floor">
+                        {{ floor }}
+                    </label>
+                </template>
+            </div>
+            
             <div class="btn-group-vertical border rounded shadow-sm">
-                <button class="btn btn-light">
+                <button
+                    class="btn btn-light"
+                    @click="() => {
+                        if (renderer !== null) {
+                            renderer.setZoom(renderer.getZoom() + BUTTON_ZOOM_STEP)
+                        }
+                    }"
+                >
                     <i class="bi bi-plus fs-4"></i>
                 </button>
-                <button class="btn btn-light">
+                <button
+                    class="btn btn-light"
+                    @click="() => {
+                        if (renderer !== null) {
+                            renderer.setZoom(renderer.getZoom() - BUTTON_ZOOM_STEP)
+                        }
+                    }"
+                >
                     <i class="bi bi-dash fs-4"></i>
                 </button>
             </div>
@@ -28,6 +60,12 @@
 
             <button class="btn btn-light border shadow-sm">
                 <i class="bi bi-pin-map fs-4"></i>
+            </button>
+        </div>
+
+        <div class="right-bottom-hud-bar">
+            <button class="btn btn-light border shadow-sm">
+                <i class="bi bi-globe-americas fs-4"></i>
             </button>
         </div>
     </div>
@@ -53,6 +91,17 @@
     box-shadow: $box-shadow-sm;
 }
 
+.top-left-hud-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: map-get($spacers, 2);
+    margin-right: map-get($spacers, 3);
+    border-radius: $border-radius;
+    border: $border-width $border-style $border-color;
+    box-shadow: $box-shadow-sm;
+}
+
 .side-hud-bar {
     position: absolute;
     right: 0;
@@ -63,19 +112,31 @@
     flex-direction: column;
     row-gap: map-get($spacers, 3);
 }
+
+.right-bottom-hud-bar {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-bottom: map-get($spacers, 4);
+    margin-right: map-get($spacers, 3);
+}
 </style>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
+import { reactive, ref } from 'vue';
 import { useNavStore } from '../stores/nav-store';
 import MapRenderer from './MapRenderer.vue';
 import { MapDomainSchema, MapObjectSchema } from '../schemas/map-schemas';
 import { useRouter } from 'vue-router';
 
+const BUTTON_ZOOM_STEP = 0.6
+
 const navStore = useNavStore()
 const router = useRouter()
 
 const domains = reactive<Array<MapDomainSchema>>([])
+
+const renderer = ref<InstanceType<typeof MapRenderer> | null>(null)
 
 navStore.$subscribe((mutation, state) => {
     domains.length = 0
