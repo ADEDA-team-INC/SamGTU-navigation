@@ -1,5 +1,5 @@
 import { ref, watch } from "vue";
-import { defineStore, mapState } from "pinia";
+import { defineStore } from "pinia";
 import { MapBuildingSchema, MapDomainSchema } from "../schemas/map-schemas";
 import { fetchBuildingById, fetchDomainById } from "../api/map-api";
 
