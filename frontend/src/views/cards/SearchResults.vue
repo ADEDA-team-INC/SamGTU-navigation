@@ -8,7 +8,7 @@
             v-for="building in searchResult?.mapBuildings"
             :key="building.id"
             class="unstyled-a"
-            :to="`map/building/${building.id}`"
+            :to="`building/${building.id}`"
         >
             <SmallCard :entity="building"/>
         </router-link>
@@ -17,7 +17,7 @@
             v-for="mapObject in searchResult?.mapObjects"
             :key="mapObject.id"
             class="unstyled-a"
-            :to="`map/object/${mapObject.id}`"
+            :to="`object/${mapObject.id}`"
         >
             <SmallCard :entity="mapObject"/>
         </router-link>
@@ -26,7 +26,7 @@
             v-for="outdoorObject in searchResult?.outdoorObjects"
             :key="outdoorObject.id"
             class="unstyled-a"
-            :to="`map/outdoor_object/${outdoorObject.id}`"
+            :to="`outdoor_object/${outdoorObject.id}`"
         >
             <SmallCard :entity="outdoorObject"/>
         </router-link>
