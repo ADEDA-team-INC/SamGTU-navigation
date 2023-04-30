@@ -7,10 +7,12 @@ import {
     createStore
 } from 'redux';
 
-import { mainReducer } from './main-reducer';
+import { mainReducer } from './mainReducer';
+import { mapReducer } from "./mapReducer";
 
 const reducers = combineReducers({
-    main: mainReducer
+    main: mainReducer,
+    map: mapReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

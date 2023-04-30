@@ -1,11 +1,26 @@
-import React from "react";
+import React, {useEffect} from "react";
 import s from "./zoom.module.scss";
+import { useDispatch, useSelector } from "react-redux";
 
-export const Zoom = ({ canvas }) => {
+export const Zoom = () => {
+
+  const dispatch = useDispatch()
+  const map = useSelector(state => state.map.map)
+
+  const zoomCanvas = (map) => {
+    console.log(map)
+
+    dispatch({ type: "MAP", payload: map })
+
+    console.log('1')
+  }
   return (
     <div className={s.zoom}>
       <div
         className={s.zoom__button}
+        onClick={
+          () => zoomCanvas(map)
+        }
       >
         <svg
           width="40"
