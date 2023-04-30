@@ -459,7 +459,7 @@ paths:
         - name: lang
           in: query
           required: false
-          schema: { type: string, example: ru-RU }
+          schema: { $ref: "#/components/schemas/supported_language" }
       responses:
         200:
           description: Operation went successfully
