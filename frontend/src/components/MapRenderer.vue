@@ -67,6 +67,7 @@ let pointerId: number | null = null
 let isDragging = false
 let objectPointerId: number | null = null
 let objectPointerDownTime = 0.0
+let selectedObjectId: number | null = null
 
 function getZoom() {
     return viewZoom
@@ -92,6 +93,7 @@ function onPointerMove(e: PointerEvent) {
         viewPosY -= (e.y - lastPointerY) / viewZoom
         lastPointerX = e.x
         lastPointerY = e.y
+        navStore.focusedObjectId = null
         pixiUpdateRootTransform()
     }
 }
@@ -222,6 +224,24 @@ function pixiFocusOnBounds(bounds: Rectangle) {
     pixiUpdateRootTransform()
 }
 
+function pixiSelectObject(id: number | null) {
+    if (selectedObjectId !== null) {
+        let obj = mapObjects.get(selectedObjectId)
+        if (obj !== undefined && obj.filters !== null) {
+            obj.filters = OBJECT_FILTERS
+        }
+    }
+
+    if (id !== null) {
+        let obj = mapObjects.get(id)
+        if (obj !== undefined) {
+            obj.filters = SELECTED_OBJECT_FILTERS
+        }
+    }
+
+    selectedObjectId = id
+}
+
 function pixiUpdate(delta: number) {
 
 }
@@ -245,23 +265,15 @@ onMounted(() => {
 
 watch(() => navStore.domain, (newVal, oldVal) => {
     recreatePixiObjects()
-    focusOnDomain()
+    if (navStore.focusedObjectId !== null) {
+        focusOnObject(navStore.focusedObjectId)
+    } else {
+        focusOnDomain()
+    }
 }, { immediate: true} )
 
 watch(() => navStore.selectedObjectId, (newId, oldId) => {
-    if (oldId !== null) {
-        let obj = mapObjects.get(oldId)
-        if (obj !== undefined && obj.filters !== null) {
-            obj.filters = OBJECT_FILTERS
-        }
-    }
-
-    if (newId !== null) {
-        let obj = mapObjects.get(newId)
-        if (obj !== undefined) {
-            obj.filters = SELECTED_OBJECT_FILTERS
-        }
-    }
+    pixiSelectObject(newId)
 })
 
 watch(() => navStore.focusedObjectId, (newId, oldId) => {
