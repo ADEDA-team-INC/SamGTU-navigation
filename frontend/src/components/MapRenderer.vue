@@ -20,30 +20,29 @@
 </style>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import {
-    Application, Container, Sprite, Graphics,
-    Point, ISVGResourceOptions, MIPMAP_MODES, Rectangle
+    Application, Container, Sprite, Graphics, DisplayObject,
+    Point, ISVGResourceOptions, MIPMAP_MODES, Rectangle,
+    AlphaFilter
 } from 'pixi.js';
+import { OutlineFilter } from '@pixi/filter-outline';
 import { MapDomainSchema, MapObjectSchema } from '../schemas/map-schemas';
+import { useNavStore } from '../stores/nav-store';
 
 const ZOOM_STEP = 1 / 500
 const MIN_ZOOM = 0.8
 const MAX_ZOOM = 5
 const SVG_PIXELS_PER_METER = 4
-const OBJECT_CLICK_DELAY = 100
+const OBJECT_CLICK_DELAY = 200
+const OBJECT_FILTERS = [
+    new AlphaFilter(0.0)
+]
+const SELECTED_OBJECT_FILTERS = [
+    new OutlineFilter(8, 0x0d6efd, 0.25, 0.5, true)
+]
 
-const props = defineProps<{
-    domains: MapDomainSchema[]
-}>()
-
-function getZoom() {
-    return viewZoom
-}
-function setZoom(value: number) {
-    viewZoom = value
-    pixiUpdateRootTransform()
-}
+const navStore = useNavStore()
 
 const emit = defineEmits<{
     (e: 'objectClick', mapObject: MapObjectSchema): void
@@ -54,42 +53,29 @@ const pixiApp = new Application({
 })
 const pixiRoot = new Container()
 
+const viewport = ref<HTMLElement | null>(null)
+const resizeObserver = new ResizeObserver(onResize)
+
 let viewPosX = 0.0
 let viewPosY = 0.0
 let viewZoom = 1.0
-
-const viewport = ref<HTMLElement | null>(null)
-const resizeObserver = new ResizeObserver(onResize)
+let mapObjects = new Map<number, DisplayObject>()
 
 let lastPointerX = 0.0
 let lastPointerY = 0.0
 let pointerId: number | null = null
 let isDragging = false
-
 let objectPointerId: number | null = null
 let objectPointerDownTime = 0.0
 
-defineExpose({ getZoom, setZoom })
+function getZoom() {
+    return viewZoom
+}
 
-onMounted(() => {
-    if (viewport.value !== null) {
-        pixiApp.resizeTo = viewport.value
-        
-        let canvas = pixiApp.view as HTMLCanvasElement
-        canvas.style.position = 'absolute'
-        viewport.value.appendChild(canvas)
-        resizeObserver.observe(canvas)
-    }
-
-    recreatePixiObjects()
+function setZoom(value: number) {
+    viewZoom = value
     pixiUpdateRootTransform()
-    pixiApp.stage.addChild(pixiRoot)
-    pixiApp.ticker.add(pixiUpdate)
-})
-
-watch(props.domains, () => {
-    recreatePixiObjects()
-})
+}
 
 function onPointerDown(e: PointerEvent) {
     if (e.button === 0 && pointerId === null) {
@@ -130,18 +116,33 @@ function onResize() {
     pixiUpdateRootTransform()
 }
 
+function focusOnDomain() {
+    let bounds = pixiRoot.getBounds()
+    pixiFocusOnBounds(bounds)
+}
+
+function focusOnObject(id: number) {
+    let bounds = mapObjects.get(id)?.getBounds()
+    if (bounds !== undefined) {
+        pixiFocusOnBounds(bounds)
+    }
+}
+
 function recreatePixiObjects() {
+    mapObjects.clear()
     for (let i = 0; i < pixiRoot.children.length; ++i) {
-        pixiRoot.children[i].destroy()
+        pixiRoot.children[i].destroy({
+            children: true
+        })
+    }
+    
+    let domains = new Array<MapDomainSchema>()
+    if (navStore.domain !== null) {
+        domains.push(navStore.domain)
     }
 
-    for (let i = 0; i < props.domains.length; ++i) {
-        let domain = props.domains[i]
-        pixiAddDomain(props.domains[i])
-        
-        for (let j = 0; j < domain.mapObjects.length; ++j) {
-            pixiAddMapObject(domain.mapObjects[j])
-        }
+    for (let i = 0; i < domains.length; ++i) {
+        pixiAddDomain(domains[i])
     }
 }
 
@@ -160,15 +161,30 @@ function pixiAddDomain(domain: MapDomainSchema) {
     sprite.y = domain.image.offsetY
     
     pixiRoot.addChild(sprite)
+
+    for (let i = 0; i < domain.mapObjects.length; ++i) {
+        pixiAddMapObject(domain.mapObjects[i])
+    }
 }
 
 function pixiAddMapObject(mapObject: MapObjectSchema) {
+    let container = new Container()
+    container.filters =
+        navStore.selectedObjectId == mapObject.id ?
+        SELECTED_OBJECT_FILTERS :
+        OBJECT_FILTERS;
+
     for (let k = 0; k < mapObject.bboxes.length; k++) {
         let bbox = mapObject.bboxes[k]
 
         let bounds = new Graphics()
         bounds.eventMode = 'static'
-        bounds.hitArea = new Rectangle(bbox.positionX, bbox.positionY, bbox.width, bbox.height)
+        bounds.beginFill(0x0)
+        bounds.drawRect(bbox.positionX, bbox.positionY, bbox.width, bbox.height)
+        bounds.endFill()
+        bounds.hitArea = new Rectangle(
+            bbox.positionX, bbox.positionY, bbox.width, bbox.height
+        )
         bounds.on('pointerdown', (e) => {
             if (e.button === 0 && objectPointerId === null) {
                 objectPointerId = e.pointerId
@@ -179,13 +195,17 @@ function pixiAddMapObject(mapObject: MapObjectSchema) {
             if (e.button === 0 && e.pointerId == objectPointerId) {
                 objectPointerId = null
                 if (e.timeStamp - objectPointerDownTime < OBJECT_CLICK_DELAY) {
+                    navStore.selectedObjectId = mapObject.id
                     emit('objectClick', mapObject)
                 }
             }
         })
 
-        pixiRoot.addChild(bounds)
+        container.addChild(bounds)
     }
+
+    pixiRoot.addChild(container)
+    mapObjects.set(mapObject.id, container)
 }
 
 function pixiUpdateRootTransform() {
@@ -196,8 +216,58 @@ function pixiUpdateRootTransform() {
     pixiRoot.y = -viewPosY * viewZoom + pixiApp.screen.height * 0.5
 }
 
+function pixiFocusOnBounds(bounds: Rectangle) {
+    viewPosX += (bounds.x - (pixiApp.screen.width - bounds.width) * 0.5) / viewZoom
+    viewPosY += (bounds.y - (pixiApp.screen.height - bounds.height) * 0.5) / viewZoom
+    pixiUpdateRootTransform()
+}
+
 function pixiUpdate(delta: number) {
 
 }
+
+defineExpose({ getZoom, setZoom })
+
+onMounted(() => {
+    if (viewport.value !== null) {
+        pixiApp.resizeTo = viewport.value
+        
+        let canvas = pixiApp.view as HTMLCanvasElement
+        canvas.style.position = 'absolute'
+        viewport.value.appendChild(canvas)
+        resizeObserver.observe(canvas)
+    }
+
+    pixiUpdateRootTransform()
+    pixiApp.stage.addChild(pixiRoot)
+    pixiApp.ticker.add(pixiUpdate)
+})
+
+watch(() => navStore.domain, (newVal, oldVal) => {
+    recreatePixiObjects()
+    focusOnDomain()
+}, { immediate: true} )
+
+watch(() => navStore.selectedObjectId, (newId, oldId) => {
+    if (oldId !== null) {
+        let obj = mapObjects.get(oldId)
+        if (obj !== undefined && obj.filters !== null) {
+            obj.filters = OBJECT_FILTERS
+        }
+    }
+
+    if (newId !== null) {
+        let obj = mapObjects.get(newId)
+        if (obj !== undefined) {
+            obj.filters = SELECTED_OBJECT_FILTERS
+        }
+    }
+})
+
+watch(() => navStore.focusedObjectId, (newId, oldId) => {
+    if (newId !== null) {
+        focusOnObject(newId)
+    }
+})
 
 </script>
