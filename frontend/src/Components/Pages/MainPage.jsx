@@ -14,7 +14,7 @@ export const MainPage = (props) => {
     
     return (
         <div className="main">
-            <Map />
+            <Map translation= {t}/>
             <div>
                 <div className="main__left__container">
                     <Search details={initialDetails} translation = {t} setTranslation ={i18n}/>

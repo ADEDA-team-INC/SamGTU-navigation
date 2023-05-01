@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch} from 'react-redux';
 
-export const Map = props => {
+export const Map = ({ translation})=> {
 
     const dispatch = useDispatch()
 
@@ -38,7 +38,7 @@ export const Map = props => {
             <canvas id="map"></canvas>
             <button onClick={() => {
                 initialMap()
-            }}>Загрузить карту</button>
+            }}>{translation("Load map")}</button>
         </div>
 
     )
