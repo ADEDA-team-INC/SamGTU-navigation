@@ -3,13 +3,8 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "compose-up-frontend-debug",
-            "command": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build postgres backend"
-        },
-        {
-            "type": "shell",
             "label": "compose-up-backend-debug",
-            "command": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build postgres"
+            "command": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up backend -d --build"
         },
         {
             "type": "shell",
@@ -24,7 +19,8 @@
         {
             "type": "shell",
             "label": "compose-down",
-            "command": "docker compose down"
+            "command": "docker compose down -v",
+            "problemMatcher": []
         }
     ]
 }
