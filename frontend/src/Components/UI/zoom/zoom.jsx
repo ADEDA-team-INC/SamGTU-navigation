@@ -8,27 +8,27 @@ export const Zoom = () => {
   const map = useSelector(state => state.map.map)
 
   const zoomCanvas = (map, state) => {
+    const top = map.getCenter().top
+    const left = map.getCenter().left
 
     if (state === 'plus') {
       var zoom = map.getZoom();
       if (zoom > 20) {
         zoom = 20
-      }else {
-        zoom +=  0.1
+      } else {
+        zoom += 0.1
       }
-      map.zoomToPoint({ x: window.innerWidth/window.innerHeight+50, y: window.innerWidth/window.innerHeight+50}, zoom)
+      map.zoomToPoint({ x: top, y: left }, zoom)
     } else {
       var zoom = map.getZoom();
       if (zoom < 0.01) {
         zoom = 0.01
-      }else {
+      } else {
         zoom -= 0.1
       }
-      map.zoomToPoint({ x: window.innerWidth/window.innerHeight+50, y: window.innerWidth/window.innerHeight+50}, zoom)
+      map.zoomToPoint({ x: top, y: left }, zoom)
     }
-
     dispatch({ type: "MAP", payload: map })
-    console.log('')
   }
   return (
     <div className={s.zoom}>
