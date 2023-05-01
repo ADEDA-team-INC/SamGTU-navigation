@@ -7,13 +7,14 @@ WORKDIR /frontend
 COPY package.json package-lock.json ./
 RUN npm install
 
-COPY src/ ./src
-COPY public/ ./public
-COPY index.html vite.config.js ./
-
 
 # Development stage
 FROM install AS dev
+
+WORKDIR /frontend
+
+COPY public/ ./public
+COPY index.html vite.config.ts tsconfig.json tsconfig.node.json ./
 
 ARG FRONTEND_PORT
 ARG BACKEND_URL
@@ -25,6 +26,12 @@ ENTRYPOINT [ "sh", "-c", "npm run dev -- --host --port $FRONTEND_PORT" ]
 
 # Build stage
 FROM install AS build
+
+WORKDIR /frontend
+
+COPY src/ ./src
+COPY public/ ./public
+COPY index.html vite.config.ts tsconfig.json tsconfig.node.json ./
 
 ARG BACKEND_URL
 ENV BACKEND_URL=$BACKEND_URL
