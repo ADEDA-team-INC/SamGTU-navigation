@@ -2,11 +2,12 @@ import { I18n, createI18n } from 'vue-i18n'
 import { useUserStore } from './stores/user-store'
 import { getLanguageCode } from './utils/locale'
 
-export const SUPPORT_LOCALES = ['ru', 'en']
+export const SUPPORTED_LOCALES = ['ru', 'en']
 export const DEFAULT_LOCALE = 'ru' 
 
 export function setupI18n() {
     const i18n = createI18n({
+        availableLocales: SUPPORTED_LOCALES,
         locale: DEFAULT_LOCALE,
         fallbackLocale: DEFAULT_LOCALE
     })
