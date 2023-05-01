@@ -1,9 +1,19 @@
 <template>
-    <h4>{{ $t('searching.results') }}</h4>
     <div class="cards-list" v-if="searchResult === null">
         <SmallCard :entity="null" v-for="i in 3"/>
     </div>
+    <div class="cards-list"
+        v-else-if="
+            searchResult.mapBuildings.length === 0 &&
+            searchResult.mapObjects.length === 0 &&
+            searchResult.outdoorObjects.length === 0
+        "
+    >
+        <h4 class="text-center">{{ $t('searching.empty') }}</h4>
+    </div>
     <div class="cards-list" v-else>
+        <h4>{{ $t('searching.results') }}</h4>
+        
         <router-link
             v-for="building in searchResult?.mapBuildings"
             :key="building.id"
@@ -35,14 +45,14 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { MapSearchResult } from '../../schemas/map-schemas';
+import { MapEntity, MapSearchResult } from '../../schemas/map-schemas';
 import { search } from '../../api/map-api';
 import { ref, watchEffect } from 'vue';
 import SmallCard from '../../components/SmallCard.vue';
 
 const route = useRoute()
 
-let searchResult = ref<MapSearchResult | null>(null)
+const searchResult = ref<MapSearchResult | null>(null)
 
 watchEffect(async () => {
     let searchQuery = ''
