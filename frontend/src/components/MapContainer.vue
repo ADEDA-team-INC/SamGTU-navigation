@@ -1,6 +1,6 @@
 <template>
     <div class="map-container">
-        <MapRenderer :domains="domains" @object-click="onObjectClick" ref="renderer" />
+        <MapRenderer @object-click="onObjectClick" ref="renderer" />
 
         <div class="top-hud-bar">
             <nav>
@@ -54,27 +54,41 @@
                 </button>
             </div>
 
-            <button class="btn btn-light border shadow-sm">
+            <button
+                class="btn btn-light border shadow-sm"
+                id="scan-qr-btn"
+            >
                 <i class="bi bi-qr-code-scan fs-4"></i>
             </button>
 
-            <button class="btn btn-light border shadow-sm">
+            <button
+                class="btn btn-light border shadow-sm"
+                id="select-loc-btn"
+            >
                 <i class="bi bi-pin-map fs-4"></i>
             </button>
         </div>
 
         <div class="right-bottom-hud-bar">
-            <button class="btn btn-light border shadow-sm">
+            <button
+                class="btn btn-light border shadow-sm"
+                id="change-lang-btn"
+            >
                 <i class="bi bi-globe-americas fs-4"></i>
             </button>
         </div>
     </div>
+
+    <Tooltip target="#scan-qr-btn" title="Сканировать QR код"/>
+    <Tooltip target="#select-loc-btn" title="Выбрать местоположение"/>
+    <Tooltip target="#change-lang-btn" title="Изменить язык"/>
 </template>
 
 <style scoped lang="scss">
 @import "../scss/style.scss";
 
 .map-container {
+    flex-grow: 1;
     position: relative;
 }
 
@@ -123,27 +137,19 @@
 </style>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
-import { useNavStore } from '../stores/nav-store';
+import { ref } from 'vue';
 import MapRenderer from './MapRenderer.vue';
-import { MapDomainSchema, MapObjectSchema } from '../schemas/map-schemas';
+import { MapObjectSchema } from '../schemas/map-schemas';
 import { useRouter } from 'vue-router';
+import { useNavStore } from '../stores/nav-store';
+import Tooltip from './Tooltip.vue';
 
 const BUTTON_ZOOM_STEP = 0.6
 
 const navStore = useNavStore()
 const router = useRouter()
 
-const domains = reactive<Array<MapDomainSchema>>([])
-
 const renderer = ref<InstanceType<typeof MapRenderer> | null>(null)
-
-navStore.$subscribe((mutation, state) => {
-    domains.length = 0
-    if (state.domain !== null) {
-        domains.push(state.domain)
-    }
-})
 
 function onObjectClick(mapObject: MapObjectSchema) {
     router.push({ name: 'map_object', params: { id: mapObject.id } })
