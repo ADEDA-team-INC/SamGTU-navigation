@@ -37,21 +37,20 @@
 import { useRoute } from 'vue-router';
 import { MapSearchResult } from '../../schemas/map-schemas';
 import { search } from '../../api/map-api';
-import { onMounted, ref, watch } from 'vue';
+import { ref, watchEffect } from 'vue';
 import SmallCard from '../../components/SmallCard.vue';
 
 const route = useRoute()
 
 let searchResult = ref<MapSearchResult | null>(null)
 
-onMounted(async () => {
-    watch(route, async () => {
-        let searchQuery = ''
-        if (typeof route.query['query'] === 'string') {
-            searchQuery = route.query.query
-        }
-        searchResult.value = await search(searchQuery)
-    }, { immediate: true })
+watchEffect(async () => {
+    let searchQuery = ''
+    if (typeof route.query['query'] === 'string') {
+        searchQuery = route.query.query
+    }
+    searchResult.value = null
+    searchResult.value = await search(searchQuery)
 })
 
 </script>
