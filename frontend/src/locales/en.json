@@ -1,7 +1,12 @@
 {
+    "languages": {
+        "ru": "Русский",
+        "en": "English"
+    },
     "search": "Search",
     "searching": {
-        "results": "Search results"
+        "results": "Search results",
+        "empty": "Nothing was found"
     },
     "modal": {
         "close": "Close",
