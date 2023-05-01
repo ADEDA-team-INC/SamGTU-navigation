@@ -1,5 +1,5 @@
 <template>
-    <h4>Результаты поиска</h4>
+    <h4>{{ $t('searching.results') }}</h4>
     <div class="cards-list" v-if="searchResult === null">
         <SmallCard :entity="null" v-for="i in 3"/>
     </div>

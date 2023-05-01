@@ -1,10 +1,10 @@
 <template>
     <Card :entity="outdoorObject">
         <div>
-            <h4>Показать</h4>
+            <h4>{{ $t('map_entity.show') }}</h4>
             <a :href="mapsLink" class="btn btn-primary" v-if="mapsLink !== null">
                 <i class="bi bi-geo-alt-fill"></i>
-                На Яндекс Картах
+                {{ $t('map_entity.on_yandex') }}
             </a>
         </div>
     </Card>

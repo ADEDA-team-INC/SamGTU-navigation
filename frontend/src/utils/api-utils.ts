@@ -13,7 +13,7 @@ async function get(path: string, params: { [key: string]: string | null }) {
 
     let options = {
         headers: {
-            'Accept-Language': userStore.language
+            'Accept-Language': userStore.locale
         }
     }
 

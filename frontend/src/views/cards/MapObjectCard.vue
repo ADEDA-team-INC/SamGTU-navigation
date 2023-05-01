@@ -1,7 +1,7 @@
 <template>
     <Card :entity="mapObject">
         <div>
-            <h4>Показать</h4>
+            <h4>{{ $t('map_entity.show') }}</h4>
             <div class="d-flex justify-content-between">
                 <button
                     type="button"
@@ -10,7 +10,8 @@
                         navStore.focusedObjectId = mapObject?.id ?? null
                     "
                 >
-                    <i class="bi bi-map-fill"></i> На карте
+                    <i class="bi bi-map-fill"></i>
+                    {{ $t('map_entity.on_map') }}
                 </button>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <template>
     <Card :entity="building">
         <div>
-            <h4>Показать</h4>
+            <h4>{{ $t('map_entity.show') }}</h4>
             <div class="d-flex justify-content-between">
                 <button
                     type="button"
@@ -13,16 +13,16 @@
                     }"
                 >
                     <i class="bi bi-map-fill"></i>
-                    На карте
+                    {{ $t('map_entity.on_map') }} 
                 </button>
                 <a :href="mapsLink" class="btn btn-primary" v-if="mapsLink !== null">
                     <i class="bi bi-geo-alt-fill"></i>
-                    На Яндекс Картах
+                    {{ $t('map_entity.on_yandex') }}
                 </a>
             </div>
         </div>
         <div v-if="building !== null">
-            <h4>Этажи</h4>
+            <h4>{{ $t('map_building.floors') }}</h4>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary" v-for="floor in Object.keys(building.domainIds ?? {})">
                     {{ floor }}

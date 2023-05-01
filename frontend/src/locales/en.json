@@ -1,0 +1,32 @@
+{
+    "search": "Search",
+    "searching": {
+        "results": "Search results"
+    },
+    "modal": {
+        "close": "Close",
+        "save": "Save"
+    },
+    "main_page": {
+        "buildings": "University buildings",
+        "shops": "Shops",
+        "cafes": "Cafes",
+        "sights": "Sights"
+    },
+    "map_entity": {
+        "show": "Show",
+        "on_map": "On map",
+        "on_yandex": "On Yandex maps"
+    },
+    "map_building": {
+        "floors": "Floors"
+    },
+    "map_hud": {
+        "scan_qr": "Scan QR code",
+        "select_location": "Select location",
+        "change_language": "Change language"
+    },
+    "lang_modal": {
+        "title": "Change language"
+    }
+}

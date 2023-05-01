@@ -1,6 +1,11 @@
 <template>
     <form class="d-flex gap-2" @submit.prevent="onSearchClick">
-        <input class="form-control" type="text" placeholder="Поиск" ref="searchInput">
+        <input
+            class="form-control"
+            type="text"
+            :placeholder="$t('search')"
+            ref="searchInput"
+        >
         <button type="submit" class="btn btn-primary">
             <i class="bi bi-search"></i>
         </button>

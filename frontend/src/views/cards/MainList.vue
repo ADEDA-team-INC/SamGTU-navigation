@@ -1,16 +1,28 @@
 <template>
     <div class="d-flex flex-wrap justify-content-around gap-4">
         <router-link to="/buildings">
-            <IconButton icon-class="bi-building-fill" subtitle="Корпуса" />
+            <IconButton
+                icon-class="bi-building-fill"
+                :subtitle="$t('main_page.buildings')"
+            />
         </router-link>
         <router-link to="/outdoor_objects?type=SHOP">
-            <IconButton icon-class="bi-basket2-fill" subtitle="Магазины" />
+            <IconButton
+                icon-class="bi-basket2-fill"
+                :subtitle="$t('main_page.shops')"
+            />
         </router-link>
         <router-link to="/outdoor_objects?type=CAFE">
-            <IconButton icon-class="bi-cup-hot-fill" subtitle="Кафе" />
+            <IconButton
+                icon-class="bi-cup-hot-fill"
+                :subtitle="$t('main_page.cafes')"
+            />
         </router-link>
         <router-link to="/outdoor_objects?type=SIGHT">
-            <IconButton icon-class="bi-bank2" subtitle="Места" />
+            <IconButton
+                icon-class="bi-bank2"
+                :subtitle="$t('main_page.sights')"
+            />
         </router-link>
     </div>
 </template>

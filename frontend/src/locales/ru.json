@@ -1,0 +1,32 @@
+{
+    "search": "Поиск",
+    "searching": {
+        "results": "Результаты поиска"
+    },
+    "modal": {
+        "close": "Закрыть",
+        "save": "Сохранить"
+    },
+    "main_page": {
+        "buildings": "Корпуса",
+        "shops": "Магазины",
+        "cafes": "Кафе",
+        "sights": "Места"
+    },
+    "map_entity": {
+        "show": "Показать",
+        "on_map": "На карте",
+        "on_yandex": "На Яндекс картах"
+    },
+    "map_building": {
+        "floors": "Этажи"
+    },
+    "map_hud": {
+        "scan_qr": "Сканировать QR код",
+        "select_location": "Указать местоположение",
+        "change_language": "Изменить язык"
+    },
+    "lang_modal": {
+        "title": "Изменить язык"
+    }
+}

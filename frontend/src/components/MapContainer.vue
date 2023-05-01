@@ -81,21 +81,36 @@
         </div>
     </div>
 
-    <Tooltip target="#scan-qr-btn" title="Сканировать QR код"/>
-    <Tooltip target="#select-loc-btn" title="Выбрать местоположение"/>
-    <Tooltip target="#change-lang-btn" title="Изменить язык"/>
+    <Tooltip
+        target="#scan-qr-btn"
+        :title="$t('map_hud.scan_qr')"
+    />
+    <Tooltip
+        target="#select-loc-btn"
+        :title="$t('map_hud.select_location')"
+    />
+    <Tooltip
+        target="#change-lang-btn"
+        :title="$t('map_hud.change_language')"
+    />
 
     <Modal
         id="lang-modal"
-        title="Изменить язык"
-        close-button="Закрыть"
-        submit-button="Сохранить"
+        :title="$t('lang_modal.title')"
+        :close-button="$t('modal.close')"
+        :submit-button="$t('modal.save')"
     >
         <div class="list-group">
-            <button class="list-group-item list-group-item-action active">
+            <button
+                class="list-group-item list-group-item-action active"
+                @click="setI18nLanguage(i18n, 'ru')"
+            >
                 Русский
             </button>
-            <button class="list-group-item list-group-item-action">
+            <button
+                class="list-group-item list-group-item-action"
+                @click="setI18nLanguage(i18n, 'en')"
+            >
                 English
             </button>
         </div>
@@ -162,6 +177,7 @@ import { useRouter } from 'vue-router';
 import { useNavStore } from '../stores/nav-store';
 import Tooltip from './Tooltip.vue';
 import Modal from './Modal.vue';
+import { i18n, setI18nLanguage } from '../i18n';
 
 const BUTTON_ZOOM_STEP = 0.6
 
