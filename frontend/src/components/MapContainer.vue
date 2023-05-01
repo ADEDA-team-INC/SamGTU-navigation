@@ -94,27 +94,7 @@
         :title="$t('map_hud.change_language')"
     />
 
-    <Modal
-        id="lang-modal"
-        :title="$t('lang_modal.title')"
-        :close-button="$t('modal.close')"
-        :submit-button="$t('modal.save')"
-    >
-        <div class="list-group">
-            <button
-                class="list-group-item list-group-item-action active"
-                @click="setI18nLanguage(i18n, 'ru')"
-            >
-                Русский
-            </button>
-            <button
-                class="list-group-item list-group-item-action"
-                @click="setI18nLanguage(i18n, 'en')"
-            >
-                English
-            </button>
-        </div>
-    </Modal>
+    <LanguageModal id="lang-modal"/>
 </template>
 
 <style scoped lang="scss">
@@ -178,6 +158,7 @@ import { useNavStore } from '../stores/nav-store';
 import Tooltip from './Tooltip.vue';
 import Modal from './Modal.vue';
 import { i18n, setI18nLanguage } from '../i18n';
+import LanguageModal from './LanguageModal.vue';
 
 const BUTTON_ZOOM_STEP = 0.6
 
