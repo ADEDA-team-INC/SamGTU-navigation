@@ -1,7 +1,9 @@
 package org.adeda.samgtu_navigation.localization.enums;
 
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import java.util.Locale;
@@ -17,15 +19,15 @@ public enum SupportedLanguage {
         this.configName = dbLanguage;
     }
 
-    public static SupportedLanguage byLocale(Locale locale) {
+    public static @Nullable SupportedLanguage byLocale(Locale locale) {
         return switch (locale.getLanguage()) {
             case "ru" -> RUSSIAN;
             case "en" -> ENGLISH;
-            default -> throw new IllegalArgumentException();
+            default -> null;
         };
     }
 
-    public static SupportedLanguage fromRequest(HttpServletRequest request) {
+    public static @Nullable SupportedLanguage fromRequest(HttpServletRequest request) {
         return byLocale(RequestContextUtils.getLocale(request));
     }
 }

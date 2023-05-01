@@ -48,7 +48,7 @@ public interface LocalizationService {
      * @param language поддерживаемый язык, для которого нужно получить перевод
      * @return Переведенная строка, либо значение самого ключа, если перевод не найден.
      */
-    String getByKeySafe(String key, SupportedLanguage language);
+    String getByKeySafe(String key, @Nullable SupportedLanguage language);
 
     /**
      * Метод обновления текста существующей строки

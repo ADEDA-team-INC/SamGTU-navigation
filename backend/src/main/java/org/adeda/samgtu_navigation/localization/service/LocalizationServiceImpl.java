@@ -50,8 +50,12 @@ public class LocalizationServiceImpl implements LocalizationService {
     }
 
     @Override
-    public String getByKeySafe(String key, SupportedLanguage language) {
-        return getByKey(key, language).orElse(String.format("[%s]", key));
+    public String getByKeySafe(String key, @Nullable SupportedLanguage language) {
+        var fallback = String.format("[%s]", key);
+        if (language == null) {
+            return fallback;
+        }
+        return getByKey(key, language).orElse(fallback);
     }
 
     @Override
