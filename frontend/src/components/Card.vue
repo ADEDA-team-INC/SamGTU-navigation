@@ -9,6 +9,10 @@
                 >
                     <img :src="image" />
                 </div>
+                <div
+                    class="carousel-item image-container active"
+                    v-if="entity.info.images.length === 0"
+                ></div>
             </div>
             <button
                 class="carousel-control-prev"
