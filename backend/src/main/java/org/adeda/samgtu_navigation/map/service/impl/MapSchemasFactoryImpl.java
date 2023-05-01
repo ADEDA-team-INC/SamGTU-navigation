@@ -90,8 +90,16 @@ public class MapSchemasFactoryImpl implements MapSchemasFactory {
     }
 
     private InfoSchema getInfoSchema(MapEntityInfo info, SupportedLanguage language) {
+        var imagesUrls = info.getImagesUrls();
+        List<String> images;
+        if (imagesUrls.isBlank()) {
+            images = List.of();
+        } else {
+            images = List.of(imagesUrls.split("( *\\n *)"));
+        }
+
         return new InfoSchema(
-            List.of(info.getImagesUrls().split("(^ *| *\\n *)")),
+            images,
             localizationService.getByKeySafe(info.getNameKey(), language),
             localizationService.getByKeySafe(info.getDescriptionKey(), language)
         );
