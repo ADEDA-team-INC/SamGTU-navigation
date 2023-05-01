@@ -1,8 +1,8 @@
 import React from 'react'
 import s from './infobar.module.scss'
 
-export const Infobar = props => {
-    const streetname = "Главный корпус/ауд.500"
+export const Infobar = ({translation}) => {
+    const streetname = translation("korpusa.0.name")
     return (
         <div className={s.infobar}>
             <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">

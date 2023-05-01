@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useTranslation } from "react-i18next";
 
 import Scroll from '../UI/scroll/Scroll';
 import SearchList from './SearchList';
@@ -8,7 +7,7 @@ import pointer from '../../assets/img/point.svg'
 import up from '../../assets/img/up.svg'
 
 
-function Search({ details, addMap }) {
+function Search({ details, addMap, translation, setTranslation}) {
     const [searchField, setSearchField] = useState("");
     const [ifPointer, setIfPointer] = useState(false);
 
@@ -32,21 +31,18 @@ function Search({ details, addMap }) {
         setIfPointer(false);
     };
 
-
-    const {t, i18n} = useTranslation();
-
     const changeLanguage = (language) => {
-        i18n.changeLanguage(language)
+        setTranslation.changeLanguage(language)
     }
 
     return (
         <section className={!ifPointer ? s.search : s.search__active}>
-            <input type="search" className={s.search__input} placeholder="Поиск"
+            <input type="search" className={s.search__input} placeholder={translation("Search")}
                 onChange={handleChange} />
             <Scroll>
                 <div className={s.search__container}>
                     <h1 className={s.search__title}>
-                        {t('results')}:
+                        {translation('results')}:
                     </h1>
                     <a href="##" onClick={
                         ifPointer ? () => (setIfPointer(false)) : () => (setIfPointer(true))
@@ -56,7 +52,7 @@ function Search({ details, addMap }) {
                     </a>
                 </div>
                 <>
-                    {filteredBuildings.length > 0 ? <SearchList filteredBuildings={filteredBuildings} addMap={addMap} /> : <div className={s.nothing__text}> Ничего не найдено </div>}
+                    {filteredBuildings.length > 0 ? <SearchList filteredBuildings={filteredBuildings} addMap={addMap} translation = {translation}/> : <div className={s.nothing__text}> {translation('nothing')} </div>}
                 </>
             </Scroll>
 
