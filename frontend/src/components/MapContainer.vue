@@ -73,6 +73,8 @@
             <button
                 class="btn btn-light border shadow-sm"
                 id="change-lang-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#lang-modal"
             >
                 <i class="bi bi-globe-americas fs-4"></i>
             </button>
@@ -82,6 +84,22 @@
     <Tooltip target="#scan-qr-btn" title="Сканировать QR код"/>
     <Tooltip target="#select-loc-btn" title="Выбрать местоположение"/>
     <Tooltip target="#change-lang-btn" title="Изменить язык"/>
+
+    <Modal
+        id="lang-modal"
+        title="Изменить язык"
+        close-button="Закрыть"
+        submit-button="Сохранить"
+    >
+        <div class="list-group">
+            <button class="list-group-item list-group-item-action active">
+                Русский
+            </button>
+            <button class="list-group-item list-group-item-action">
+                English
+            </button>
+        </div>
+    </Modal>
 </template>
 
 <style scoped lang="scss">
@@ -143,6 +161,7 @@ import { MapObjectSchema } from '../schemas/map-schemas';
 import { useRouter } from 'vue-router';
 import { useNavStore } from '../stores/nav-store';
 import Tooltip from './Tooltip.vue';
+import Modal from './Modal.vue';
 
 const BUTTON_ZOOM_STEP = 0.6
 
@@ -152,7 +171,7 @@ const router = useRouter()
 const renderer = ref<InstanceType<typeof MapRenderer> | null>(null)
 
 function onObjectClick(mapObject: MapObjectSchema) {
-    router.push({ name: 'map_object', params: { id: mapObject.id } })
+    router.push({ name: 'map_object', params: { id: mapObject.id } }).then()
 }
 
 </script>
