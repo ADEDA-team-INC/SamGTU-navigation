@@ -5,7 +5,7 @@
             <hr class="my-4">
             <router-view />
         </aside>
-        <MapContainer class="flex-grow-1" />
+        <MapContainer />
     </div>
 </template>
 
