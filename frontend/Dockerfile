@@ -13,6 +13,7 @@ FROM install AS dev
 
 WORKDIR /frontend
 
+COPY src/ ./src
 COPY public/ ./public
 COPY index.html vite.config.ts tsconfig.json tsconfig.node.json ./
 
