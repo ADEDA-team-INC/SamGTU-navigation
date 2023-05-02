@@ -3,7 +3,8 @@ import s from './search.module.scss';
 import geo from '../../assets/img/GeoAltFill.svg';
 
 
-function Card({ building, addMap }) {
+function Card({ building, addMap, translation}) {
+
   return (
     <div className={s.card} onClick={
       () => {
@@ -13,8 +14,8 @@ function Card({ building, addMap }) {
       <img className={s.card__geo} src={geo} />
       <div className={s.card__text}>
         <img src={building.img} alt="fjdjfdjf" />
-        <h3>{building.name}</h3>
-        <span>{building.adress}</span>
+        <h3>{translation(`korpusa.${building.id-1}.name`)}</h3>
+        <span>{translation(`korpusa.${building.id-1}.adress`)}</span>
       </div>
     </div>
 

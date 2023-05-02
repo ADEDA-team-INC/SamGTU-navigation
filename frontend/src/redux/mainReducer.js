@@ -25,6 +25,8 @@ export const mainReducer = (state = initialState, action) => {
         
         case SET_OUTDOOR:
             return {...state, outdoorObjects: action.outdoorObjects}
+        default: 
+            return state
     }
 }
 

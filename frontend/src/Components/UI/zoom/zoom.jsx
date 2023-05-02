@@ -1,11 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import s from "./zoom.module.scss";
+import { useDispatch, useSelector } from "react-redux";
 
-export const Zoom = ({ canvas }) => {
+export const Zoom = () => {
+
+  const dispatch = useDispatch()
+  const map = useSelector(state => state.map.map)
+
+  const zoomCanvas = (map, state) => {
+    const top = map.getCenter().top
+    const left = map.getCenter().left
+
+    if (state === 'plus') {
+      var zoom = map.getZoom();
+      if (zoom > 20) {
+        zoom = 20
+      } else {
+        zoom += 0.1
+      }
+      map.zoomToPoint({ x: top, y: left }, zoom)
+    } else {
+      var zoom = map.getZoom();
+      if (zoom < 0.01) {
+        zoom = 0.01
+      } else {
+        zoom -= 0.1
+      }
+      map.zoomToPoint({ x: top, y: left }, zoom)
+    }
+    dispatch({ type: "MAP", payload: map })
+  }
   return (
     <div className={s.zoom}>
       <div
         className={s.zoom__button}
+        onClick={
+          () => zoomCanvas(map, 'plus')
+        }
       >
         <svg
           width="40"
@@ -23,6 +54,9 @@ export const Zoom = ({ canvas }) => {
 
       <div
         className={s.zoom__button}
+        onClick={
+          () => zoomCanvas(map, 'minus')
+        }
       >
         <svg
           width="40"
