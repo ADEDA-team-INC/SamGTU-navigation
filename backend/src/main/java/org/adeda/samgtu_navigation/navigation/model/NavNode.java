@@ -23,7 +23,7 @@ public class NavNode {
     private Integer id;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(name = "map_object_id", nullable = false)
     @ToString.Exclude
     private MapObject mapObject;
@@ -33,7 +33,8 @@ public class NavNode {
     @Column(nullable = false)
     private Vector2d position;
 
-    @OneToMany(mappedBy = "nodeA", fetch = FetchType.EAGER)
+    @NonNull
+    @OneToMany(mappedBy = "nodeA", cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<NodesConnection> connections;
 }

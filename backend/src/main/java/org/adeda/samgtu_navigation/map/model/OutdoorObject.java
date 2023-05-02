@@ -6,7 +6,9 @@ import org.adeda.samgtu_navigation.map.enums.OutdoorObjectType;
 
 @Entity
 @Table(name = "outdoor_objects", indexes = {
-    @Index(columnList = "type")
+    @Index(columnList = "type"),
+    @Index(columnList = "nameKey"),
+    @Index(columnList = "descriptionKey")
 })
 @NoArgsConstructor
 @RequiredArgsConstructor

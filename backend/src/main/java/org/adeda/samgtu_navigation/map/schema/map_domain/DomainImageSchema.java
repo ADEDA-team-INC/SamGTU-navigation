@@ -21,6 +21,9 @@ public class DomainImageSchema {
     private Double width;
 
     @NotNull
+    private Double height;
+
+    @NotNull
     private Double offsetX;
 
     @NotNull
@@ -29,6 +32,7 @@ public class DomainImageSchema {
     public DomainImageSchema(DomainImage domainImage) {
         this.url = domainImage.getUrl();
         this.width = domainImage.getWidth();
+        this.height = domainImage.getHeight();
         this.offsetX = domainImage.getOffset().getX();
         this.offsetY = domainImage.getOffset().getY();
     }

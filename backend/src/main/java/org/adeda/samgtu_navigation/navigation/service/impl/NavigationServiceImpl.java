@@ -1,12 +1,12 @@
-package org.adeda.samgtu_navigation.navigation.service;
+package org.adeda.samgtu_navigation.navigation.service.impl;
 
 import org.adeda.samgtu_navigation.core.exception.InvalidFormatException;
 import org.adeda.samgtu_navigation.core.exception.NotFoundException;
-import org.adeda.samgtu_navigation.map.model.MapObject;
 import org.adeda.samgtu_navigation.map.repository.MapObjectRepository;
-import org.adeda.samgtu_navigation.navigation.graph.GraphImpl;
 import org.adeda.samgtu_navigation.navigation.model.NavNode;
 import org.adeda.samgtu_navigation.navigation.schema.NavPointSchema;
+import org.adeda.samgtu_navigation.navigation.service.GraphService;
+import org.adeda.samgtu_navigation.navigation.service.NavigationService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

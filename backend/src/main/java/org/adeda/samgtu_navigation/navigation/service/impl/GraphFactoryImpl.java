@@ -1,10 +1,11 @@
-package org.adeda.samgtu_navigation.navigation.service;
+package org.adeda.samgtu_navigation.navigation.service.impl;
 
 import org.adeda.samgtu_navigation.core.util.Pair;
 import org.adeda.samgtu_navigation.navigation.graph.DistanceMatrix;
 import org.adeda.samgtu_navigation.navigation.graph.Graph;
 import org.adeda.samgtu_navigation.navigation.graph.GraphImpl;
 import org.adeda.samgtu_navigation.navigation.model.NavNode;
+import org.adeda.samgtu_navigation.navigation.service.GraphFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

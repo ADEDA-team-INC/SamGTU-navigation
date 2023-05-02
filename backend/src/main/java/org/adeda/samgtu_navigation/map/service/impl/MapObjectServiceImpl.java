@@ -8,10 +8,11 @@ import org.adeda.samgtu_navigation.map.repository.MapObjectRepository;
 import org.adeda.samgtu_navigation.map.schema.map_object.BoundingBoxSchema;
 import org.adeda.samgtu_navigation.map.schema.map_object.MapObjectCreateSchema;
 import org.adeda.samgtu_navigation.map.service.MapObjectService;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MapObjectServiceImpl implements MapObjectService {
@@ -37,7 +38,9 @@ public class MapObjectServiceImpl implements MapObjectService {
             domain,
             schema.getType(),
             new MapEntityInfo(schema.getInfo()),
-            schema.getBboxes().stream().map(BoundingBoxSchema::asRect).toList()
+            schema.getBboxes().stream().map(BoundingBoxSchema::asRect).collect(
+                Collectors.toCollection(ArrayList::new)
+            )
         );
 
         return repository.save(mapObject);
@@ -58,7 +61,9 @@ public class MapObjectServiceImpl implements MapObjectService {
         mapObject.setType(schema.getType());
         mapObject.setInfo(new MapEntityInfo(schema.getInfo()));
         mapObject.setBoundingBoxes(
-            schema.getBboxes().stream().map(BoundingBoxSchema::asRect).toList()
+            schema.getBboxes().stream().map(BoundingBoxSchema::asRect).collect(
+                Collectors.toCollection(ArrayList::new)
+            )
         );
 
         return repository.save(mapObject);

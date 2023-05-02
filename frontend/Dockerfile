@@ -9,7 +9,7 @@ RUN npm install
 
 COPY src/ ./src
 COPY public/ ./public
-COPY index.html postcss.config.cjs tailwind.config.cjs vite.config.js ./
+COPY index.html vite.config.js ./
 
 
 # Development stage
