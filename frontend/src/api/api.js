@@ -19,5 +19,17 @@ export const mainAPI = {
     
     getOutdoorObjects() {
         return instance.get(`/map/outdoor_objects`)
+    },
+
+    getCurrentOutdoorObject(id) {
+        return instance.get(`/map/outdoor_object/${id}`)
+    },
+
+    search() {
+        return instance.get(`/map/search`)
+    },
+
+    getMapObject(id) {
+        return instance.get(`map/object/${id}`)
     }
 }

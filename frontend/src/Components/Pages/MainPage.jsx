@@ -8,13 +8,21 @@ import { Map } from '../Map/Map'
 import initialDetails from "../../data/initialDetails";
 import { useTranslation } from "react-i18next";
 import { mainAPI } from "../../api/api";
+import { requestBuildings } from "../../redux/mainReducer";
+import { connect } from 'react-redux'
 
-export const MainPage = () => {
+const MainPage = ({ requestBuildings, buildings, isFetching}) => {
 
     const { t, i18n } = useTranslation()
+    useEffect(() => {
+        requestBuildings()
+    }, [])
 
-    mainAPI.getBuildings()
-
+    if (isFetching) {
+        return (
+            <div>Загрузка</div>
+        )
+    }
     return (
         <div className="main">
             {/* <Map translation={t} /> */}
@@ -33,3 +41,10 @@ export const MainPage = () => {
         </div>
     );
 };
+
+const mapStateToProps = (state) => ({
+    buildings: state.main.buildings,
+    isFetching: state.main.isFetching
+  }) 
+
+export const MainPageContainer = connect(mapStateToProps, { requestBuildings })(MainPage)
