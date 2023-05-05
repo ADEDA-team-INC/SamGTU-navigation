@@ -8,11 +8,9 @@ import {
 } from 'redux';
 
 import { mainReducer } from './mainReducer';
-import { mapReducer } from "./mapReducer";
 
 const reducers = combineReducers({
-    main: mainReducer,
-    map: mapReducer
+    main: mainReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

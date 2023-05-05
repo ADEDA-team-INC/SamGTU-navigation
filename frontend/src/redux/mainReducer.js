@@ -35,8 +35,8 @@ const setCurrentBuilding = (currentBuilding) => ({type: SET_BUILDING, currentBui
 const setCurrentDomainBuilding = (currentDomainBuilding) => ({type: SET_DOMAIN, currentDomainBuilding})
 const setOutdoorObjects = (outdoorObjects) => ({type: SET_OUTDOOR, outdoorObjects})
 
-export const requestBuildings = (map) => async (dispatch) => {
-    const response = await mainAPI.getBuildings(map)
+export const requestBuildings = () => async (dispatch) => {
+    const response = await mainAPI.getBuildings()
     if (response.status === 200) {
         dispatch(setBuildings(response.data.results))
     } else {
@@ -44,8 +44,8 @@ export const requestBuildings = (map) => async (dispatch) => {
     }
 }
 
-export const requestBuilding = (map, id) => async (dispatch) => {
-    const response = await mainAPI.getCurrentBuilding(map, id)
+export const requestBuilding = (id) => async (dispatch) => {
+    const response = await mainAPI.getCurrentBuilding(id)
     if (response.status === 200) {
         dispatch(setCurrentBuilding(response.data.results))
     } else {
@@ -53,8 +53,8 @@ export const requestBuilding = (map, id) => async (dispatch) => {
     }
 }
 
-export const requestDomainBuilding = (map) => async (dispatch) => {
-    const response = await mainAPI.getOutdoorObjects(map)
+export const requestDomainBuilding = () => async (dispatch) => {
+    const response = await mainAPI.getOutdoorObjects()
     if (response.status === 200) {
         dispatch(setCurrentDomainBuilding(response.data.results))
     } else {
@@ -62,8 +62,8 @@ export const requestDomainBuilding = (map) => async (dispatch) => {
     }
 }
 
-export const requestOutdoorObjects = (map, id) => async (dispatch) => {
-    const response = await mainAPI.getCurrentDomainBuilding(map, id)
+export const requestOutdoorObjects = (id) => async (dispatch) => {
+    const response = await mainAPI.getCurrentDomainBuilding(id)
     if (response.status === 200) {
         dispatch(setOutdoorObjects(response.data.results))
     } else {
