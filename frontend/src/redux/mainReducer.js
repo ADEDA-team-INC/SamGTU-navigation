@@ -98,13 +98,13 @@ export const requestDomainBuilding = (id) => async (dispatch) => {
     }
 }
 
-export const requestOutdoorObjects = (id) => async (dispatch) => {
+export const requestOutdoorObjects = () => async (dispatch) => {
     dispatch(toggleIsFetching(true))
     const response = await mainAPI.getOutdoorObjects()
     if (response.status === 200) {
         dispatch(setOutdoorObjects(response.data))
         dispatch(toggleIsFetching(false))
-    } else {
+    } else { 
         console.log(response)
         dispatch(toggleIsFetching(false))
     }
