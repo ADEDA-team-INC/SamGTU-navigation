@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { requestBuildings } from "../redux/mainReducer";
 import { connect } from 'react-redux'
 import { Zoom } from '../Components/UI/zoom/zoom'
+import { Buildings } from "../Components/cards/BuildingsList";
 
 const MainPage = ({ requestBuildings, buildings, isFetching}) => {
 
@@ -23,15 +24,15 @@ const MainPage = ({ requestBuildings, buildings, isFetching}) => {
         <div className="main">
             <div>
                 <div className="main__left__container">
-
+                    <Buildings buildings={buildings} />
                 </div>
-                <div className="main__top__container">
+                {/* <div className="main__top__container">
                     <Infobar translation={t} />
                 </div>
                 <div className="main__right__container">
                     <Domain />
-                    {/* <Zoom /> */}
-                </div>
+                    <Zoom />
+                </div> */}
             </div>
         </div>
     );
