@@ -45,6 +45,7 @@ export const mainReducer = (state = initialState, action) => {
 
         case SET_SEARCH: 
             return {...state, search: action.search}
+        
         default:
             return state
     }
