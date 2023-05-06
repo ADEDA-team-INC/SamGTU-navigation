@@ -17,7 +17,7 @@ const MainPage = ({ requestBuildings, buildings, isFetching}) => {
 
     if (isFetching) {
         return (
-            <div>Загрузка</div>
+            <div style ={{color: '#000'}}>Загрузка</div>
         )
     }
     return (
