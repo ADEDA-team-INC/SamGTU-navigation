@@ -1,40 +1,37 @@
 {
-    "results": "Results",
-    "nothing": "Nothing found",
-    "Hello": "Hello",
-    "korpusa": [
-        {
-            "id": 1,
-            "name": "Main housing",
-            "adress": " Molodogvardeyskaya street, 244",
-            "cabinets": [
-                1,
-                2,
-                3,
-                4,
-                5
-            ],
-            "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHyzepj8jpJe1aXSOPltXo4oloTElLG0H4ga6w6mwwBQ&s"
-        },
-        {
-            "id": 2,
-            "name": "Housing 14th",
-            "adress": "Molodogvardeyskaya street, 244",
-            "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHyzepj8jpJe1aXSOPltXo4oloTElLG0H4ga6w6mwwBQ&s"
-        },
-        {
-            "id": 3,
-            "name": "Housing 14th",
-            "adress": "Novo-Sadovaya street, 14",
-            "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHyzepj8jpJe1aXSOPltXo4oloTElLG0H4ga6w6mwwBQ&s"
-        },
-        {
-            "id": 4,
-            "name": "Housing 14th",
-            "adress": "Novo-Sadovaya street, 14",
-            "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHyzepj8jpJe1aXSOPltXo4oloTElLG0H4ga6w6mwwBQ&s"
-        }
-    ],
-    "Search": "Search",
-    "Load map": "Load map"
+    "languages": {
+        "ru": "Русский",
+        "en": "English"
+    },
+    "search": "Search",
+    "searching": {
+        "results": "Search results",
+        "empty": "Nothing was found"
+    },
+    "modal": {
+        "close": "Close",
+        "save": "Save"
+    },
+    "main_page": {
+        "buildings": "University buildings",
+        "shops": "Shops",
+        "cafes": "Cafes",
+        "sights": "Sights"
+    },
+    "map_entity": {
+        "show": "Show",
+        "on_map": "On map",
+        "on_yandex": "On Yandex maps"
+    },
+    "map_building": {
+        "floors": "Floors"
+    },
+    "map_hud": {
+        "scan_qr": "Scan QR code",
+        "select_location": "Select location",
+        "change_language": "Change language"
+    },
+    "lang_modal": {
+        "title": "Change language"
+    }
 }

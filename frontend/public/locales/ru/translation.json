@@ -1,40 +1,37 @@
 {
-    "results": "Результаты",
-    "nothing": "Ничего не найдено",
-    "Hello": "Привет",
-    "korpusa": [
-        {
-            "id": 1,
-            "name": "Главный корпус",
-            "adress": " Молодогвардейская улица, 244",
-            "cabinets": [
-                1,
-                2,
-                3,
-                4,
-                5
-            ],
-            "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHyzepj8jpJe1aXSOPltXo4oloTElLG0H4ga6w6mwwBQ&s"
-        },
-        {
-            "id": 2,
-            "name": "Корпус 1",
-            "adress": "Молодогвардейская улица, 244",
-            "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHyzepj8jpJe1aXSOPltXo4oloTElLG0H4ga6w6mwwBQ&s"
-        },
-        {
-            "id": 3,
-            "name": "Корпус 14",
-            "adress": " Ново-Садовая улица, 14",
-            "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHyzepj8jpJe1aXSOPltXo4oloTElLG0H4ga6w6mwwBQ&s"
-        },
-        {
-            "id": 4,
-            "name": "Корпус 14",
-            "adress": " Ново-Садовая улица, 14",
-            "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHyzepj8jpJe1aXSOPltXo4oloTElLG0H4ga6w6mwwBQ&s"
-        }
-    ],
-    "Search": "Поиск",
-    "Load map": "Загрузить карту"
+    "languages": {
+        "ru": "Русский",
+        "en": "English"
+    },
+    "search": "Поиск",
+    "searching": {
+        "results": "Результаты поиска",
+        "empty": "Ничего не найдено"
+    },
+    "modal": {
+        "close": "Закрыть",
+        "save": "Сохранить"
+    },
+    "main_page": {
+        "buildings": "Корпуса",
+        "shops": "Магазины",
+        "cafes": "Кафе",
+        "sights": "Места"
+    },
+    "map_entity": {
+        "show": "Показать",
+        "on_map": "На карте",
+        "on_yandex": "На Яндекс картах"
+    },
+    "map_building": {
+        "floors": "Этажи"
+    },
+    "map_hud": {
+        "scan_qr": "Сканировать QR код",
+        "select_location": "Указать местоположение",
+        "change_language": "Изменить язык"
+    },
+    "lang_modal": {
+        "title": "Изменить язык"
+    }
 }
