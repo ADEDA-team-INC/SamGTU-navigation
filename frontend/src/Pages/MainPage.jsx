@@ -26,13 +26,13 @@ const MainPage = ({ requestBuildings, buildings, isFetching}) => {
                 <div className="main__left__container">
                     <Buildings buildings={buildings} />
                 </div>
-                {/* <div className="main__top__container">
-                    <Infobar translation={t} />
+                <div className="main__top__container">
+                    <Infobar />
                 </div>
                 <div className="main__right__container">
                     <Domain />
                     <Zoom />
-                </div> */}
+                </div>
             </div>
         </div>
     );
