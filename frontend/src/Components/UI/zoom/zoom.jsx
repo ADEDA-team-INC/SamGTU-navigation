@@ -30,6 +30,8 @@ export const Zoom = () => {
     }
     dispatch({ type: "MAP", payload: map })
   }
+
+  
   return (
     <div className={s.zoom}>
       <div

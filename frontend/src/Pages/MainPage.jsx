@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 
-import { Infobar } from "../Infobar/Infobar";
-import { Domain } from "../UI/domains/domain";
+import { Infobar } from "../Components/UI/Infobar/Infobar";
+import { Domain } from "../Components/UI/domains/domain";
 import { useTranslation } from "react-i18next";
-import { requestBuildings } from "../../redux/mainReducer";
+import { requestBuildings } from "../redux/mainReducer";
 import { connect } from 'react-redux'
+import { Zoom } from '../Components/UI/zoom/zoom'
 
 const MainPage = ({ requestBuildings, buildings, isFetching}) => {
 
@@ -29,7 +30,7 @@ const MainPage = ({ requestBuildings, buildings, isFetching}) => {
                 </div>
                 <div className="main__right__container">
                     <Domain />
-                    <Zoom />
+                    {/* <Zoom /> */}
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux'
 import './App.scss'
-import { MainPageContainer } from './Components/Pages/MainPage'
+import { MainPageContainer } from './Pages/MainPage'
 import { store } from '../src/redux/store'
 
 function App() {
