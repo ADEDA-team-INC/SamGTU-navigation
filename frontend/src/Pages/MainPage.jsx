@@ -23,12 +23,13 @@ const MainPage = ({ requestBuildings, requestOutdoorObjects, buildings, isFetchi
             <div style={{ color: '#000' }}>Загрузка</div>
         )
     }
+
     return (
         <div className="main">
             <div>
                 <div className="main__left__container">
-                    <Buildings buildings={buildings} />
-                    {/* <OutdoorObjects outdoorObjects={outdoorObjects} /> */}
+                    {/* <Buildings buildings={buildings} />
+                    <OutdoorObjects outdoorObjects={outdoorObjects} /> */}
                 </div>
                 <div className="main__top__container">
                     <Infobar />

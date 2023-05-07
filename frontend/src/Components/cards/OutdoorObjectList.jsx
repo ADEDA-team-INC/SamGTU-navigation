@@ -6,7 +6,7 @@ export const OutdoorObjects = ({ outdoorObjects }) => {
         <div>
             {outdoorObjects.map(
                 outdoorObject => (
-                    <Card key = {outdoorObjects.id} info = {outdoorObjects.info} />
+                    <Card key = {outdoorObject.id} info = {outdoorObject.info} />
                 )
             )}
         </div>
