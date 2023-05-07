@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { Zoom } from '../Components/UI/zoom/zoom'
 import { Buildings } from "../Components/cards/BuildingsList";
 import { OutdoorObjects } from "../Components/cards/OutdoorObjectList";
+import { ObjectList } from "../Components/cards/ObjectsList";
 
 const MainPage = ({ requestBuildings, requestOutdoorObjects, buildings, isFetching, outdoorObjects }) => {
 
@@ -28,8 +29,8 @@ const MainPage = ({ requestBuildings, requestOutdoorObjects, buildings, isFetchi
         <div className="main">
             <div>
                 <div className="main__left__container">
-                    {/* <Buildings buildings={buildings} />
-                    <OutdoorObjects outdoorObjects={outdoorObjects} /> */}
+                    <ObjectList objectList = {buildings}/>
+                    <ObjectList objectList = {outdoorObjects}/>
                 </div>
                 <div className="main__top__container">
                     <Infobar />
