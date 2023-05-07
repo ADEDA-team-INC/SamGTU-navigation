@@ -6,8 +6,6 @@ import { useTranslation } from "react-i18next";
 import { requestBuildings, requestOutdoorObjects } from "../redux/mainReducer"
 import { connect } from 'react-redux'
 import { Zoom } from '../Components/UI/zoom/zoom'
-import { Buildings } from "../Components/cards/BuildingsList";
-import { OutdoorObjects } from "../Components/cards/OutdoorObjectList";
 import { ObjectList } from "../Components/cards/ObjectsList";
 
 const MainPage = ({ requestBuildings, requestOutdoorObjects, buildings, isFetching, outdoorObjects }) => {
