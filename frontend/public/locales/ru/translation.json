@@ -14,6 +14,7 @@
     },
     "main_page": {
         "buildings": "Корпуса",
+        "building": "9 корпус",
         "shops": "Магазины",
         "cafes": "Кафе",
         "sights": "Места"
@@ -33,5 +34,8 @@
     },
     "lang_modal": {
         "title": "Изменить язык"
+    },
+    "buildings": {
+        "building_1": "9 корпус СамГТУ"
     }
 }

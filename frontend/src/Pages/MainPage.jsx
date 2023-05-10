@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useState } from 'react';
 
 import { Infobar } from "../Components/UI/Infobar/Infobar";
 import { Domain } from "../Components/UI/domains/domain";
@@ -7,10 +8,14 @@ import { requestBuildings, requestOutdoorObjects } from "../redux/mainReducer"
 import { connect } from 'react-redux'
 import { Zoom } from '../Components/UI/zoom/zoom'
 import { ObjectList } from "../Components/cards/ObjectsList";
+import Modal from "../Modal/Modal";
 
 const MainPage = ({ requestBuildings, requestOutdoorObjects, buildings, isFetching, outdoorObjects }) => {
-
-    const { t, i18n } = useTranslation()
+    const [modalActive, setModalActive] = useState(true)
+    const { t, i18n } = useTranslation();
+    const changeLanguage = (language) => {
+        i18n.changeLanguage(language);
+    };
 
     useEffect(() => {
         requestBuildings()
@@ -29,6 +34,7 @@ const MainPage = ({ requestBuildings, requestOutdoorObjects, buildings, isFetchi
                 <div className="main__left__container">
                     <ObjectList objectList = {buildings}/>
                     <ObjectList objectList = {outdoorObjects}/>
+                    <button className="language" onClick={() => setModalActive(true)}>Сменить язык</button>
                 </div>
                 <div className="main__top__container">
                     <Infobar />
@@ -38,6 +44,10 @@ const MainPage = ({ requestBuildings, requestOutdoorObjects, buildings, isFetchi
                     <Zoom />
                 </div>
             </div>
+                <Modal active={modalActive} setActive={setModalActive}>
+                <button className="ru" onClick={() => changeLanguage("ru")}>Русский</button>
+                <button className="en" onClick={() => changeLanguage("en")}>English</button>
+                </Modal>
         </div>
     );
 };
