@@ -19,8 +19,14 @@ export const MainPage = ({ }) => {
     return (
         <div className="main">
             <Modal active={modalActive} setActive={setModalActive}>
-                <button style={{backgroundColor: '#f1f1f1'}} className="ru" onClick={() => changeLanguage("ru")}>Русский</button>
-                <button style={{backgroundColor: '#f1f1f1'}} className="en" onClick={() => changeLanguage("en")}>English</button>
+                <button style={{backgroundColor: '#f1f1f1',  color: 'black', marginBottom: 10}} className="ru" onClick={() => {
+                    setModalActive(false)
+                    changeLanguage("ru")
+                }}>Русский</button>
+                <button style={{backgroundColor: '#f1f1f1',  color: 'black'}} className="en" onClick={() => {
+                    setModalActive(false)
+                    changeLanguage("en")
+                }}>English</button>
             </Modal>
             <div>
                 <div className="main__left__container">
