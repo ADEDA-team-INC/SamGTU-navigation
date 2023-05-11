@@ -4,7 +4,7 @@ import s from "./zoom.module.scss";
 export const Zoom = () => {
   return (
     <div className={s.zoom}>
-      <div
+      <button
         className={s.zoom__button}
       >
         <svg
@@ -19,9 +19,9 @@ export const Zoom = () => {
             fill="#444444"
           />
         </svg>
-      </div>
+      </button>
 
-      <div
+      <button
         className={s.zoom__button}
       >
         <svg
@@ -36,7 +36,7 @@ export const Zoom = () => {
             fill="#444444"
           />
         </svg>
-      </div>
+      </button>
     </div>
   );
 };
