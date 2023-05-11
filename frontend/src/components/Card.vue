@@ -68,7 +68,7 @@
 </style>
 
 <script setup lang="ts">
-import Carousel from 'bootstrap/js/dist/carousel'
+import { Carousel } from 'bootstrap';
 import { MapEntity } from '../schemas/map-schemas';
 import { onMounted, ref } from 'vue';
 
