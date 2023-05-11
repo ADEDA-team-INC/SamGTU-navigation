@@ -8,6 +8,7 @@ import { Domain } from "./UI/domains/domain";
 import { Zoom } from './UI/zoom/zoom'
 import Modal from "./UI/Modal/Modal";
 import  {HomePage}  from "./Pages/HomePage";
+import Map from "../Components/map/Map"
 
 export const MainScreen = ({ }) => {
     const [modalActive, setModalActive] = useState(false)
@@ -15,6 +16,7 @@ export const MainScreen = ({ }) => {
     const changeLanguage = (language) => {
         i18n.changeLanguage(language);
     };
+    const svgData = 'D:/ЗАГРУЗКИ/Other/9 корпус.svg';
 
     return (
         <div className="main">
@@ -38,6 +40,7 @@ export const MainScreen = ({ }) => {
                 </div>
                 <div className="main__top__container">
                     <Infobar />
+                    <Map svgData={svgData} />
                 </div>
                 <div className="main__right__container">
                     <Domain />
