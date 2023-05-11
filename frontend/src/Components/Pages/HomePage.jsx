@@ -11,7 +11,7 @@ export const HomePage = ({ }) => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink>
+                    <NavLink to={"/buildings"}>
                         Корпуса
                     </NavLink>
                 </li>

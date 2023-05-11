@@ -8,6 +8,7 @@ import { Domain } from "./UI/domains/domain";
 import { Zoom } from './UI/zoom/zoom'
 import Modal from "./UI/Modal/Modal";
 import  {HomePage}  from "./Pages/HomePage";
+import { BuildingsPage } from "./Pages/BuildingsPage";
 
 export const MainScreen = ({ }) => {
     const [modalActive, setModalActive] = useState(false)
@@ -33,6 +34,7 @@ export const MainScreen = ({ }) => {
                     <BrowserRouter>
                         <Routes>
                             <Route path='/' element={<HomePage />}/>
+                            <Route path="/buildings" element = {<BuildingsPage/>} />
                         </Routes>
                     </BrowserRouter>
                 </div>
