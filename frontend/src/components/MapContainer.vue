@@ -79,7 +79,6 @@
                 <i class="bi bi-globe-americas fs-4"></i>
             </button>
         </div>
-    </div>
 
     <Tooltip
         target="#scan-qr-btn"
@@ -95,13 +94,13 @@
     />
 
     <LanguageModal id="lang-modal"/>
+    </div>
 </template>
 
 <style scoped lang="scss">
 @import "../scss/style.scss";
 
 .map-container {
-    flex-grow: 1;
     position: relative;
 }
 
