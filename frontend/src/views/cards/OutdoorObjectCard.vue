@@ -32,6 +32,8 @@ watchEffect(async () => {
     mapsLink.value = getYandexMapsLink(
         outdoorObject.value.latitude, outdoorObject.value.longitude, 18
     )
+
+    document.title = outdoorObject.value.info.displayName
 })
 
 </script>

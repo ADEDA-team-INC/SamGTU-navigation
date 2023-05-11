@@ -5,6 +5,7 @@
     },
     "search": "Search",
     "searching": {
+        "title": "Search results",
         "results": "Search results",
         "empty": "Nothing was found"
     },
@@ -13,6 +14,7 @@
         "save": "Save"
     },
     "main_page": {
+        "title": "Samara Polytech Navigation",
         "buildings": "University buildings",
         "shops": "Shops",
         "cafes": "Cafes",
@@ -23,8 +25,30 @@
         "on_map": "On map",
         "on_yandex": "On Yandex maps"
     },
+    "map_buildings_list": {
+        "title": "University buildings"
+    },
     "map_building": {
+        "title": "University building",
         "floors": "Floors"
+    },
+    "map_object": {
+        "title": "Object"
+    },
+    "outdoor_objects_list": {
+        "title": "Outdoor objects list"
+    },
+    "outdoor_object": {
+        "title": "Outdoor object"
+    },
+    "cafes_list": {
+        "title": "Cafes list"
+    },
+    "shops_list": {
+        "title": "Shops list"
+    },
+    "sights_list": {
+        "title": "Sights list"
     },
     "map_hud": {
         "scan_qr": "Scan QR code",

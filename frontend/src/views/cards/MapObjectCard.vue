@@ -39,6 +39,8 @@ watchEffect(async () => {
     mapObject.value = null
     mapObject.value = await fetchMapObjectById(Number.parseInt(route.params.id))
     navStore.selectedObjectId = mapObject.value.id
+
+    document.title = mapObject.value.info.displayName
 })
 
 onBeforeRouteLeave((to, from, next) => {

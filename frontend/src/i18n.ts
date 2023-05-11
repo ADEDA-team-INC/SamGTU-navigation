@@ -9,7 +9,8 @@ export function setupI18n() {
     const i18n = createI18n({
         availableLocales: SUPPORTED_LOCALES,
         locale: DEFAULT_LOCALE,
-        fallbackLocale: DEFAULT_LOCALE
+        fallbackLocale: DEFAULT_LOCALE,
+        legacy: false
     })
     
     return i18n
