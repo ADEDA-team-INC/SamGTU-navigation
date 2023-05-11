@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from 'react';
-
-import { Infobar } from "../Components/UI/Infobar/Infobar";
-import { Domain } from "../Components/UI/domains/domain";
 import { useTranslation } from "react-i18next";
-import { requestBuildings, requestOutdoorObjects } from "../redux/mainReducer"
-import { connect } from 'react-redux'
-import { Zoom } from '../Components/UI/zoom/zoom'
-import Modal from "../Components/UI/Modal/Modal";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-export const MainPage = ({ }) => {
+import { Infobar } from "./UI/Infobar/Infobar";
+import { Domain } from "./UI/domains/domain";
+import { Zoom } from './UI/zoom/zoom'
+import Modal from "./UI/Modal/Modal";
+import  {HomePage}  from "./Pages/HomePage";
+
+export const MainScreen = ({ }) => {
     const [modalActive, setModalActive] = useState(false)
     const { t, i18n } = useTranslation();
     const changeLanguage = (language) => {
@@ -30,6 +30,11 @@ export const MainPage = ({ }) => {
             </Modal>
             <div>
                 <div className="main__left__container">
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path='/' element={<HomePage />}/>
+                        </Routes>
+                    </BrowserRouter>
                 </div>
                 <div className="main__top__container">
                     <Infobar />

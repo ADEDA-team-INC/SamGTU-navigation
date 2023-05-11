@@ -14,6 +14,10 @@ body{
   transition: filter 300ms;
 }
 
+ul {
+  list-style-type: none;
+}
+
 h1,h2,h3, p{
   margin: 0;
 }
@@ -61,6 +65,7 @@ h1,h2,h3, p{
     padding: 10px;
     top: 0;
     left: 0;
+    background-color: '#f1f1f1';
 
     @media (max-width: 1160px) {
       top: inherit;
@@ -88,4 +93,8 @@ h1,h2,h3, p{
     flex-direction: column;
     justify-content: center;
   }
+}
+
+.home {
+  
 }
