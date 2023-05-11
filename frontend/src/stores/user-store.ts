@@ -9,13 +9,13 @@ export const useUserStore = defineStore('userStore', () => {
         get() {
             if (cachedLocale.value === null) {
                 cachedLocale.value = localStorage.getItem(
-                    defines.LOCAL_STORAGE_KEYS.USER_LOCALE
+                    defines.STORAGE_KEYS.USER_LOCALE
                 ) ?? navigator.language
             }
             return cachedLocale.value
         },
         set(value) {
-            localStorage.setItem(defines.LOCAL_STORAGE_KEYS.USER_LOCALE, value)
+            localStorage.setItem(defines.STORAGE_KEYS.USER_LOCALE, value)
             cachedLocale.value = value
         }
     })
