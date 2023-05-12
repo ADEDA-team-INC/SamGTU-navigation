@@ -17,13 +17,14 @@
                 class="btn-group-vertical border rounded shadow-sm"
                 v-if="navStore.building !== null"
             >
-                <template v-for="floor in Object.keys(navStore.building.domainIds)">
+                <template v-for="floor in Object.keys(navStore.building.domainIds).reverse()">
                     <input
                         type="radio"
                         class="btn-check"
                         name="floor-radio"
                         :id="'floor-radio-' + floor"
                         :checked="navStore.floor == floor"
+                        @change="() => navStore.floor = floor"
                     />
                     <label class="btn btn-light" :for="'floor-radio-' + floor">
                         {{ floor }}

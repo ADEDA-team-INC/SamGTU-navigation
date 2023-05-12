@@ -23,8 +23,13 @@
         </div>
         <div v-if="building !== null">
             <h4>{{ $t('map_building.floors') }}</h4>
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary" v-for="floor in Object.keys(building.domainIds ?? {})">
+            <div class="d-flex gap-2">
+                <button
+                    type="button"
+                    class="btn btn-primary px-3 fs-5"
+                    v-for="floor in Object.keys(building.domainIds ?? {})"
+                    @click="() => navStore.floor = floor"
+                >
                     {{ floor }}
                 </button>
             </div>
