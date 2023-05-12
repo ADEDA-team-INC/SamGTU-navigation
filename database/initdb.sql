@@ -359,7 +359,7 @@ COPY public.localized_strings (id, config_name, key, language, text) FROM stdin;
 --
 
 COPY public.map_buildings (id, description_key, images_urls, name_key, latitude, longitude) FROM stdin;
-2	building_9_description	https://lh5.googleusercontent.com/p/AF1QipP-sdwWpRg2tkT4n9_HYte1bUzxJ9YgDrOGePDO=w426-h240-k-no	building_9_name	53.20781979046025	50.128598332924334
+1	building_9_description	https://lh5.googleusercontent.com/p/AF1QipP-sdwWpRg2tkT4n9_HYte1bUzxJ9YgDrOGePDO=w426-h240-k-no	building_9_name	53.20781979046025	50.128598332924334
 \.
 
 
