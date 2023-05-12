@@ -33,7 +33,8 @@ import { useNavStore } from '../stores/nav-store';
 const ZOOM_STEP = 1 / 500
 const MIN_ZOOM = 0.8
 const MAX_ZOOM = 5
-const SVG_PIXELS_PER_METER = 4
+const ZOOM_FACTOR = 15
+const SVG_PIXELS_PER_METER = 18.0
 const OBJECT_CLICK_DELAY = 200
 const OBJECT_FILTERS = [
     new AlphaFilter(0.0)
@@ -89,8 +90,9 @@ function onPointerDown(e: PointerEvent) {
 
 function onPointerMove(e: PointerEvent) {
     if (isDragging && e.pointerId === e.pointerId) {
-        viewPosX -= (e.x - lastPointerX) / viewZoom
-        viewPosY -= (e.y - lastPointerY) / viewZoom
+        let viewScale = viewZoom * ZOOM_FACTOR
+        viewPosX -= (e.x - lastPointerX) / viewScale
+        viewPosY -= (e.y - lastPointerY) / viewScale
         lastPointerX = e.x
         lastPointerY = e.y
         navStore.focusedObjectId = null
@@ -132,10 +134,8 @@ function focusOnObject(id: number) {
 
 function recreatePixiObjects() {
     mapObjects.clear()
-    for (let i = 0; i < pixiRoot.children.length; ++i) {
-        pixiRoot.children[i].destroy({
-            children: true
-        })
+    while (pixiRoot.children.length > 0) {
+        pixiRoot.children[0].destroy({ children: true })
     }
     
     let domains = new Array<MapDomainSchema>()
@@ -213,14 +213,18 @@ function pixiAddMapObject(mapObject: MapObjectSchema) {
 function pixiUpdateRootTransform() {
     viewZoom = Math.min(Math.max(viewZoom, MIN_ZOOM), MAX_ZOOM)
 
-    pixiRoot.scale = new Point(viewZoom, viewZoom)
-    pixiRoot.x = -viewPosX * viewZoom + pixiApp.screen.width * 0.5
-    pixiRoot.y = -viewPosY * viewZoom + pixiApp.screen.height * 0.5
+    let viewScale = viewZoom * ZOOM_FACTOR
+
+    pixiRoot.scale = new Point(viewScale, viewScale)
+    pixiRoot.x = -viewPosX * viewScale + pixiApp.screen.width * 0.5
+    pixiRoot.y = -viewPosY * viewScale + pixiApp.screen.height * 0.5
 }
 
 function pixiFocusOnBounds(bounds: Rectangle) {
-    viewPosX += (bounds.x - (pixiApp.screen.width - bounds.width) * 0.5) / viewZoom
-    viewPosY += (bounds.y - (pixiApp.screen.height - bounds.height) * 0.5) / viewZoom
+    let viewScale = viewZoom * ZOOM_FACTOR
+
+    viewPosX += (bounds.x - (pixiApp.screen.width - bounds.width) * 0.5) / viewScale
+    viewPosY += (bounds.y - (pixiApp.screen.height - bounds.height) * 0.5) / viewScale
     pixiUpdateRootTransform()
 }
 
