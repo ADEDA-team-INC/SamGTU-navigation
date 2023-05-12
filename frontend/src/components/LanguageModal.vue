@@ -3,7 +3,7 @@
         :title="$t('lang_modal.title')"
         :close-button="$t('modal.close')"
         :submit-button="$t('modal.save')"
-        @submit="() => setI18nLanguage(i18n, activeLocale)"
+        @submit="() => setI18nLanguage(activeLocale)"
     >
         <div class="list-group">
             <button

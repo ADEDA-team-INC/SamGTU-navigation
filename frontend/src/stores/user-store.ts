@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref, watchEffect } from "vue";
 import defines from "../defines";
-import { i18n, setI18nLanguage } from "../i18n";
+import { setI18nLanguage } from "../i18n";
 
 export const useUserStore = defineStore('userStore', () => {
     const cachedLocale = ref<string | null>(null)
@@ -21,7 +21,7 @@ export const useUserStore = defineStore('userStore', () => {
     })
 
     watchEffect(async () => {
-        await setI18nLanguage(i18n, locale.value)
+        await setI18nLanguage(locale.value)
     })
 
     return { locale }

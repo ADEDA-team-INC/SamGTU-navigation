@@ -16,11 +16,11 @@ export function setupI18n() {
     return i18n
 }
 
-export async function setI18nLanguage(i18n: I18n, locale: string) {
+export async function setI18nLanguage(locale: string) {
     const message = await import(`./locales/${getLanguageCode(locale)}.json`)
 
     i18n.global.setLocaleMessage(locale, message.default)
-    i18n.global.locale = locale
+    i18n.global.locale.value = locale
 
     useUserStore().locale = locale
 
