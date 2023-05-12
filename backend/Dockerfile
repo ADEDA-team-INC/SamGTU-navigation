@@ -6,10 +6,10 @@ WORKDIR /backend
 
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
-RUN ./mvnw dependency:go-offline
+RUN /bin/sh ./mvnw dependency:go-offline
 
 COPY ./src ./src
-RUN ./mvnw clean install
+RUN /bin/sh ./mvnw clean install
 
 
 # Run stage

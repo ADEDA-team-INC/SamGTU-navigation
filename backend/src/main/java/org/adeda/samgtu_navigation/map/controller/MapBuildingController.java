@@ -8,6 +8,7 @@ import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 import org.adeda.samgtu_navigation.map.schema.map_building.MapBuildingSchema;
 import org.adeda.samgtu_navigation.map.service.MapBuildingService;
 import org.adeda.samgtu_navigation.map.service.MapSchemasFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class MapBuildingController {
         HttpServletRequest request
     ) {
         var language = SupportedLanguage.fromRequest(request);
-        return service.getAll(size, page).stream().map(
+        return service.getAll(PageRequest.of(page, size)).stream().map(
             b -> schemasFactory.getBuildingSchema(b, language)
         ).toList();
     }

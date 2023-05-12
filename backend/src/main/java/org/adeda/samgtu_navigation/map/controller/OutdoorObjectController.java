@@ -9,10 +9,8 @@ import org.adeda.samgtu_navigation.map.enums.OutdoorObjectType;
 import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectSchema;
 import org.adeda.samgtu_navigation.map.service.MapSchemasFactory;
 import org.adeda.samgtu_navigation.map.service.OutdoorObjectService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,8 +33,20 @@ public class OutdoorObjectController {
         HttpServletRequest request
     ) throws NotFoundException {
         var language = SupportedLanguage.fromRequest(request);
-        return service.getAll(type, size, page).stream().map(
+        return service.getAll(type, PageRequest.of(page, size)).stream().map(
             o -> schemasFactory.getOutdoorObjectSchema(o, language)
         ).toList();
+    }
+
+    @GetMapping("/outdoor_object/{id}")
+    public OutdoorObjectSchema getOutdoorObjectById(
+        @PathVariable @NotNull Integer id,
+        HttpServletRequest request
+    ) throws NotFoundException {
+        return service.getById(id).map(
+            o -> schemasFactory.getOutdoorObjectSchema(o, SupportedLanguage.fromRequest(request))
+        ).orElseThrow(
+            () -> new NotFoundException("OutdoorObject with given id was not found")
+        );
     }
 }

@@ -16,11 +16,17 @@ services:
     environment:
       SERVER_PORT: $SERVER_PORT
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
   database:
-    image: postgres:15-alpine
-    restart: always
+    build:
+      context: database
+    healthcheck:
+      test: pg_isready -U $POSTGRES_USERNAME -d $POSTGRES_DB
+      interval: 3s
+      retries: 15
+      start_period: 5s
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:

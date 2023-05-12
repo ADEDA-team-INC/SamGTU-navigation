@@ -9,8 +9,11 @@ import org.adeda.samgtu_navigation.map.repository.MapBuildingRepository;
 import org.adeda.samgtu_navigation.map.repository.MapDomainRepository;
 import org.adeda.samgtu_navigation.map.schema.map_domain.MapDomainCreateSchema;
 import org.adeda.samgtu_navigation.map.service.MapDomainService;
+import org.adeda.samgtu_navigation.navigation.model.NavNode;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -46,7 +49,7 @@ public class MapDomainServiceImpl implements MapDomainService {
             building,
             new DomainImage(schema.getImage()),
             schema.getOrdinalNumber(),
-            Set.of()
+            new HashSet<>()
         );
 
         return repository.save(domain);
@@ -55,6 +58,15 @@ public class MapDomainServiceImpl implements MapDomainService {
     @Override
     public Optional<MapDomain> getById(Integer id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public List<NavNode> getNodes(Integer id) throws NotFoundException {
+        if (!repository.existsById(id)) {
+            throw new NotFoundException("MapDomain with given id was not found");
+        }
+
+        return repository.findNodes(id);
     }
 
     @Override

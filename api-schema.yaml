@@ -12,98 +12,15 @@ servers:
 
 tags:
   - name: Map
+  - name: MapBuilding
+  - name: MapDomain
+  - name: MapObject
+  - name: OutdoorObject
   - name: Navigation
+  - name: Localization
 
 
 paths:
-  /map/buildings:
-    get:
-      tags: [Map]
-      operationId: getMapBuildings
-      parameters:
-        - $ref: "#/components/parameters/size"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/accept_language"
-      responses:
-        200:
-          description: Operation went successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items: { $ref: "#/components/schemas/map_building" }
-
-  /map/building/{id}:
-    get:
-      tags: [Map]
-      operationId: getMapBuildingById
-      parameters:
-        - $ref: "#/components/parameters/id"
-        - $ref: "#/components/parameters/accept_language"
-      responses:
-        200:
-          description: Operation went successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/map_building"
-        404:
-          description: Map building was not found
-                
-  /map/domain/{id}:
-    get:
-      tags: [Map]
-      operationId: getMapDomainById
-      parameters:
-        - $ref: "#/components/parameters/id"
-        - $ref: "#/components/parameters/accept_language"
-      responses:
-        200:
-          description: Operation went successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/map_domain"
-        404:
-          description: Map domain was not found
-  
-  /map/object/{id}:
-    get:
-      tags: [Map]
-      operationId: getMapObjectById
-      parameters:
-        - $ref: "#/components/parameters/id"
-        - $ref: "#/components/parameters/accept_language"
-      responses:
-        200:
-          description: Operation went successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/detailed_map_object"
-                
-  /map/outdoor_objects:
-    get:
-      tags: [Map]
-      operationId: getOutdoorObjects
-      parameters:
-        - name: type
-          in: query
-          required: false
-          schema: { $ref: "#/components/schemas/outdoor_object_type" }
-        - $ref: "#/components/parameters/size"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/accept_language"
-      responses:
-        200:
-          description: Operation went successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items: { $ref: "#/components/schemas/outdoor_object" }
 
   /map/search:
     get:
@@ -133,7 +50,277 @@ paths:
                   outdoorObjects:
                     type: array
                     items: { $ref: "#/components/schemas/outdoor_object" }
-          
+
+  /map/buildings:
+    get:
+      tags: [MapBuilding]
+      operationId: getMapBuildings
+      parameters:
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/accept_language"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/map_building" }
+
+  /map/building/{id}:
+    get:
+      tags: [MapBuilding]
+      operationId: getMapBuildingById
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/accept_language"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/map_building"
+        404:
+          description: Map building was not found
+
+  /admin/map/building:
+    post:
+      tags: [ MapBuilding ]
+      operationId: createMapBuilding
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_building_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_building" }
+  
+  /admin/map/building/{id}:
+    put:
+      tags: [ MapBuilding ]
+      operationId: updateMapBuildingById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_building_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_building" }
+
+    delete:
+      tags: [ MapBuilding ]
+      operationId: deleteMapBuildingById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+
+  /map/domain/{id}:
+    get:
+      tags: [MapDomain]
+      operationId: getMapDomainById
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/accept_language"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/map_domain"
+        404:
+          description: Map domain was not found
+  
+  /admin/map/building/{id}/domain:
+    post:
+      tags: [ MapDomain ]
+      operationId: createMapDomain
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_domain_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_domain" }
+  
+  /admin/map/domain/{id}:
+    put:
+      tags: [ MapDomain ]
+      operationId: updateMapDomainById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_domain_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_domain" }
+
+    delete:
+      tags: [ MapDomain ]
+      operationId: deleteMapDomainById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+  
+  /map/object/{id}:
+    get:
+      tags: [MapObject]
+      operationId: getMapObjectById
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/accept_language"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/detailed_map_object"
+  
+  /admin/map/domain/{id}/object:
+    post:
+      tags: [ MapObject ]
+      operationId: createMapObject
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_object_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_object" }
+  
+  /admin/map/object/{id}:
+    put:
+      tags: [ MapObject ]
+      operationId: updateMapObjectById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_object_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_object" }
+  
+    delete:
+      tags: [ MapObject ]
+      operationId: deleteMapObjectById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+  
+  /map/outdoor_objects:
+    get:
+      tags: [OutdoorObject]
+      operationId: getOutdoorObjects
+      parameters:
+        - name: type
+          in: query
+          required: false
+          schema: { $ref: "#/components/schemas/outdoor_object_type" }
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/accept_language"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/outdoor_object" }
+
+  /map/outdoor_object/{id}:
+    get:
+      tags: [ OutdoorObject ]
+      operationId: getOutdoorObjectById
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/accept_language"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/outdoor_object"
+
+  /admin/map/outdoor_object:
+    post:
+      tags: [ OutdoorObject ]
+      operationId: createOutdoorObject
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/outdoor_object_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/outdoor_object" }
+  
+  /admin/map/outdoor_object/{id}:
+    put:
+      tags: [ OutdoorObject ]
+      operationId: updateOutdoorObjectById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/map_object_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/map_object" }
+
+    delete:
+      tags: [ OutdoorObject ]
+      operationId: deleteOutdoorObjectById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+ 
   /navigation:
     post:
       tags: [ Navigation ]
@@ -163,6 +350,178 @@ paths:
         404:
           description: Unable to find path or given map objects don't exist
 
+  /admin/node:
+    post:
+      tags: [ Navigation ]
+      operationId: createNavNode
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/nav_node_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/nav_node" }
+        400:
+          description: Node position isn't inside of given map object bounds
+        404:
+          description: |
+            One of the nodes specified in `connections_ids` doesn't exist or map object with
+            `map_object_id` doesn't exist.
+
+  /admin/node/{id}:
+    get:
+      tags: [ Navigation ]
+      operationId: getNavNodeById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/nav_node" }
+
+    put:
+      tags: [ Navigation ]
+      operationId: updateNavNodeById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/nav_node_create_schema" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/nav_node" }
+        400:
+          description: Node position isn't inside of given map object bounds
+        404:
+          description: |
+            One of the nodes specified in `connections_ids` doesn't exist or map object with
+            `map_object_id` doesn't exist.
+
+    delete:
+      tags: [ Navigation ]
+      operationId: deleteNavNodeById
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+  
+  /admin/map/domain/{id}/nodes:
+    get:
+      tags: [ Navigation ]
+      operationId: getNodesFromDomain
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/nav_node" }
+  
+  /admin/map/object/{id}/nodes:
+    get:
+      tags: [ Navigation ]
+      operationId: getNodesFromMapObject
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/nav_node" }
+  
+  /admin/localization/strings:
+    get:
+      tags: [ Localization ]
+      operationId: getLocalizedStrings
+      parameters:
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/page"
+        - name: key
+          in: query
+          required: false
+          schema: { type: string }
+        - name: lang
+          in: query
+          required: false
+          schema: { $ref: "#/components/schemas/supported_language" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/localized_string" }
+  
+  /admin/localization/string:
+    post:
+      tags: [ Localization ]
+      operationId: createLocalizedString
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/localized_string" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/localized_string" }
+        400:
+          description: |
+            Invalid input format or localization string with given key and language
+            already exists
+
+    put:
+      tags: [ Localization ]
+      operationId: updateLocalizedString
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/localized_string" }
+      responses:
+        200:
+          description: Operation went successfully
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/localized_string" }
+        404:
+          description: Localization string with given key and language doesn't exist
+
+    delete:
+      tags: [ Localization ]
+      operationId: deleteLocalizedString
+      parameters:
+        - name: key
+          in: query
+          required: true
+          schema: { type: string, minLength: 1 }
+        - name: lang
+          in: query
+          required: true
+          schema: { $ref: "#/components/schemas/supported_language" }
+      responses:
+        200:
+          description: Operation went successfully
+        404:
+          description: Localization string with given key and language doesn't exist
+
 
 components:
   schemas:
@@ -175,6 +534,15 @@ components:
           items: { type: string }
         displayName: { type: string }
         displayDescription: { type: string }
+    info_create_schema:
+      title: InfoCreateSchema
+      type: object
+      properties:
+        images:
+          type: array
+          items: { type: string }
+        nameKey: { type: string }
+        descriptionKey: { type: string }
     bounding_box:
       title: BoundingBox
       type: object
@@ -184,6 +552,7 @@ components:
         width: { type: number }
         height: { type: number }
     map_object_type:
+      title: MapObjectType
       type: string
       enum: [ HALL, ROOM, STAIRS, EXIT ]
     map_object:
@@ -208,6 +577,14 @@ components:
         mapDomainId: { type: integer }
         type: { $ref: "#/components/schemas/map_object_type" }
         info: { $ref: "#/components/schemas/info" }
+    map_object_create_schema:
+      title: MapObjectCreateSchema
+      properties:
+        type: { $ref: "#/components/schemas/map_object_type" }
+        info: { $ref: "#/components/schemas/info_create_schema" }
+        bboxes:
+          type: array
+          items: { $ref: "#/components/schemas/bounding_box" }
     map_building:
       title: MapBuilding
       type: object
@@ -225,12 +602,20 @@ components:
             "-1": 1
             "1": 2
             "2": 3
+    map_building_create_schema:
+      title: MapBuildingCreateSchema
+      type: object
+      properties:
+        latitude: { type: number }
+        longitude: { type: number }
+        info: { $ref: "#/components/schemas/info_create_schema" }
     map_domain_image:
       title: DomainImage
       type: object
       properties:
         url: { type: string }
         width: { type: number }
+        height: { type: number }
         offsetX: { type: number }
         offsetY: { type: number }
     map_domain:
@@ -244,7 +629,14 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/map_object"
+    map_domain_create_schema:
+      title: MapDomainCreateSchema
+      type: object
+      properties:
+        ordinalNumber: { type: integer }
+        image: { $ref: "#/components/schemas/map_domain_image" }
     outdoor_object_type:
+      title: OutdoorObjectType
       type: string
       enum: [ SIGHT, CAFE, SHOP ]
     outdoor_object:
@@ -256,6 +648,14 @@ components:
         latitude: { type: number }
         longitude: { type: number }
         info: { $ref: "#/components/schemas/info" }
+    outdoor_object_create_schema:
+      title: OutdoorObjectCreateSchema
+      type: object
+      properties:
+        type: { $ref: "#/components/schemas/outdoor_object_type" }
+        latitude: { type: number }
+        longitude: { type: number }
+        info: { $ref: "#/components/schemas/info_create_schema" }
     nav_point:
       title: NavigationPoint
       type: object
@@ -263,6 +663,38 @@ components:
         positionX: { type: number }
         positionY: { type: number }
         mapObjectId: { type: integer }
+    nav_node:
+      title: NavNode
+      type: object
+      properties:
+        id: { type: integer }
+        mapObjectId: { type: integer }
+        positionX: { type: number }
+        positionY: { type: number }
+        connectionsIds:
+          type: array
+          items: { type: integer }
+    nav_node_create_schema:
+      title: NavNodeCreateSchema
+      type: object
+      properties:
+        mapObjectId: { type: integer }
+        positionX: { type: number }
+        positionY: { type: number }
+        connectionsIds:
+          type: array
+          items: { type: integer }
+    supported_language:
+      title: SupportedLanguage
+      type: string
+      enum: [ RUSSIAN, ENGLISH ]
+    localized_string:
+      title: LocalizedString
+      type: object
+      properties:
+        key: { type: string }
+        language: { $ref: "#/components/schemas/supported_language" }
+        text: { type: string }
   parameters:
     id:
       name: id

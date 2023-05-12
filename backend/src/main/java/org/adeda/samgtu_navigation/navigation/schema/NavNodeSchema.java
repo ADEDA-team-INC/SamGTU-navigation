@@ -1,20 +1,28 @@
 package org.adeda.samgtu_navigation.navigation.schema;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.adeda.samgtu_navigation.core.util.Vector2d;
+import org.adeda.samgtu_navigation.core.validation.UniqueItems;
 import org.adeda.samgtu_navigation.navigation.model.NavNode;
+
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NavPointSchema {
+public class NavNodeSchema {
+    @NotNull
+    @Min(1)
+    private Integer id;
+
+    @Min(1)
+    private Integer mapObjectId;
+
     @NotNull
     private Double positionX;
 
@@ -22,17 +30,14 @@ public class NavPointSchema {
     private Double positionY;
 
     @NotNull
-    @Min(1)
-    private Integer mapObjectId;
+    @UniqueItems
+    private List<Integer> connectionsIds;
 
-    public NavPointSchema(NavNode node) {
+    public NavNodeSchema(NavNode node) {
+        this.id = node.getId();
+        this.mapObjectId = node.getMapObject().getId();
         this.positionX = node.getPosition().getX();
         this.positionY = node.getPosition().getY();
-        this.mapObjectId = node.getMapObject().getId();
-    }
-
-    @JsonIgnore
-    public Vector2d getPosition() {
-        return new Vector2d(positionX, positionY);
+        this.connectionsIds = node.getConnections().stream().map(conn -> conn.getNodeB().getId()).toList();
     }
 }

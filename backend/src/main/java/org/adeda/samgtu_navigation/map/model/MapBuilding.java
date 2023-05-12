@@ -6,7 +6,10 @@ import lombok.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "map_buildings")
+@Table(name = "map_buildings", indexes = {
+    @Index(columnList = "nameKey"),
+    @Index(columnList = "descriptionKey")
+})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Setter
@@ -35,6 +38,6 @@ public class MapBuilding {
     private MapEntityInfo info;
 
     @NonNull
-    @OneToMany(mappedBy = "building")
+    @OneToMany(mappedBy = "building", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private Set<MapDomain> domains;
 }

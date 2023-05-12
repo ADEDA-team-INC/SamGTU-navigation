@@ -5,7 +5,7 @@ import lombok.*;
 import org.adeda.samgtu_navigation.localization.enums.SupportedLanguage;
 
 @Entity
-@Table(name = "localization", indexes = {
+@Table(name = "localized_strings", indexes = {
     @Index(columnList = "key, language", unique = true)
 })
 @NoArgsConstructor
@@ -21,7 +21,7 @@ public class LocalizedString {
     private Integer id;
 
     @NonNull
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SupportedLanguage language;
 

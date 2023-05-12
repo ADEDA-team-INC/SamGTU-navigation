@@ -8,7 +8,7 @@ import org.adeda.samgtu_navigation.map.model.OutdoorObject;
 import org.adeda.samgtu_navigation.map.repository.OutdoorObjectRepository;
 import org.adeda.samgtu_navigation.map.schema.outdoor_object.OutdoorObjectCreateSchema;
 import org.adeda.samgtu_navigation.map.service.OutdoorObjectService;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,8 +35,8 @@ public class OutdoorObjectServiceImpl implements OutdoorObjectService {
     }
 
     @Override
-    public List<OutdoorObject> getAll(@Nullable OutdoorObjectType type, int size, int page) {
-        return repository.findAll(type, PageRequest.of(page, size));
+    public List<OutdoorObject> getAll(@Nullable OutdoorObjectType type, Pageable pageable) {
+        return repository.findAll(type, pageable);
     }
 
     @Override
