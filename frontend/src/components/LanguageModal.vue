@@ -23,6 +23,6 @@ import { ref } from 'vue';
 import { SUPPORTED_LOCALES, i18n, setI18nLanguage } from '../i18n';
 import Modal from './Modal.vue';
 
-const activeLocale = ref<string>(i18n.global.locale)
+const activeLocale = ref<string>(i18n.global.locale.value)
 
 </script>

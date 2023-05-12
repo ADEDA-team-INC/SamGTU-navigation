@@ -155,8 +155,6 @@ import { MapObjectSchema } from '../schemas/map-schemas';
 import { useRouter } from 'vue-router';
 import { useNavStore } from '../stores/nav-store';
 import Tooltip from './Tooltip.vue';
-import Modal from './Modal.vue';
-import { i18n, setI18nLanguage } from '../i18n';
 import LanguageModal from './LanguageModal.vue';
 
 const BUTTON_ZOOM_STEP = 0.6
