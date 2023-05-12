@@ -20,13 +20,13 @@ services:
         condition: service_healthy
 
   database:
-    image: postgres:15-alpine
+    build:
+      context: database
     healthcheck:
       test: pg_isready -U $POSTGRES_USERNAME -d $POSTGRES_DB
       interval: 3s
       retries: 15
       start_period: 5s
-    restart: always
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:
