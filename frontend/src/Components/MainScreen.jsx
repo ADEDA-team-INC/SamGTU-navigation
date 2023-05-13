@@ -10,6 +10,9 @@ import Modal from "./UI/Modal/Modal";
 import { HomePage } from "./Pages/HomePage";
 import { BuildingsPageContainer } from "./Pages/BuildingsPage";
 import Map from "../Components/map/Map"
+import { ShopPageContainer } from "./Pages/ShopPage";
+import { CafePageContainer } from "./Pages/CafePage";
+import { SightsPage } from "./Pages/SightsPage";
 
 export const MainScreen = ({ }) => {
     const [modalActive, setModalActive] = useState(false)
@@ -38,6 +41,9 @@ export const MainScreen = ({ }) => {
                         <Routes>
                             <Route path='/' element={<HomePage />} />
                             <Route path="/buildings" element={<BuildingsPageContainer />} />
+                            <Route path="/shops" element={<ShopPageContainer/>} />
+                            <Route path="/cafes" element={<CafePageContainer/>} />
+                            <Route path="/sights" element={<SightsPage/>} />
                         </Routes>
                     </BrowserRouter>
                 </div>
