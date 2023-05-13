@@ -1,12 +1,14 @@
 import React from 'react'
 import { Back } from '../UI/Back'
+import { SearchBar } from '../UI/SearchBar'
 
-export const SightsPage = ({ }) => {
+export const SightsPage = ({t}) => {
     return (
         <div>
             <Back />
+            <SearchBar t = {t}/>
             <p style={{color: '#000'}}>
-                Ничего не найдено
+                {t('searching.empty')}
             </p>
         </div>
     )

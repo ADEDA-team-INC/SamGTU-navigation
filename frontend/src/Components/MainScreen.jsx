@@ -13,6 +13,7 @@ import Map from "../Components/map/Map"
 import { ShopPageContainer } from "./Pages/ShopPage";
 import { CafePageContainer } from "./Pages/CafePage";
 import { SightsPage } from "./Pages/SightsPage";
+import { ResultPageContainer } from "./Pages/ResultPage";
 
 export const MainScreen = ({ }) => {
     const [modalActive, setModalActive] = useState(false)
@@ -30,20 +31,21 @@ export const MainScreen = ({ }) => {
                     <button style={{ backgroundColor: '#f1f1f1', color: 'black', marginBottom: 10 }} className="ru" onClick={() => {
                         setModalActive(false)
                         changeLanguage("ru")
-                    }}>Русский</button>
+                    }}>{t('languages.ru')}</button>
                     <button style={{ backgroundColor: '#f1f1f1', color: 'black' }} className="en" onClick={() => {
                         setModalActive(false)
                         changeLanguage("en")
-                    }}>English</button>
+                    }}>{t('languages.en')}</button>
                 </Modal>
                 <div className="main__left__container">
                     <BrowserRouter>
                         <Routes>
-                            <Route path='/' element={<HomePage />} />
-                            <Route path="/buildings" element={<BuildingsPageContainer />} />
-                            <Route path="/shops" element={<ShopPageContainer/>} />
-                            <Route path="/cafes" element={<CafePageContainer/>} />
-                            <Route path="/sights" element={<SightsPage/>} />
+                            <Route path='/' element={<HomePage t={t} />} />
+                            <Route path="/buildings" element={<BuildingsPageContainer t={t}/>} />
+                            <Route path="/shops" element={<ShopPageContainer  t={t}/>} />
+                            <Route path="/cafes" element={<CafePageContainer  t={t}/>} />
+                            <Route path="/sights" element={<SightsPage t={t} />} />
+                            <Route path="/search" element= {<ResultPageContainer t={t}/>} />
                         </Routes>
                     </BrowserRouter>
                 </div>

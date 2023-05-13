@@ -16,7 +16,11 @@ const initialState = {
     outdoorObjects: [],
     mapObject: {},
     currentOutdoorObject: {},
-    search: {},
+    search: {
+        mapBuildings: [],
+        mapObjects: [],
+        outdoorObjects: []
+    },
     isFetching: false,
 }
 
@@ -134,9 +138,9 @@ export const requestCurrentOutdoorObject = (id) => async (dispatch) => {
     }
 }
 
-export const requestSearch = () => async (dispatch) => {
+export const requestSearch = (query) => async (dispatch) => {
     dispatch(toggleIsFetching(true))
-    const response = await mainAPI.search()
+    const response = await mainAPI.search(query)
     if (response.status === 200) {
         dispatch(setSearch(response.data))
         dispatch(toggleIsFetching(false))

@@ -19,6 +19,21 @@ ul {
   list-style-type: none;
 }
 
+input {
+  width: 70%;
+  margin-right: 15px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px 0px 10px 10px;
+  color: #000;
+  background-color: transparent;
+  outline: none;
+
+  &:hover, &:active, &:focus-visible {
+    border: 1px solid #646cff;
+  }
+}
+
 h1,
 h2,
 h3,

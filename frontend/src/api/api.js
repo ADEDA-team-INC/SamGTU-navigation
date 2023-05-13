@@ -16,7 +16,7 @@ export const mainAPI = {
     getCurrentDomainBuilding(id) {
         return instance.get(`/map/domain/${id}`)
     },
-    
+
     getOutdoorObjects() {
         return instance.get(`/map/outdoor_objects`)
     },
@@ -25,8 +25,11 @@ export const mainAPI = {
         return instance.get(`/map/outdoor_object/${id}`)
     },
 
-    search() {
-        return instance.get(`/map/search`)
+    search(query) {
+        return instance.get(`/map/search`, {
+            params: { query }
+        }
+        )
     },
 
     getMapObject(id) {
