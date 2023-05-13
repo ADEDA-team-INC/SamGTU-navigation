@@ -14,9 +14,11 @@ import { ShopPageContainer } from "./Pages/ShopPage";
 import { CafePageContainer } from "./Pages/CafePage";
 import { SightsPage } from "./Pages/SightsPage";
 import { ResultPageContainer } from "./Pages/ResultPage";
+import { SearchBar } from "./UI/SearchBar";
 
 export const MainScreen = ({ }) => {
     const [modalActive, setModalActive] = useState(false)
+    const [text, setText] = useState('Ничего')
     const { t, i18n } = useTranslation();
     const changeLanguage = (language) => {
         i18n.changeLanguage(language);
@@ -39,13 +41,14 @@ export const MainScreen = ({ }) => {
                 </Modal>
                 <div className="main__left__container">
                     <BrowserRouter>
+                        <SearchBar t={t} text={text} setText={setText} />
                         <Routes>
                             <Route path='/' element={<HomePage t={t} />} />
-                            <Route path="/buildings" element={<BuildingsPageContainer t={t}/>} />
-                            <Route path="/shops" element={<ShopPageContainer  t={t}/>} />
-                            <Route path="/cafes" element={<CafePageContainer  t={t}/>} />
+                            <Route path="/buildings" element={<BuildingsPageContainer t={t} />} />
+                            <Route path="/shops" element={<ShopPageContainer t={t} />} />
+                            <Route path="/cafes" element={<CafePageContainer t={t} />} />
                             <Route path="/sights" element={<SightsPage t={t} />} />
-                            <Route path="/search" element= {<ResultPageContainer t={t}/>} />
+                            <Route path="/search" element={<ResultPageContainer t={t} info={text} />} /> 
                         </Routes>
                     </BrowserRouter>
                 </div>

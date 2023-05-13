@@ -2,43 +2,58 @@ import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { Back } from '../UI/Back'
 import { requestSearch } from '../../redux/mainReducer'
-import { SearchBar } from '../UI/SearchBar'
 import { ObjectList } from '../../Components/cards/ObjectsList'
 
-const ResultPage = ({ requestSearch, search, isFetching, t }) => {
-    const text = 'Корпус'
+const ResultPage = ({ requestSearch, search, isFetching, t, info }) => {
     const [result, setResult] = useState([])
 
     useEffect(() => {
-        requestSearch(text)
-        setResult(search.mapBuildings)
-    }, [setResult])
+        requestSearch(info)
+    }, [])
 
-if (isFetching) {
+    useEffect(() => {
+        if (
+            search.mapBuildings.length == 0 &&
+            search.mapObjects.length == 0 &&
+            search.outdoorObjects.length == 0
+        ) {
+            setResult([])
+        } else if (
+            search.mapBuildings.length == 0 &&
+            search.mapObjects.length == 0
+        ){
+            setResult(search.outdoorObjects)
+        } else if (
+            search.mapBuildings.length == 0 
+        ) {
+            setResult(search.mapObjects)
+        } else {
+            setResult(search.mapBuildings)
+        }
+    }, [search])
+
+    if (isFetching) {
+        return (
+            <div style={{ color: '#000', alignSelf: 'center' }}>
+                <Back />
+                <p>
+                    Загрузка
+                </p>
+            </div>
+        )
+    }
+
     return (
-        <div style={{ color: '#000', alignSelf: 'center' }}>
-            <Back />
-            <SearchBar t={t} />
-            <p>
-                Загрузка
-            </p>
-        </div>
+        <>
+            {result.length > 0 ? <div style={{ color: '#000' }}>
+                <Back />
+                <ObjectList objectList={result} />
+            </div> : <div style={{ color: '#000' }}>
+                <Back />
+                {t('searching.empty')}
+            </div>}
+        </>
     )
-}
-
-return (
-    <>
-        {result.length > 0 ? <div style={{ color: '#000' }}>
-            <Back />
-            <SearchBar t={t} />
-            <ObjectList objectList={result} />
-        </div> : <div style={{ color: '#000' }}>
-            <Back />
-            <SearchBar t={t} />
-            {t('searching.empty')}
-        </div>}
-    </>
-)
 }
 
 const mapStateToProps = (state) => ({

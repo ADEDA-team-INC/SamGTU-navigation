@@ -1,11 +1,9 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { SearchBar } from '../UI/SearchBar'
 
 export const HomePage = ({ t }) => {
     return (
         <div className='home'>
-            <SearchBar t = {t}/>
             <ul className='home__list'>
                 <li className='home__list__item'>
                     <NavLink className='home__list__item__link' to={'/cafes'}>

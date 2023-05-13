@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Back } from '../UI/Back'
 import { requestOutdoorObjects } from '../../redux/mainReducer'
 import { ObjectList } from '../cards/ObjectsList'
-import { SearchBar } from '../UI/SearchBar'
 
 const ShopPage = ({ requestOutdoorObjects, outdoorObjects, isFetching, t }) => {
 
@@ -17,7 +16,6 @@ const ShopPage = ({ requestOutdoorObjects, outdoorObjects, isFetching, t }) => {
         return (
             <div style={{ color: '#000', alignSelf: 'center' }}>
                 <Back />
-                <SearchBar t = {t}/>
                 <p>
                     Загрузка
                 </p>
@@ -28,7 +26,6 @@ const ShopPage = ({ requestOutdoorObjects, outdoorObjects, isFetching, t }) => {
     return (
         <div style={{ color: '#000' }}>
             <Back />
-            <SearchBar t = {t}/>
             <ObjectList objectList={shops} />
         </div>
     )

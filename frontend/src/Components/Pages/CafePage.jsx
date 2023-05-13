@@ -17,7 +17,6 @@ const CafePage = ({ requestOutdoorObjects, outdoorObjects, isFetching, t}) => {
         return (
             <div style={{ color: '#000', alignSelf: 'center' }}>
                 <Back />
-                <SearchBar t = {t}/>
                 <p>
                     Загрузка
                 </p>
@@ -28,7 +27,6 @@ const CafePage = ({ requestOutdoorObjects, outdoorObjects, isFetching, t}) => {
     return (
         <div style={{ color: '#000' }}>
             <Back />
-            <SearchBar t = {t}/>
             <ObjectList objectList={cafe} />
         </div>
     )
