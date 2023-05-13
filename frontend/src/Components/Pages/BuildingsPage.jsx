@@ -12,13 +12,21 @@ const BuildingsPage = ({ requestBuildings, buildings, isFetching }) => {
 
     if (isFetching) {
         return (
-            <div style={{ color: '#000', alignSelf: 'center' }}>Загрузка</div>
+            <div style={{ color: '#000', alignSelf: 'center' }}>
+                <NavLink to={'/'} className='home-button'>
+                    Домой
+                </NavLink>
+
+                <p>
+                    Загрузка
+                </p>
+            </div>
         )
     }
 
     return (
         <div style={{ color: '#000' }}>
-            <NavLink to={'/'}>
+            <NavLink to={'/'} className='home-button'>
                 Домой
             </NavLink>
             <ObjectList objectList={buildings} />
