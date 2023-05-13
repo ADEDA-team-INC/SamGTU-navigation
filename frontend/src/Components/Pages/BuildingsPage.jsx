@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { Back } from '../UI/Back'
 import { requestBuildings } from '../../redux/mainReducer'
 import { ObjectList } from '../cards/ObjectsList'
 
@@ -13,10 +13,7 @@ const BuildingsPage = ({ requestBuildings, buildings, isFetching }) => {
     if (isFetching) {
         return (
             <div style={{ color: '#000', alignSelf: 'center' }}>
-                <NavLink to={'/'} className='home-button'>
-                    Домой
-                </NavLink>
-
+                <Back />
                 <p>
                     Загрузка
                 </p>
@@ -26,9 +23,7 @@ const BuildingsPage = ({ requestBuildings, buildings, isFetching }) => {
 
     return (
         <div style={{ color: '#000' }}>
-            <NavLink to={'/'} className='home-button'>
-                Домой
-            </NavLink>
+            <Back />
             <ObjectList objectList={buildings} />
         </div>
     )
