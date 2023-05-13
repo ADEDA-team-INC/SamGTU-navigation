@@ -1,0 +1,61 @@
+{
+    "languages": {
+        "ru": "Русский",
+        "en": "English"
+    },
+    "search": "Поиск",
+    "searching": {
+        "title": "Результаты поиска",
+        "results": "Результаты поиска",
+        "empty": "Ничего не найдено"
+    },
+    "modal": {
+        "close": "Закрыть",
+        "save": "Сохранить"
+    },
+    "main_page": {
+        "title": "Навигация СамГТУ",
+        "buildings": "Корпуса",
+        "shops": "Магазины",
+        "cafes": "Кафе",
+        "sights": "Места"
+    },
+    "map_entity": {
+        "show": "Показать",
+        "on_map": "На карте",
+        "on_yandex": "На Яндекс картах"
+    },
+    "map_buildings_list": {
+        "title": "Список корпусов"
+    },
+    "map_building": {
+        "title": "Корпус",
+        "floors": "Этажи"
+    },
+    "map_object": {
+        "title": "Объект"
+    },
+    "outdoor_objects_list": {
+        "title": "Список внешних объектов"
+    },
+    "outdoor_object": {
+        "title": "Внешний объект"
+    },
+    "cafes_list": {
+        "title": "Список кафе"
+    },
+    "shops_list": {
+        "title": "Список магазинов"
+    },
+    "sights_list": {
+        "title": "Список достопримечательностей"
+    },
+    "map_hud": {
+        "scan_qr": "Сканировать QR код",
+        "select_location": "Указать местоположение",
+        "change_language": "Изменить язык"
+    },
+    "lang_modal": {
+        "title": "Изменить язык"
+    }
+}

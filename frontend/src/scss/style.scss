@@ -1,0 +1,12 @@
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import "./defines.scss";
+
+.unstyled-a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.placeholder {
+    background-color: $loading-color;
+}
