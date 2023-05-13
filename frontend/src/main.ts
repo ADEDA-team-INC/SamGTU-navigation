@@ -7,7 +7,7 @@ import { i18n } from './i18n'
 import './scss/style.scss'
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes: mainRoute
 })
 
