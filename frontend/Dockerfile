@@ -18,9 +18,9 @@ COPY public/ ./public
 COPY index.html vite.config.ts tsconfig.json tsconfig.node.json ./
 
 ARG FRONTEND_PORT
-ARG BACKEND_URL
 ENV FRONTEND_PORT=$FRONTEND_PORT
-ENV BACKEND_URL=$BACKEND_URL
+ARG API_BASE_URL
+ENV VITE_API_BASE_URL=$API_BASE_URL
 
 ENTRYPOINT [ "sh", "-c", "npm run dev -- --host --port $FRONTEND_PORT" ]
 
@@ -34,8 +34,8 @@ COPY src/ ./src
 COPY public/ ./public
 COPY index.html vite.config.ts tsconfig.json tsconfig.node.json ./
 
-ARG BACKEND_URL
-ENV BACKEND_URL=$BACKEND_URL
+ARG API_BASE_URL
+ENV VITE_API_BASE_URL=$API_BASE_URL
 
 RUN npm run build
 

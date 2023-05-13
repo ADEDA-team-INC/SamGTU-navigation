@@ -26,6 +26,7 @@ POSTGRES_USERNAME = user
 POSTGRES_PASSWORD = qwerty12
 
 FRONTEND_PORT = 80
+FRONTEND_API_BASE_URL = http://localhost:8080/
 ```
 4. Запустите сервис:
 ```shell
