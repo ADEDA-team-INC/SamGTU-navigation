@@ -1,0 +1,50 @@
+version: "2.13.0"
+
+
+services:
+  backend:
+    image: arsuhinars/samgtu-navigation:master
+    ports:
+      - "$SERVER_PORT:$SERVER_PORT"
+    secrets:
+      - source: postgres-user
+        target: spring.datasource.username
+      - source: postgres-password
+        target: spring.datasource.password
+      - source: spring.datasource.url
+    environment:
+      SERVER_PORT: $SERVER_PORT
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: postgres:15-alpine
+    healthcheck:
+      test: pg_isready -U $POSTGRES_USERNAME -d $POSTGRES_DB
+      interval: 3s
+      retries: 15
+      start_period: 5s
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    environment:
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER_FILE: "/run/secrets/postgres-user"
+      POSTGRES_PASSWORD_FILE: "/run/secrets/postgres-password"
+    secrets:
+      - postgres-user
+      - postgres-password
+
+
+secrets:
+  postgres-user:
+    environment: POSTGRES_USERNAME
+  postgres-password:
+    environment: POSTGRES_PASSWORD
+  spring.datasource.url:
+    environment: SPRING_DATASOURCE_URL
+
+
+volumes:
+  postgres-data:
