@@ -108,6 +108,7 @@ export const requestOutdoorObjects = () => async (dispatch) => {
     if (response.status === 200) {
         dispatch(setOutdoorObjects(response.data))
         dispatch(toggleIsFetching(false))
+        console.log(response.data)
     } else { 
         console.log(response)
         dispatch(toggleIsFetching(false))
