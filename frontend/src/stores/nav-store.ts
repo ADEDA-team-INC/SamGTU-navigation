@@ -2,6 +2,7 @@ import { ref, watch } from "vue";
 import { defineStore } from "pinia";
 import { MapBuildingSchema, MapDomainSchema } from "../schemas/map-schemas";
 import { fetchBuildingById, fetchDomainById, fetchMapObjectById } from "../api/map-api";
+import { LocationPoint } from "../schemas/nav-schemas";
 
 export const useNavStore = defineStore('navStore', () => {
     const buildingId = ref<number | null>(1)
@@ -10,6 +11,9 @@ export const useNavStore = defineStore('navStore', () => {
     const domain = ref<MapDomainSchema | null>(null)
     const focusedObjectId = ref<number | null>(null)
     const selectedObjectId = ref<number | null>(null)
+
+    const location = ref<LocationPoint | null>(null)
+    const isSelectingLocation = ref<boolean>(false)
 
     watch(buildingId, async (newId, oldId) => {
         if (newId == null) {
@@ -72,6 +76,7 @@ export const useNavStore = defineStore('navStore', () => {
     })
 
     return {
-        buildingId, building, floor, domain, selectedObjectId, focusedObjectId
+        buildingId, building, floor, domain, selectedObjectId, focusedObjectId,
+        location, isSelectingLocation
     }
 })

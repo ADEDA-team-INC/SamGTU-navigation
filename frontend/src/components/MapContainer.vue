@@ -64,6 +64,8 @@
 
             <button
                 class="btn btn-light border shadow-sm"
+                :class="{ active: navStore.isSelectingLocation }"
+                @click="() => navStore.isSelectingLocation = !navStore.isSelectingLocation"
                 id="select-loc-btn"
             >
                 <i class="bi bi-pin-map fs-4"></i>
@@ -81,20 +83,20 @@
             </button>
         </div>
 
-    <Tooltip
-        target="#scan-qr-btn"
-        :title="$t('map_hud.scan_qr')"
-    />
-    <Tooltip
-        target="#select-loc-btn"
-        :title="$t('map_hud.select_location')"
-    />
-    <Tooltip
-        target="#change-lang-btn"
-        :title="$t('map_hud.change_language')"
-    />
+        <Tooltip
+            target="#scan-qr-btn"
+            :title="$t('map_hud.scan_qr')"
+        />
+        <Tooltip
+            target="#select-loc-btn"
+            :title="$t('map_hud.select_location')"
+        />
+        <Tooltip
+            target="#change-lang-btn"
+            :title="$t('map_hud.change_language')"
+        />
 
-    <LanguageModal id="lang-modal"/>
+        <LanguageModal id="lang-modal"/>
     </div>
 </template>
 

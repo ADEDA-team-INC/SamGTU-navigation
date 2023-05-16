@@ -5,7 +5,8 @@
         @pointerdown="onPointerDown"
         @pointermove="onPointerMove"
         @pointerup="onPointerUp"
-        @pointerleave="onPointerUp"
+        @pointerenter="onPointerEnter"
+        @pointerleave="e => { onPointerLeave(e); onPointerUp(e) }"
         @wheel="onWheel"
     ></div>
 </template>
@@ -16,20 +17,23 @@
     height: 100%;
     position: relative;
     overflow: hidden;
-}
+}   
 </style>
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import {
-    Application, Container, Sprite, Graphics, DisplayObject,
-    Point, ISVGResourceOptions, MIPMAP_MODES, Rectangle,
-    AlphaFilter
+    Application,
+    Container, Sprite, Graphics, DisplayObject,
+    ISVGResourceOptions, MIPMAP_MODES, Rectangle, Point,
+    AlphaFilter,
 } from 'pixi.js';
 import { OutlineFilter } from '@pixi/filter-outline';
 import { MapDomainSchema, MapObjectSchema } from '../schemas/map-schemas';
 import { useNavStore } from '../stores/nav-store';
+import LocSelectorIcon from '../assets/location-select.svg';
 
+// Параметры компонента
 const ZOOM_STEP = 1 / 500
 const MIN_ZOOM = 0.8
 const MAX_ZOOM = 5
@@ -42,33 +46,56 @@ const OBJECT_FILTERS = [
 const SELECTED_OBJECT_FILTERS = [
     new OutlineFilter(8, 0x0d6efd, 0.25, 0.5, true)
 ]
+const LOCATION_POINT_SIZE = 48
+const ACTIVE_LOCATION_POINT_COLOR = 0x0d6efd
+const UNACTIVE_LOCATION_POINT_COLOR = 0x6c757d
 
-const navStore = useNavStore()
-
-const emit = defineEmits<{
-    (e: 'objectClick', mapObject: MapObjectSchema): void
-}>()
-
+// Экземпляр приложения pixi.js
 const pixiApp = new Application({
     background: 0xFFFFFF
 })
+// Контейнер, содержащий все объекты
 const pixiRoot = new Container()
 
+// Спрайт с иконкой выбора позиции
+const pixiLocationPoint = Sprite.from(LocSelectorIcon, {
+    resourceOptions: {
+        width: LOCATION_POINT_SIZE
+    }
+})
+pixiLocationPoint.width = LOCATION_POINT_SIZE
+pixiLocationPoint.height = LOCATION_POINT_SIZE
+pixiLocationPoint.anchor.set(0.5, 1.0)
+
+// HTML элемент, содержащий canvas для отрисовки
 const viewport = ref<HTMLElement | null>(null)
+// Наблюдатель изменения размеров viewport
 const resizeObserver = new ResizeObserver(onResize)
 
+// Позиция виртуальной камеры
 let viewPosX = 0.0
 let viewPosY = 0.0
+// Степень приближения
 let viewZoom = 1.0
+// Словарь с объектами на карте.
+// Ключ - id объекта, значение - отрисовываемый объект 
 let mapObjects = new Map<number, DisplayObject>()
 
+// Позиция курсора в предыдущем событии перемещения
 let lastPointerX = 0.0
 let lastPointerY = 0.0
+// id текущего курсора
 let pointerId: number | null = null
+// "тащиться" ли карта в данный момент курсором
 let isDragging = false
+
+// id курсора, нажатого на объекте
 let objectPointerId: number | null = null
+// Время нажатия объекта
 let objectPointerDownTime = 0.0
-let selectedObjectId: number | null = null
+
+// id объектов, которые находятся под курсором пользователя
+let focusedObjects = new Set<number>()
 
 function getZoom() {
     return viewZoom
@@ -83,12 +110,18 @@ function onPointerDown(e: PointerEvent) {
     if (e.button === 0 && pointerId === null) {
         pointerId = e.pointerId
         isDragging = true
-        lastPointerX = e.x
-        lastPointerY = e.y
+        lastPointerX = e.offsetX
+        lastPointerY = e.offsetY
     }
 }
 
 function onPointerMove(e: PointerEvent) {
+    let deltaX = e.offsetX - lastPointerX
+    let deltaY = e.offsetY - lastPointerY
+
+    lastPointerX = e.offsetX
+    lastPointerY = e.offsetY
+
     if (isDragging && e.pointerId === e.pointerId) {
         let viewScale = viewZoom * ZOOM_FACTOR
         viewPosX -= (e.x - lastPointerX) / viewScale
@@ -97,6 +130,10 @@ function onPointerMove(e: PointerEvent) {
         lastPointerY = e.y
         navStore.focusedObjectId = null
         pixiUpdateRootTransform()
+    }
+
+    if (navStore.isSelectingLocation) {
+        pixiUpdateLocationPoint()
     }
 }
 
@@ -108,6 +145,61 @@ function onPointerUp(e: PointerEvent) {
     if (e.button === 0 || e.type === 'pointerleave') {
         isDragging = false
         pointerId = null
+    }
+}
+
+function onPointerEnter(e: PointerEvent) {
+    if (navStore.isSelectingLocation) {
+        pixiLocationPoint.renderable = true
+    }
+}
+
+function onPointerLeave(e: PointerEvent) {
+    if (navStore.isSelectingLocation) {
+        pixiLocationPoint.renderable = false
+    }
+}
+
+function onObjectClick(
+    mapObject: MapObjectSchema,
+    position: Point
+) {
+    if (navStore.isSelectingLocation) {
+        navStore.location = {
+            positionX: position.x,
+            positionY: position.y,
+            mapObject: {
+                id: mapObject.id,
+                mapBuildingId: navStore.buildingId ?? 0,
+                mapDomainId: navStore.domain?.id ?? 0,
+                type: mapObject.type,
+                info: mapObject.info
+            }
+        }
+        navStore.isSelectingLocation = false
+        pixiUpdateMapObject(mapObject.id)
+        return
+    }
+
+    navStore.selectedObjectId = mapObject.id
+    emit('objectClick', mapObject)
+}
+
+function onObjectEnter(mapObject: MapObjectSchema) {
+    focusedObjects.add(mapObject.id)
+
+    if (navStore.isSelectingLocation) {
+        pixiUpdateMapObject(mapObject.id)
+        pixiUpdateLocationPoint()
+    }
+}
+
+function onObjectLeave(mapObject: MapObjectSchema) {
+    focusedObjects.delete(mapObject.id)
+
+    if (navStore.isSelectingLocation) {
+        pixiUpdateMapObject(mapObject.id)
+        pixiUpdateLocationPoint()
     }
 }
 
@@ -171,10 +263,6 @@ function pixiAddDomain(domain: MapDomainSchema) {
 
 function pixiAddMapObject(mapObject: MapObjectSchema) {
     let container = new Container()
-    container.filters =
-        navStore.selectedObjectId == mapObject.id ?
-        SELECTED_OBJECT_FILTERS :
-        OBJECT_FILTERS;
 
     for (let k = 0; k < mapObject.bboxes.length; k++) {
         let bbox = mapObject.bboxes[k]
@@ -197,10 +285,15 @@ function pixiAddMapObject(mapObject: MapObjectSchema) {
             if (e.button === 0 && e.pointerId == objectPointerId) {
                 objectPointerId = null
                 if (e.timeStamp - objectPointerDownTime < OBJECT_CLICK_DELAY) {
-                    navStore.selectedObjectId = mapObject.id
-                    emit('objectClick', mapObject)
+                    onObjectClick(mapObject, e.global)
                 }
             }
+        })
+        bounds.on('pointerenter', (e) => {
+            onObjectEnter(mapObject)
+        })
+        bounds.on('pointerleave', (e) => {
+            onObjectLeave(mapObject)
         })
 
         container.addChild(bounds)
@@ -208,6 +301,8 @@ function pixiAddMapObject(mapObject: MapObjectSchema) {
 
     pixiRoot.addChild(container)
     mapObjects.set(mapObject.id, container)
+
+    pixiUpdateMapObject(mapObject.id)
 }
 
 function pixiUpdateRootTransform() {
@@ -228,29 +323,50 @@ function pixiFocusOnBounds(bounds: Rectangle) {
     pixiUpdateRootTransform()
 }
 
-function pixiSelectObject(id: number | null) {
-    if (selectedObjectId !== null) {
-        let obj = mapObjects.get(selectedObjectId)
-        if (obj !== undefined && obj.filters !== null) {
-            obj.filters = OBJECT_FILTERS
-        }
+function pixiUpdateMapObject(id: number) {
+    let obj = mapObjects.get(id)
+    if (obj === undefined) {
+        return
     }
 
-    if (id !== null) {
-        let obj = mapObjects.get(id)
-        if (obj !== undefined) {
-            obj.filters = SELECTED_OBJECT_FILTERS
-        }
+    if (id === navStore.selectedObjectId ||
+        (navStore.isSelectingLocation && focusedObjects.has(id))
+    ) {
+        obj.filters = SELECTED_OBJECT_FILTERS
+    } else {
+        obj.filters = OBJECT_FILTERS
     }
+}
 
-    selectedObjectId = id
+function pixiUpdateLocationPoint() {
+    pixiLocationPoint.visible = navStore.isSelectingLocation || navStore.location !== null
+
+    if (navStore.isSelectingLocation) {
+        pixiLocationPoint.position.set(lastPointerX, lastPointerY)
+        pixiLocationPoint.tint = 
+            focusedObjects.size > 0 ?
+            ACTIVE_LOCATION_POINT_COLOR : 
+            UNACTIVE_LOCATION_POINT_COLOR;
+    } else {
+        pixiLocationPoint.renderable = true
+        pixiLocationPoint.position.set(
+            navStore.location?.positionX, navStore.location?.positionY
+        )
+        pixiLocationPoint.tint = ACTIVE_LOCATION_POINT_COLOR
+    }
 }
 
 function pixiUpdate(delta: number) {
 
 }
 
+const navStore = useNavStore()
+
 defineExpose({ getZoom, setZoom })
+
+const emit = defineEmits<{
+    (e: 'objectClick', mapObject: MapObjectSchema): void
+}>()
 
 onMounted(() => {
     if (viewport.value !== null) {
@@ -264,6 +380,7 @@ onMounted(() => {
 
     pixiUpdateRootTransform()
     pixiApp.stage.addChild(pixiRoot)
+    pixiApp.stage.addChild(pixiLocationPoint)
     pixiApp.ticker.add(pixiUpdate)
 })
 
@@ -277,7 +394,13 @@ watch(() => navStore.domain, (newVal, oldVal) => {
 }, { immediate: true} )
 
 watch(() => navStore.selectedObjectId, (newId, oldId) => {
-    pixiSelectObject(newId)
+    if (oldId !== null) {
+        pixiUpdateMapObject(oldId)
+    }
+
+    if (newId !== null) {
+        pixiUpdateMapObject(newId)
+    }
 })
 
 watch(() => navStore.focusedObjectId, (newId, oldId) => {
@@ -285,5 +408,13 @@ watch(() => navStore.focusedObjectId, (newId, oldId) => {
         focusOnObject(newId)
     }
 })
+
+watch(() => navStore.isSelectingLocation, (newVal, oldVal) => {
+    pixiUpdateLocationPoint()
+}, { immediate: true })
+
+watch(() => navStore.location, (newLoc, oldLoc) => {
+    pixiUpdateLocationPoint()
+}, { immediate: true })
 
 </script>
